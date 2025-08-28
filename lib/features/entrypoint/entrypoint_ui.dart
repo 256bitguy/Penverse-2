@@ -7,7 +7,7 @@ import '../../core/constants/app_colors.dart';
 import '../../core/constants/app_defaults.dart';
 import './dummy/cart_page.dart';
 import './dummy/home_page.dart';
-import './dummy/menu_page.dart';
+import '../home/presentation/screens/home_screen.dart';
 import './dummy/save_page.dart';
 import './dummy/profile_page.dart';
 import '../subjects/presentation/screens/subject_list.dart';
@@ -32,8 +32,8 @@ class _EntryPointUIState extends State<EntryPointUI> {
   }
 
   List<Widget> pages = [
+    const HomePage(),
     const SubjectsScreen(),
-    const MenuPage(),
     const CartPage(isHomePage: true),
     const SavePage(isHomePage: false),
     const ProfilePage(),

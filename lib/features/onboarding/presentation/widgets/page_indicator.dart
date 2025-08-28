@@ -14,7 +14,7 @@ class PageIndicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDesktop = ResponsiveUtils.isDesktop(context);
-    final isTablet = ResponsiveUtils.isTablet(context);
+    // final isTablet = ResponsiveUtils.isTablet(context);
     
     final double dotHeight = isDesktop ? 6 : 4;
     final double activeDotWidth = isDesktop ? 40 : 32;

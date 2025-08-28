@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'core/theme/app_theme.dart';
 import 'features/auth/presentation/screens/login_screen.dart';
 import 'features/auth/providers/auth_provider.dart';
-import 'features/home/presentation/screens/home_screen.dart';
+import './features/entrypoint/entrypoint_ui.dart';
 import 'features/onboarding/presentation/screens/splash_screen.dart';
 
 void main() {
@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
         routes: {
           '/': (context) => const AuthWrapper(),
           '/login': (context) => const LoginScreen(),
-          '/home': (context) => const HomeScreen(),
+          '/home': (context) => const EntryPointUI(),
         },
       ),
     );
@@ -39,7 +39,7 @@ class AuthWrapper extends StatelessWidget {
     return Consumer<AuthProvider>(
       builder: (context, authProvider, _) {
         if (authProvider.isLoggedIn) {
-          return const HomeScreen();
+          return const EntryPointUI();
         }
         return const SplashScreen();
       },

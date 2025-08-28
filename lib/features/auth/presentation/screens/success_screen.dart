@@ -57,7 +57,7 @@ class SuccessScreen extends StatelessWidget {
                         if (success && context.mounted) {
                           Navigator.of(context).pushAndRemoveUntil(
                             MaterialPageRoute(
-                              builder: (context) => const HomeScreen(),
+                              builder: (context) => const HomePage(),
                             ),
                             (route) => false, // Remove all previous routes
                           );
@@ -65,7 +65,7 @@ class SuccessScreen extends StatelessWidget {
                       } else {
                         Navigator.of(context).pushAndRemoveUntil(
                           MaterialPageRoute(
-                            builder: (context) => const HomeScreen(),
+                            builder: (context) => const HomePage(),
                           ),
                           (route) => false, // Remove all previous routes
                         );

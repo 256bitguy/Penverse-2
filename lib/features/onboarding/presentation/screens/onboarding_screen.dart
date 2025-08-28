@@ -91,7 +91,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   Widget _buildBottomSection() {
     final isDesktop = ResponsiveUtils.isDesktop(context);
-    final isTablet = ResponsiveUtils.isTablet(context);
+    // final isTablet = ResponsiveUtils.isTablet(context);
 
     return Container(
       padding: EdgeInsets.all(isDesktop ? 48 : 24),
@@ -150,7 +150,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final isDesktop = ResponsiveUtils.isDesktop(context);
+    // final isDesktop = ResponsiveUtils.isDesktop(context);
 
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
