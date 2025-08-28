@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-// import 'package:flutter_svg/svg.dart';
+import 'package:flutter_svg/svg.dart';
 
 import '../../../core/constants/constants.dart';
 
@@ -22,15 +22,17 @@ class BottomAppBarItem extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: Column(
-        // mainAxisSize: MainAxisSize.min,
+        mainAxisSize: MainAxisSize.min,
         children: [
-          // SvgPicture.asset(
-          //   iconLocation,
-          //   colorFilter: ColorFilter.mode(
-          //     isActive ? AppColors.primary : AppColors.placeholder,
-          //     BlendMode.srcIn,
-          //   ),
-          // ),
+          SvgPicture.asset(
+            iconLocation,
+            width: 28, // set default width
+            height: 28, // set default height
+            colorFilter: ColorFilter.mode(
+              isActive ? AppColors.primary : AppColors.placeholder,
+              BlendMode.srcIn,
+            ),
+          ),
           Text(
             name,
             style: Theme.of(context).textTheme.bodyLarge?.copyWith(

@@ -33,7 +33,7 @@ class HomePage extends StatelessWidget {
         ],
       ),
 
-      
+
       body: const SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -107,7 +107,7 @@ class SectionWidget extends StatelessWidget {
                   children: [
                     ClipRRect(
                       borderRadius: BorderRadius.circular(20),
-                      child: Image.network(
+                      child: Image.asset(
                         item["image"]!,
                         width: itemWidth,
                         height: itemHeight,

@@ -71,7 +71,7 @@ class _SubjectsScreenState extends State<DailyScreen> {
             // Image
             ClipRRect(
               borderRadius: BorderRadius.circular(48),
-              child: Image.network(
+              child: Image.asset(
                 images[currentIndex],
                 height: itemHeight ,
                 width: itemWidth,

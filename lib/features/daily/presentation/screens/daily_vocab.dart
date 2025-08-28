@@ -1,29 +1,47 @@
 import 'package:flutter/material.dart';
 import '../../../../core/constants/constants.dart';
+
 class DailyVocabScreen extends StatefulWidget {
   const DailyVocabScreen({super.key});
 
   @override
-  State<DailyVocabScreen> createState() => _SubjectsScreenState();
+  State<DailyVocabScreen> createState() => _DailyVocabScreenState();
 }
 
-class _SubjectsScreenState extends State<DailyVocabScreen> {
+class _DailyVocabScreenState extends State<DailyVocabScreen> {
   int currentIndex = 0;
 
-  final List<String> images = [
-    "assets/images/onboarding1.png",
-    "assets/images/onboarding2.png",
-    "assets/images/onboarding3.png",
+  // Dummy vocab data
+  final List<Map<String, String>> vocabList = [
+    {
+      "word": "Serendipity",
+      "pos": "Noun",
+      "eng": "The occurrence of events by chance in a happy way.",
+      "hin": "सौभाग्य से सुखद घटनाएँ होना",
+    },
+    {
+      "word": "Eloquent",
+      "pos": "Adjective",
+      "eng": "Fluent or persuasive in speaking or writing.",
+      "hin": "प्रभावशाली बोलने या लिखने वाला",
+    },
+    {
+      "word": "Ephemeral",
+      "pos": "Adjective",
+      "eng": "Lasting for a very short time.",
+      "hin": "क्षणिक, अल्पकालीन",
+    },
   ];
 
   @override
   Widget build(BuildContext context) {
-    // final screenHeight = MediaQuery.of(context).size.height;
- final screenSize = MediaQuery.of(context).size;
-    final itemWidth = screenSize.width ;  
-    final itemHeight = screenSize.height / 2;  
+    final screenSize = MediaQuery.of(context).size;
+    final itemWidth = screenSize.width;
+    final itemHeight = screenSize.height / 2;
+
+    final vocab = vocabList[currentIndex];
+
     return Scaffold(
-      
       appBar: AppBar(
         backgroundColor: AppColors.scaffoldBackground,
         elevation: 0,
@@ -41,9 +59,7 @@ class _SubjectsScreenState extends State<DailyVocabScreen> {
         actions: [
           IconButton(
             icon: const Icon(Icons.search, color: Colors.white),
-            onPressed: () {
-              // TODO: search action
-            },
+            onPressed: () {},
           ),
         ],
       ),
@@ -52,92 +68,156 @@ class _SubjectsScreenState extends State<DailyVocabScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Date + Index
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text(
-                  "2-August-2025",
-                  style: TextStyle(color: Colors.white70, fontSize: 16),
-                ),
-                Text(
-                  "${currentIndex + 1}/${images.length}",
-                  style: const TextStyle(color: Colors.white70, fontSize: 16),
-                ),
-              ],
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+              decoration: BoxDecoration(
+                color: const Color(0xFF1F1F5D),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Text(
+                "${currentIndex + 1}/${vocabList.length}",
+                style: const TextStyle(color: Colors.white, fontSize: 16),
+              ),
             ),
-            const SizedBox(height: 12),
-
-            // Image
+            // Image at top
             ClipRRect(
-              borderRadius: BorderRadius.circular(48),
-              child: Image.network(
-                images[currentIndex],
-                height: itemHeight ,
+              borderRadius: BorderRadius.circular(24),
+              child: Image.asset(
+                "assets/images/onboarding1.png",
+                height: itemHeight,
                 width: itemWidth,
                 fit: BoxFit.cover,
               ),
             ),
+            const SizedBox(height: 20),
+
+            // Word Name
+            Text(
+              vocab["word"]!,
+              style: const TextStyle(
+                fontSize: 28,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
+            ),
+            const SizedBox(height: 6),
+
+            // Part of speech
+            Text(
+              vocab["pos"]!,
+              style: const TextStyle(
+                fontSize: 18,
+                fontStyle: FontStyle.italic,
+                color: Colors.white70,
+              ),
+            ),
             const SizedBox(height: 12),
 
-            // Tag Box
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-              decoration: BoxDecoration(
-                color: Colors.blueAccent,
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: const Text(
-                "Tag",
-                style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+            // English explanation
+            Text(
+              vocab["eng"]!,
+              style: const TextStyle(
+                fontSize: 16,
+                color: Colors.white,
               ),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 8),
 
-            // Rectangular Button (route)
-            InkWell(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (_) => const OtherPage(),
-                  ),
-                );
-              },
-              child: Container(
-                width: double.infinity,
-                padding: const EdgeInsets.symmetric(vertical: 16),
-                decoration: BoxDecoration(
-                  color: Colors.white10,
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: const Center(
-                  child: Text(
-                    "The other side of the news",
-                    style: TextStyle(fontSize: 24, color: Colors.white),
-                  ),
-                ),
+            // Hindi explanation
+            Text(
+              vocab["hin"]!,
+              style: const TextStyle(
+                fontSize: 16,
+                color: Colors.white,
               ),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 20),
 
-            // Next Button
-            Align(
-              alignment: Alignment.centerRight,
-              child: ElevatedButton(
-                onPressed: () {
-                  setState(() {
-                    currentIndex = (currentIndex + 1) % images.length;
-                  });
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Color(0xFF0D0D25),
-                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+            // Synonym + Antonym Buttons side by side
+            Row(
+              children: [
+                Expanded(
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => const SynonymPage()),
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFF5E5EBC),
+                      padding: const EdgeInsets.symmetric(vertical: 14),
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(12),
+                          bottomLeft: Radius.circular(12),
+                        ),
+                      ),
+                    ),
+                    child: const Text("Synonyms"),
+                  ),
+                ),
+                Expanded(
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => const AntonymPage()),
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFF1F1F5D),
+                      padding: const EdgeInsets.symmetric(vertical: 14),
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.only(
+                          topRight: Radius.circular(12),
+                          bottomRight: Radius.circular(12),
+                        ),
+                      ),
+                    ),
+                    child: const Text("Antonyms"),
+                  ),
+                ),
+              ],
+            ),
+            const Spacer(),
+
+            // Back - Index Tag - Next
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //   children: [
+            //     ElevatedButton(
+            //       onPressed: () {
+            //         setState(() {
+            //           currentIndex = (currentIndex - 1 + vocabList.length) %
+            //               vocabList.length;
+            //         });
+            //       },
+            //       style: ElevatedButton.styleFrom(
+            //         backgroundColor: Colors.white10,
+            //       ),
+            //       child: const Text("Back"),
+            //     ),
+
+            //     Align(
+            //   alignment: Alignment.centerRight,
+            //   child: ElevatedButton(
+            //     onPressed: () {
+            //       setState(() {
+            //         currentIndex = (currentIndex - 1 + vocabList.length) %
+            //               vocabList.length;
+            //       });
+            //     },
+            //     style: ElevatedButton.styleFrom(
+            //       backgroundColor: const Color(0xFF0D0D25),
+            //       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
                   
-                ),
-                child: const Text("Next"),
-              ),
-            ),
+            //     ),
+            //     child: const Text("Next"),
+            //   ),
+            // ),
+            //   ],
+            // ),
           ],
         ),
       ),
@@ -145,22 +225,43 @@ class _SubjectsScreenState extends State<DailyVocabScreen> {
   }
 }
 
-// Dummy route page
-class OtherPage extends StatelessWidget {
-  const OtherPage({super.key});
+class SynonymPage extends StatelessWidget {
+  const SynonymPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFF0D0D25),
       appBar: AppBar(
-        backgroundColor: const Color(0xFF1B1E23),
-        title: const Text("Other Page"),
+        title: const Text("Synonyms"),
+        backgroundColor: Colors.blueAccent,
       ),
       body: const Center(
         child: Text(
-          "The other side of the news content...",
-          style: TextStyle(color: Colors.white, fontSize: 20),
+          "Synonym list goes here...",
+          style: TextStyle(color: Colors.white, fontSize: 18),
+        ),
+      ),
+    );
+  }
+}
+
+// Antonyms Page
+class AntonymPage extends StatelessWidget {
+  const AntonymPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: const Color(0xFF0D0D25),
+      appBar: AppBar(
+        title: const Text("Antonyms"),
+        backgroundColor: Colors.purpleAccent,
+      ),
+      body: const Center(
+        child: Text(
+          "Antonym list goes here...",
+          style: TextStyle(color: Colors.white, fontSize: 18),
         ),
       ),
     );

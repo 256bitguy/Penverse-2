@@ -24,7 +24,7 @@ class AppBottomNavigationBar extends StatelessWidget {
         children: [
           BottomAppBarItem(
             name: 'Home',
-            iconLocation: AppIcons.home,
+            iconLocation: 'assets/icons/home.svg',
             isActive: currentIndex == 0,
             onTap: () => onNavTap(0),
           ),
@@ -34,11 +34,13 @@ class AppBottomNavigationBar extends StatelessWidget {
             isActive: currentIndex == 1,
             onTap: () => onNavTap(1),
           ),
-          const Padding(
-            padding: EdgeInsets.all(AppDefaults.padding * 2),
-            child: SizedBox(width: AppDefaults.margin),
+           
+          BottomAppBarItem(
+            name: 'Affairs',
+            iconLocation: AppIcons.profile,
+            isActive: currentIndex == 2,
+            onTap: () => onNavTap(2),
           ),
-          /* <---- We have to leave this 3rd index (2) for the cart item -----> */
 
           BottomAppBarItem(
             name: 'Affairs',
@@ -48,7 +50,7 @@ class AppBottomNavigationBar extends StatelessWidget {
           ),
           BottomAppBarItem(
             name: 'Vocab',
-            iconLocation: AppIcons.profile,
+            iconLocation: AppIcons.search,
             isActive: currentIndex == 4,
             onTap: () => onNavTap(4),
           ),

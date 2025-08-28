@@ -13,6 +13,7 @@ import './dummy/profile_page.dart';
 import '../subjects/presentation/screens/subject_list.dart';
 import './component/app_navigation_bar.dart';
 import '../daily/presentation/screens/daily_ga_ui.dart';
+import '../daily/presentation/screens/daily_vocab.dart';
 
 /// This page will contain all the bottom navigation tabs
 class EntryPointUI extends StatefulWidget {
@@ -37,7 +38,7 @@ class _EntryPointUIState extends State<EntryPointUI> {
     const SubjectsScreen(),
     const CartPage(isHomePage: true),
     const DailyScreen(),
-    const ProfilePage(),
+    const DailyVocabScreen(),
   ];
 
   @override
@@ -56,13 +57,7 @@ class _EntryPointUIState extends State<EntryPointUI> {
         duration: AppDefaults.duration,
         child: pages[currentIndex],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          onBottomNavigationTap(4);
-        },
-        backgroundColor: AppColors.primary,
-        child: SvgPicture.asset(AppIcons.cart),
-      ),
+       
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: AppBottomNavigationBar(
         currentIndex: currentIndex,
