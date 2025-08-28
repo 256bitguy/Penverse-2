@@ -6,12 +6,13 @@ import '../../core/constants/app_icons.dart';
 import '../../core/constants/app_colors.dart';
 import '../../core/constants/app_defaults.dart';
 import './dummy/cart_page.dart';
-import './dummy/home_page.dart';
+
 import '../home/presentation/screens/home_screen.dart';
-import './dummy/save_page.dart';
+
 import './dummy/profile_page.dart';
 import '../subjects/presentation/screens/subject_list.dart';
 import './component/app_navigation_bar.dart';
+import '../daily/presentation/screens/daily_ga_ui.dart';
 
 /// This page will contain all the bottom navigation tabs
 class EntryPointUI extends StatefulWidget {
@@ -35,7 +36,7 @@ class _EntryPointUIState extends State<EntryPointUI> {
     const HomePage(),
     const SubjectsScreen(),
     const CartPage(isHomePage: true),
-    const SavePage(isHomePage: false),
+    const DailyScreen(),
     const ProfilePage(),
   ];
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../../core/constants/constants.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -6,9 +7,9 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF0D0D25),
+      
       appBar: AppBar(
-        backgroundColor: const Color(0xFF1B1E23),
+        backgroundColor: AppColors.scaffoldBackground,
         elevation: 0,
         leading: IconButton(
           icon: const Icon(Icons.menu, color: Colors.white),
@@ -31,6 +32,8 @@ class HomePage extends StatelessWidget {
           ),
         ],
       ),
+
+      
       body: const SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

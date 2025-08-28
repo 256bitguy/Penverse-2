@@ -30,6 +30,7 @@ class _VocabScreenState extends State<VocabScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFF0D0D25),
       appBar: AppBar(
         title: const Text('My Vocabulary'),
       ),

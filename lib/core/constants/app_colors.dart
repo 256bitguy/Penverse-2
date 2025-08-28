@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 class AppColors {
   /* <----------- Colors ------------> */
   /// Primary Color of this App
-  static const Color primary = Color(0xFF00AD48);
+  static const Color primary = Color(0xFF5E5EBC);
 
   // Others Color
-  static const Color scaffoldBackground = Color(0xFFFFFFFF);
+  static const Color scaffoldBackground = Color(0xFF0D0D25);
 
   /// used for page with box background
   static const Color scaffoldWithBoxBackground = Color(0xFFF7F7F7);
