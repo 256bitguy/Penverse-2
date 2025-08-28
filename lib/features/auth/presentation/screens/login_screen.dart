@@ -5,7 +5,8 @@ import '../../../../core/widgets/custom_button.dart';
 import '../../providers/auth_provider.dart';
 import '../widgets/custom_text_field.dart';
 import 'forgot_password_screen.dart';
-import '../../../home/presentation/screens/home_screen.dart';
+// import '../../../home/presentation/screens/home_screen.dart';
+import '../../../entrypoint/entrypoint_ui.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -46,7 +47,7 @@ class _LoginScreenState extends State<LoginScreen> {
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-              builder: (context) => const HomeScreen(),
+              builder: (context) => const EntryPointUI(),
             ),
           );
         } else if (mounted) {
