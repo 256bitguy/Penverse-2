@@ -35,7 +35,7 @@ class _EntryPointUIState extends State<EntryPointUI> {
 
   List<Widget> pages = [
     const HomePage(),
-    const SubjectsScreen(),
+    const SubjectsScreen(id:1),
     const CartPage(isHomePage: true),
     const DailyScreen(),
     const DailyVocabScreen(),

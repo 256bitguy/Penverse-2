@@ -7,7 +7,6 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      
       appBar: AppBar(
         backgroundColor: AppColors.scaffoldBackground,
         elevation: 0,
@@ -32,8 +31,6 @@ class HomePage extends StatelessWidget {
           ),
         ],
       ),
-
-
       body: const SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -79,10 +76,10 @@ class SectionWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
     final itemWidth = screenSize.width / 2; // 1/4 width
-    final itemHeight = screenSize.height / 4; // 1/6 height
+    final itemHeight = screenSize.height / 3.5; // 1/6 height
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 18),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

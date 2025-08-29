@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import '../../../../core/constants/constants.dart';
+
 class DailyScreen extends StatefulWidget {
   const DailyScreen({super.key});
 
   @override
-  State<DailyScreen> createState() => _SubjectsScreenState();
+  State<DailyScreen> createState() => _DailyScreenState();
 }
 
-class _SubjectsScreenState extends State<DailyScreen> {
+class _DailyScreenState extends State<DailyScreen> {
   int currentIndex = 0;
 
   final List<String> images = [
@@ -18,12 +19,11 @@ class _SubjectsScreenState extends State<DailyScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // final screenHeight = MediaQuery.of(context).size.height;
- final screenSize = MediaQuery.of(context).size;
-    final itemWidth = screenSize.width ;  
-    final itemHeight = screenSize.height / 2;  
+    final screenSize = MediaQuery.of(context).size;
+    final itemWidth = screenSize.width;
+    final itemHeight = screenSize.height / 2;
+
     return Scaffold(
-      
       appBar: AppBar(
         backgroundColor: AppColors.scaffoldBackground,
         elevation: 0,
@@ -47,7 +47,8 @@ class _SubjectsScreenState extends State<DailyScreen> {
           ),
         ],
       ),
-      body: Padding(
+      body: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(), // smooth scroll
         padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -73,7 +74,7 @@ class _SubjectsScreenState extends State<DailyScreen> {
               borderRadius: BorderRadius.circular(48),
               child: Image.asset(
                 images[currentIndex],
-                height: itemHeight ,
+                height: itemHeight,
                 width: itemWidth,
                 fit: BoxFit.cover,
               ),
@@ -89,7 +90,8 @@ class _SubjectsScreenState extends State<DailyScreen> {
               ),
               child: const Text(
                 "Tag",
-                style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                    color: Colors.white, fontWeight: FontWeight.bold),
               ),
             ),
             const SizedBox(height: 16),
@@ -132,12 +134,13 @@ class _SubjectsScreenState extends State<DailyScreen> {
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFF0D0D25),
-                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-                  
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 24, vertical: 12),
                 ),
                 child: const Text("Next"),
               ),
             ),
+            const SizedBox(height: 30), // space at bottom for safe scroll
           ],
         ),
       ),

@@ -1,21 +1,18 @@
 import 'package:flutter/material.dart';
 import '../../../../core/constants/constants.dart';
-import './books_list.dart';
+import 'chapters_list.dart';
 
-class SubjectsScreen extends StatelessWidget {
+class BooksListScreen extends StatelessWidget {
   final int id;
-  const SubjectsScreen({super.key, required this.id});
+  const BooksListScreen({super.key, required this.id});
 
   @override
   Widget build(BuildContext context) {
     final subjects = [
-      {"title": "English", "count": 24, "image": Icons.calculate},
-      {"title": "Science", "count": 18, "image": Icons.science},
-      {"title": "History", "count": 12, "image": Icons.history_edu},
-      {"title": "Literature", "count": 9, "image": Icons.menu_book},
-      {"title": "Economics", "count": 19, "image": Icons.history_edu},
-      {"title": "Polity", "count": 92, "image": Icons.science},
-      {"title": "CSAT", "count":45 , "image": Icons.menu_book},
+      {"title": "Norman Liwis", "count": 24, "image": Icons.calculate},
+      {"title": "M N Mahto", "count": 18, "image": Icons.science},
+      {"title": "P C Agarwal", "count": 12, "image": Icons.history_edu},
+      {"title": "English", "count": 9, "image": Icons.menu_book},
     ];
 
     return Scaffold(
@@ -105,10 +102,10 @@ class SubjectsScreen extends StatelessWidget {
                   final subject = subjects[index];
                   return Container(
                     margin:
-                        const EdgeInsets.symmetric(vertical: 5, horizontal: 4),
+                        const EdgeInsets.symmetric(vertical: 10, horizontal: 4),
                     child: Card(
-                      elevation: 3,
-                      color: const Color(0xFF6472BB), // shadow depth
+                      elevation: 6,
+                      color: Color(0xFF6472BB), // shadow depth
                       shadowColor: Colors.black.withValues(alpha: 0.3),
                       shape: RoundedRectangleBorder(
                         borderRadius:
@@ -116,10 +113,10 @@ class SubjectsScreen extends StatelessWidget {
                       ),
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
-                            vertical: 6, horizontal: 8),
+                            vertical: 12, horizontal: 8),
                         child: ListTile(
                           contentPadding: const EdgeInsets.symmetric(
-                              horizontal: 8, vertical: 8),
+                              horizontal: 16, vertical: 8),
                           leading: CircleAvatar(
                             radius: 34, // bigger avatar
                             backgroundColor: Colors.blue.shade200,
@@ -138,7 +135,7 @@ class SubjectsScreen extends StatelessWidget {
                             ),
                           ),
                           subtitle: Text(
-                            "${subject["count"]} ",
+                            "${subject["count"]}  ",
                             style: const TextStyle(
                               color: Color(0xFFE6E8F1),
                               fontSize: 14,
@@ -150,7 +147,7 @@ class SubjectsScreen extends StatelessWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (_) =>  BooksListScreen(id: id+1),
+                                builder: (_) =>  ChapterListScreen(id: id+1),
                               ),
                             );
                           },

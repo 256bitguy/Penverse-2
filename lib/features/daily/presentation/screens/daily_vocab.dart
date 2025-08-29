@@ -63,7 +63,8 @@ class _DailyVocabScreenState extends State<DailyVocabScreen> {
           ),
         ],
       ),
-      body: Padding(
+      body: SingleChildScrollView( // ✅ makes screen scrollable
+        physics: const BouncingScrollPhysics(), // smooth iOS-style scroll
         padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -79,6 +80,8 @@ class _DailyVocabScreenState extends State<DailyVocabScreen> {
                 style: const TextStyle(color: Colors.white, fontSize: 16),
               ),
             ),
+            const SizedBox(height: 16),
+
             // Image at top
             ClipRRect(
               borderRadius: BorderRadius.circular(24),
@@ -180,44 +183,7 @@ class _DailyVocabScreenState extends State<DailyVocabScreen> {
                 ),
               ],
             ),
-            const Spacer(),
-
-            // Back - Index Tag - Next
-            // Row(
-            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //   children: [
-            //     ElevatedButton(
-            //       onPressed: () {
-            //         setState(() {
-            //           currentIndex = (currentIndex - 1 + vocabList.length) %
-            //               vocabList.length;
-            //         });
-            //       },
-            //       style: ElevatedButton.styleFrom(
-            //         backgroundColor: Colors.white10,
-            //       ),
-            //       child: const Text("Back"),
-            //     ),
-
-            //     Align(
-            //   alignment: Alignment.centerRight,
-            //   child: ElevatedButton(
-            //     onPressed: () {
-            //       setState(() {
-            //         currentIndex = (currentIndex - 1 + vocabList.length) %
-            //               vocabList.length;
-            //       });
-            //     },
-            //     style: ElevatedButton.styleFrom(
-            //       backgroundColor: const Color(0xFF0D0D25),
-            //       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-                  
-            //     ),
-            //     child: const Text("Next"),
-            //   ),
-            // ),
-            //   ],
-            // ),
+            const SizedBox(height: 30),
           ],
         ),
       ),
