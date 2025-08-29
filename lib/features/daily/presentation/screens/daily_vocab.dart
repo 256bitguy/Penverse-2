@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../../core/constants/constants.dart';
-
+import 'synonyms.dart';
+import 'antonyms.dart';
 class DailyVocabScreen extends StatefulWidget {
   const DailyVocabScreen({super.key});
 
@@ -92,7 +93,7 @@ class _DailyVocabScreenState extends State<DailyVocabScreen> {
                 fit: BoxFit.cover,
               ),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 24),
 
             // Word Name
             Text(
@@ -114,7 +115,7 @@ class _DailyVocabScreenState extends State<DailyVocabScreen> {
                 color: Colors.white70,
               ),
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: 20),
 
             // English explanation
             Text(
@@ -191,45 +192,6 @@ class _DailyVocabScreenState extends State<DailyVocabScreen> {
   }
 }
 
-class SynonymPage extends StatelessWidget {
-  const SynonymPage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xFF0D0D25),
-      appBar: AppBar(
-        title: const Text("Synonyms"),
-        backgroundColor: Colors.blueAccent,
-      ),
-      body: const Center(
-        child: Text(
-          "Synonym list goes here...",
-          style: TextStyle(color: Colors.white, fontSize: 18),
-        ),
-      ),
-    );
-  }
-}
-
+ 
 // Antonyms Page
-class AntonymPage extends StatelessWidget {
-  const AntonymPage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xFF0D0D25),
-      appBar: AppBar(
-        title: const Text("Antonyms"),
-        backgroundColor: Colors.purpleAccent,
-      ),
-      body: const Center(
-        child: Text(
-          "Antonym list goes here...",
-          style: TextStyle(color: Colors.white, fontSize: 18),
-        ),
-      ),
-    );
-  }
-}
+ 

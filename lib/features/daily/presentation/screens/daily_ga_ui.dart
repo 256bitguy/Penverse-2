@@ -90,12 +90,12 @@ class _DailyScreenState extends State<DailyScreen> {
               ),
               child: const Text(
                 "Tag",
-                style: TextStyle(
-                    color: Colors.white, fontWeight: FontWeight.bold),
+                style:
+                    TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
               ),
             ),
-            const SizedBox(height: 16),
-
+            const SizedBox(height: 48),
+  
             // Rectangular Button (route)
             InkWell(
               onTap: () {
@@ -108,15 +108,15 @@ class _DailyScreenState extends State<DailyScreen> {
               },
               child: Container(
                 width: double.infinity,
-                padding: const EdgeInsets.symmetric(vertical: 16),
+                padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 14),
                 decoration: BoxDecoration(
                   color: Colors.white10,
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: const Center(
                   child: Text(
-                    "The other side of the news",
-                    style: TextStyle(fontSize: 24, color: Colors.white),
+                    "The other side of the news The other side of the news The other side of the news",
+                    style: TextStyle(fontSize: 18 , color: Colors.white),
                   ),
                 ),
               ),
@@ -124,23 +124,52 @@ class _DailyScreenState extends State<DailyScreen> {
             const SizedBox(height: 16),
 
             // Next Button
-            Align(
-              alignment: Alignment.centerRight,
-              child: ElevatedButton(
-                onPressed: () {
-                  setState(() {
-                    currentIndex = (currentIndex + 1) % images.length;
-                  });
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF0D0D25),
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 24, vertical: 12),
+
+            Row(
+              children: [
+                Expanded(
+                  child: ElevatedButton(
+                    onPressed: () {
+                      setState(() {
+                        currentIndex = (currentIndex - 1) % images.length;
+                      });
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFF5E5EBC),
+                      padding: const EdgeInsets.symmetric(vertical: 14),
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(12),
+                          bottomLeft: Radius.circular(12),
+                        ),
+                      ),
+                    ),
+                    child: const Text("Previous"),
+                  ),
                 ),
-                child: const Text("Next"),
-              ),
+                Expanded(
+                  child: ElevatedButton(
+                    onPressed: () {
+                      setState(() {
+                        currentIndex = (currentIndex + 1) % images.length;
+                      });
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFF1F1F5D),
+                      padding: const EdgeInsets.symmetric(vertical: 14),
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.only(
+                          topRight: Radius.circular(12),
+                          bottomRight: Radius.circular(12),
+                        ),
+                      ),
+                    ),
+                    child: const Text("Next"),
+                  ),
+                ),
+              ],
             ),
-            const SizedBox(height: 30), // space at bottom for safe scroll
+            const SizedBox(height: 30),
           ],
         ),
       ),

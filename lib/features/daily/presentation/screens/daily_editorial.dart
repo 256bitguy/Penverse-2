@@ -1,30 +1,57 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/constants/constants.dart';
-class DailyEditorialScreen extends StatefulWidget {
-  const DailyEditorialScreen({super.key});
+class ParagraphScreen extends StatefulWidget {
+  const ParagraphScreen({super.key});
 
   @override
-  State<DailyEditorialScreen> createState() => _SubjectsScreenState();
+  State<ParagraphScreen> createState() => _ParagraphScreenState();
 }
 
-class _SubjectsScreenState extends State<DailyEditorialScreen> {
-  int currentIndex = 0;
+class _ParagraphScreenState extends State<ParagraphScreen> {
+  late Timer _timer;
+  int _seconds = 0;
 
-  final List<String> images = [
-    "assets/images/onboarding1.png",
-    "assets/images/onboarding2.png",
-    "assets/images/onboarding3.png",
-  ];
+  final String paragraph = """
+In a rapidly changing world, knowledge and information have become the most valuable resources for human progress. The ability to think critically, analyze data, and make informed decisions separates successful societies from those that struggle to adapt. Education has therefore become more than just a tool for personal growth; it is a foundation for innovation, equality, and the well-being of communities. Every generation inherits not only the traditions of the past but also the responsibility to improve the systems they depend upon. This sense of responsibility pushes individuals to explore new ideas, challenge outdated norms, and build better opportunities for the future.
+
+One of the most powerful aspects of learning is its ability to connect people. Through shared knowledge, people from different cultures, languages, and backgrounds can understand one another in deeper ways. A scientific discovery in one corner of the world can change the lives of millions across continents. Similarly, a story told in one language may inspire emotions in someone who does not even speak it, once it is translated or adapted. This universality of ideas shows that education is not limited by borders, but rather becomes stronger when shared openly.
+
+Technology has accelerated the spread of knowledge like never before. A student with a smartphone today has access to more information than entire libraries of the past. However, access alone is not enough; the real challenge lies in teaching people how to use this knowledge effectively. Critical thinking, digital literacy, and ethical responsibility must be at the heart of modern education. Without these, the abundance of information can easily turn into confusion, misinformation, or even manipulation. Therefore, the role of teachers, mentors, and community leaders is more important than ever before.
+
+At the same time, we must not forget that education is not only about academics. Emotional intelligence, empathy, and creativity are equally essential for building a balanced and meaningful life. A society that focuses only on competition and technical knowledge risks losing sight of humanity. True progress requires individuals who are not just intelligent, but also compassionate and responsible toward others.
+
+In conclusion, education is both a personal journey and a collective mission. It empowers individuals to achieve their goals while also building stronger, fairer communities. By investing in education that balances knowledge with values, societies can prepare themselves for challenges and opportunities that lie ahead. Learning never ends; it evolves, grows, and adapts with every generation, ensuring that humanity continues to move forward with wisdom and hope.
+""";
+
+  @override
+  void initState() {
+    super.initState();
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      setState(() {
+        _seconds++;
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
+  }
+
+  String get _formattedTime {
+    final minutes = (_seconds ~/ 60).toString().padLeft(2, '0');
+    final seconds = (_seconds % 60).toString().padLeft(2, '0');
+    return "$minutes:$seconds";
+  }
 
   @override
   Widget build(BuildContext context) {
-    // final screenHeight = MediaQuery.of(context).size.height;
- final screenSize = MediaQuery.of(context).size;
-    final itemWidth = screenSize.width ;  
-    final itemHeight = screenSize.height / 2;  
     return Scaffold(
       
-      appBar: AppBar(
+     appBar: AppBar(
         backgroundColor: AppColors.scaffoldBackground,
         elevation: 0,
         leading: IconButton(
@@ -47,121 +74,42 @@ class _SubjectsScreenState extends State<DailyEditorialScreen> {
           ),
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Date + Index
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text(
-                  "2-August-2025",
-                  style: TextStyle(color: Colors.white70, fontSize: 16),
-                ),
-                Text(
-                  "${currentIndex + 1}/${images.length}",
-                  style: const TextStyle(color: Colors.white70, fontSize: 16),
-                ),
-              ],
+      body: Column(
+        children: [
+          // Timer at the top
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.all(12),
+            color: const Color(0xFF1F1F5D),
+            child: Text(
+              "Reading Time: $_formattedTime",
+              style: GoogleFonts.poppins(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
+              textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 12),
+          ),
 
-            // Image
-            ClipRRect(
-              borderRadius: BorderRadius.circular(48),
-              child: Image.network(
-                images[currentIndex],
-                height: itemHeight ,
-                width: itemWidth,
-                fit: BoxFit.cover,
+          // Paragraph (scrollable)
+          Expanded(
+            child: SingleChildScrollView(
+              physics: const BouncingScrollPhysics(),
+              padding: const EdgeInsets.all(16),
+              child: Text(
+                paragraph,
+                style: GoogleFonts.merriweather(
+                  fontSize: 18,
+                  height: 1.6,
+                  color: Colors.white,
+                  fontWeight: FontWeight.w400,
+                ),
+                textAlign: TextAlign.justify,
               ),
             ),
-            const SizedBox(height: 12),
-
-            // Tag Box
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-              decoration: BoxDecoration(
-                color: Colors.blueAccent,
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: const Text(
-                "Tag",
-                style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-              ),
-            ),
-            const SizedBox(height: 16),
-
-            // Rectangular Button (route)
-            InkWell(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (_) => const OtherPage(),
-                  ),
-                );
-              },
-              child: Container(
-                width: double.infinity,
-                padding: const EdgeInsets.symmetric(vertical: 16),
-                decoration: BoxDecoration(
-                  color: Colors.white10,
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: const Center(
-                  child: Text(
-                    "The other side of the news",
-                    style: TextStyle(fontSize: 24, color: Colors.white),
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(height: 16),
-
-            // Next Button
-            Align(
-              alignment: Alignment.centerRight,
-              child: ElevatedButton(
-                onPressed: () {
-                  setState(() {
-                    currentIndex = (currentIndex + 1) % images.length;
-                  });
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Color(0xFF0D0D25),
-                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-                  
-                ),
-                child: const Text("Next"),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-// Dummy route page
-class OtherPage extends StatelessWidget {
-  const OtherPage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xFF0D0D25),
-      appBar: AppBar(
-        backgroundColor: const Color(0xFF1B1E23),
-        title: const Text("Other Page"),
-      ),
-      body: const Center(
-        child: Text(
-          "The other side of the news content...",
-          style: TextStyle(color: Colors.white, fontSize: 20),
-        ),
+          ),
+        ],
       ),
     );
   }

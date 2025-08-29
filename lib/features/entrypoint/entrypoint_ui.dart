@@ -14,6 +14,7 @@ import '../subjects/presentation/screens/subject_list.dart';
 import './component/app_navigation_bar.dart';
 import '../daily/presentation/screens/daily_ga_ui.dart';
 import '../daily/presentation/screens/daily_vocab.dart';
+import '../daily/presentation/screens/daily_editorial.dart';
 
 /// This page will contain all the bottom navigation tabs
 class EntryPointUI extends StatefulWidget {
@@ -36,7 +37,7 @@ class _EntryPointUIState extends State<EntryPointUI> {
   List<Widget> pages = [
     const HomePage(),
     const SubjectsScreen(id:1),
-    const CartPage(isHomePage: true),
+    const ParagraphScreen(),
     const DailyScreen(),
     const DailyVocabScreen(),
   ];
