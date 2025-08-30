@@ -1,20 +1,16 @@
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import '../../core/constants/app_icons.dart';
 
 import '../../core/constants/app_colors.dart';
 import '../../core/constants/app_defaults.dart';
-import './dummy/cart_page.dart';
 
 import '../home/presentation/screens/home_screen.dart';
 
-import './dummy/profile_page.dart';
-import '../subjects/presentation/screens/subject_list.dart';
+import '../subjects/subject/ui/subject_list.dart';
 import './component/app_navigation_bar.dart';
-import '../daily/presentation/screens/daily_ga_ui.dart';
-import '../daily/presentation/screens/daily_vocab.dart';
-import '../daily/presentation/screens/daily_editorial.dart';
+import '../currentaffairs/presentation/screens/daily_ga_ui.dart';
+import '../currentaffairs/presentation/screens/daily_vocab.dart';
+import '../currentaffairs/presentation/screens/daily_editorial.dart';
 
 /// This page will contain all the bottom navigation tabs
 class EntryPointUI extends StatefulWidget {
@@ -36,7 +32,7 @@ class _EntryPointUIState extends State<EntryPointUI> {
 
   List<Widget> pages = [
     const HomePage(),
-    const SubjectsScreen(id:1),
+    const SubjectsScreen(id: 1),
     const ParagraphScreen(),
     const DailyScreen(),
     const DailyVocabScreen(),
@@ -58,7 +54,6 @@ class _EntryPointUIState extends State<EntryPointUI> {
         duration: AppDefaults.duration,
         child: pages[currentIndex],
       ),
-       
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: AppBottomNavigationBar(
         currentIndex: currentIndex,

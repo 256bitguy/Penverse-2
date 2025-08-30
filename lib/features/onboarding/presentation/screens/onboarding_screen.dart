@@ -1,11 +1,11 @@
-import '../../../auth/presentation/screens/login_screen.dart';
-import 'package:flutter/material.dart';
+ import 'package:flutter/material.dart';
 import '../../../../core/constants/app_constants.dart';
 import '../../../../core/utils/animation_utils.dart';
 import '../../../../core/utils/page_transitions.dart';
 import '../../../../core/utils/responsive_utils.dart';
 import '../../../../core/widgets/custom_button.dart';
-import '../../../auth/presentation/screens/create_account_screen.dart';
+import '../../../auth/ui/create_account_screen.dart';
+import '../../../auth/ui/login_screen.dart';
 import '../widgets/onboarding_content.dart';
 import '../widgets/page_indicator.dart';
 

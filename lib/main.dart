@@ -1,22 +1,32 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_redux/flutter_redux.dart';
+import 'package:redux/redux.dart';
+
 import 'core/theme/app_theme.dart';
-import 'features/auth/presentation/screens/login_screen.dart';
-import 'features/auth/providers/auth_provider.dart';
+import 'core/store/app_store.dart';
+import 'core/store/app_state.dart';
+import 'features/auth/ui/login_screen.dart';
 import './features/entrypoint/entrypoint_ui.dart';
 import 'features/onboarding/presentation/screens/splash_screen.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // Create the Redux store (with persistence)
+  final Store<AppState> store = await createStore();
+
+  runApp(MyApp(store: store));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final Store<AppState> store;
+
+  const MyApp({super.key, required this.store});
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => AuthProvider()..initializeAuth(),
+    return StoreProvider<AppState>(
+      store: store,
       child: MaterialApp(
         title: 'Penverse',
         theme: AppTheme.lightTheme,
@@ -36,9 +46,11 @@ class AuthWrapper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<AuthProvider>(
-      builder: (context, authProvider, _) {
-        if (authProvider.isLoggedIn) {
+    return StoreConnector<AppState, bool>(
+      distinct: true,
+      converter: (store) => store.state.authState.isLoggedIn,
+      builder: (context, isLoggedIn) {
+        if (isLoggedIn) {
           return const EntryPointUI();
         }
         return const SplashScreen();
