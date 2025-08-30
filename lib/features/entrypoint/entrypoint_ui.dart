@@ -9,7 +9,7 @@ import '../home/presentation/screens/home_screen.dart';
 import '../subjects/subject/ui/subject_list.dart';
 import './component/app_navigation_bar.dart';
 import '../currentaffairs/presentation/screens/daily_ga_ui.dart';
-import '../currentaffairs/presentation/screens/daily_vocab.dart';
+import '../dailyenglish/vocabulary/ui/daily_vocab.dart';
 import '../currentaffairs/presentation/screens/daily_editorial.dart';
 
 /// This page will contain all the bottom navigation tabs

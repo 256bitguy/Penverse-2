@@ -23,7 +23,7 @@ dependencies:
   flutter_redux: ^0.10.0
   redux_persist: ^0.9.0
   redux_persist_flutter: ^0.9.0
-  
+  equatable: ^2.0.5
 
   
 dev_dependencies:
