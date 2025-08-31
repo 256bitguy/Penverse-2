@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../core/constants/constants.dart';
+import '../../../../core/constants/constants.dart';
 import './bottom_app_bar_item.dart';
 
 class AppBottomNavigationBar extends StatelessWidget {
@@ -23,37 +23,32 @@ class AppBottomNavigationBar extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           BottomAppBarItem(
-            name: 'Home',
+            name: 'vocabulary',
             iconLocation: 'assets/icons/home.svg',
             isActive: currentIndex == 0,
             onTap: () => onNavTap(0),
           ),
           BottomAppBarItem(
-            name: 'Subjects',
+            name: 'Editorial',
             iconLocation: AppIcons.menu,
             isActive: currentIndex == 1,
             onTap: () => onNavTap(1),
           ),
            
           BottomAppBarItem(
-            name: 'Wordly',
-            iconLocation: AppIcons.edit,
+            name: 'Phrases',
+            iconLocation: AppIcons.profile,
             isActive: currentIndex == 2,
             onTap: () => onNavTap(2),
           ),
 
           BottomAppBarItem(
-            name: 'News',
-            iconLocation: AppIcons.location,
+            name: 'Idioms',
+            iconLocation: AppIcons.save,
             isActive: currentIndex == 3,
             onTap: () => onNavTap(3),
           ),
-          BottomAppBarItem(
-            name: 'Vocab',
-            iconLocation: AppIcons.search,
-            isActive: currentIndex == 4,
-            onTap: () => onNavTap(4),
-          ),
+          
         ],
       ),
     );

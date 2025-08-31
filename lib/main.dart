@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
           '/': (context) => const AuthWrapper(),
           '/login': (context) => const LoginScreen(),
           '/home': (context) => const EntryPointUI(),
-          '/vocab': (context) => const DailyVocabScreen()
+           
         },
       ),
     );

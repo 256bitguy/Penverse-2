@@ -57,4 +57,5 @@ class AppIcons {
 
   static const cardAdd = 'assets/icons/card_add.svg';
   static const vocab = 'assets/icons/vocab.svg';
+  static const wordlyy = 'assets/icons/wordlyy.svg';
 }

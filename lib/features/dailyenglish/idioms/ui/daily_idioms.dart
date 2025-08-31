@@ -4,18 +4,18 @@ import 'package:redux/redux.dart';
 
 import '../../../../core/constants/constants.dart';
 import '../../../../core/store/app_state.dart';
-import 'antonyms.dart';
-import 'synonyms.dart';
-import '../vocab_viewmodel.dart'; // ✅ your viewmodel
+import '../idioms_viewmodel.dart'; // ✅ your idioms viewmodel
 import '../../../entrypoint/entrypoint_ui.dart';
-class DailyVocabScreen extends StatefulWidget {
-  const DailyVocabScreen({super.key});
+import 'examples.dart'; // ✅ your IdiomExamplePage
+
+class DailyIdiomsScreen extends StatefulWidget {
+  const DailyIdiomsScreen({super.key});
 
   @override
-  State<DailyVocabScreen> createState() => _DailyVocabScreenState();
+  State<DailyIdiomsScreen> createState() => _DailyIdiomsScreenState();
 }
 
-class _DailyVocabScreenState extends State<DailyVocabScreen> {
+class _DailyIdiomsScreenState extends State<DailyIdiomsScreen> {
   int currentIndex = 0;
   late PageController _pageController;
 
@@ -24,11 +24,11 @@ class _DailyVocabScreenState extends State<DailyVocabScreen> {
     super.initState();
     _pageController = PageController(initialPage: currentIndex);
 
-    // Load vocab once widget is mounted
+    // Load idioms once widget is mounted
     Future.microtask(() {
       final store = StoreProvider.of<AppState>(context, listen: false);
-      final vm = VocabViewModel.fromStore(store);
-      vm.loadVocab();
+      final vm = IdiomsViewModel.fromStore(store);
+      vm.loadIdioms();
     });
   }
 
@@ -40,13 +40,13 @@ class _DailyVocabScreenState extends State<DailyVocabScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, VocabViewModel>(
+    return StoreConnector<AppState, IdiomsViewModel>(
       distinct: true,
-      converter: (Store<AppState> store) => VocabViewModel.fromStore(store),
+      converter: (Store<AppState> store) => IdiomsViewModel.fromStore(store),
       builder: (context, vm) {
         if (vm.items.isEmpty) {
           return const Scaffold(
-            body: Center(child: Text("No vocab found")),
+            body: Center(child: Text("No idioms found")),
           );
         }
 
@@ -60,13 +60,13 @@ class _DailyVocabScreenState extends State<DailyVocabScreen> {
               icon: const Icon(Icons.arrow_back, color: Colors.white),
               onPressed: () {
                 Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (_) => const EntryPointUI()),
-      );
+                  context,
+                  MaterialPageRoute(builder: (_) => const EntryPointUI()),
+                );
               },
             ),
             title: const Text(
-              "Daily English",
+              "Daily Idioms",
               style:
                   TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
             ),
@@ -98,7 +98,7 @@ class _DailyVocabScreenState extends State<DailyVocabScreen> {
                     });
                   },
                   itemBuilder: (context, index) {
-                    final vocab = vm.items[index];
+                    final idiom = vm.items[index];
                     return SingleChildScrollView(
                       physics: const BouncingScrollPhysics(),
                       padding: const EdgeInsets.all(16),
@@ -109,7 +109,7 @@ class _DailyVocabScreenState extends State<DailyVocabScreen> {
                           ClipRRect(
                             borderRadius: BorderRadius.circular(24),
                             child: Image.network(
-                              vocab.imageUrl,
+                              idiom.imageUrl,
                               height: screenSize.height / 2,
                               width: screenSize.width,
                               fit: BoxFit.cover,
@@ -117,9 +117,9 @@ class _DailyVocabScreenState extends State<DailyVocabScreen> {
                           ),
                           const SizedBox(height: 24),
 
-                          // Word
+                          // Idiom
                           Text(
-                            vocab.word,
+                            idiom.idiom,
                             style: const TextStyle(
                               fontSize: 28,
                               fontWeight: FontWeight.bold,
@@ -128,9 +128,9 @@ class _DailyVocabScreenState extends State<DailyVocabScreen> {
                           ),
                           const SizedBox(height: 6),
 
-                          // Part of speech
+                          // Meaning
                           Text(
-                            vocab.partOfSpeech,
+                            idiom.meaning,
                             style: const TextStyle(
                               fontSize: 18,
                               fontStyle: FontStyle.italic,
@@ -141,7 +141,7 @@ class _DailyVocabScreenState extends State<DailyVocabScreen> {
 
                           // English explanation
                           Text(
-                            vocab.englishExplanation,
+                            idiom.englishExplanation,
                             style: const TextStyle(
                               fontSize: 16,
                               color: Colors.white,
@@ -151,70 +151,38 @@ class _DailyVocabScreenState extends State<DailyVocabScreen> {
 
                           // Hindi explanation
                           Text(
-                            vocab.hindiExplanation,
+                            idiom.hindiExplanation,
                             style: const TextStyle(
                               fontSize: 16,
                               color: Colors.white,
                             ),
                           ),
-                          const SizedBox(height: 20),
-
-                          // Synonym + Antonym Buttons
-                          Row(
-                            children: [
-                              Expanded(
-                                child: ElevatedButton(
-                                  onPressed: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (_) => SynonymPage(
-                                              synonyms: vocab.synonyms
-                                              )),
-                                    );
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: const Color(0xFF5E5EBC),
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 14),
-                                    shape: const RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(12),
-                                        bottomLeft: Radius.circular(12),
-                                      ),
-                                    ),
-                                  ),
-                                  child: const Text("Synonyms"),
-                                ),
-                              ),
-                              Expanded(
-                                child: ElevatedButton(
-                                  onPressed: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (_) => AntonymPage(
-                                              antonyms: vocab.antonyms
-                                              )),
-                                    );
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: const Color(0xFF1F1F5D),
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 14),
-                                    shape: const RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.only(
-                                        topRight: Radius.circular(12),
-                                        bottomRight: Radius.circular(12),
-                                      ),
-                                    ),
-                                  ),
-                                  child: const Text("Antonyms"),
-                                ),
-                              ),
-                            ],
-                          ),
                           const SizedBox(height: 30),
+
+                          // Button -> Idiom Examples
+                          ElevatedButton(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (_) =>
+                                      IdiomExamplePage(examples: idiom.examples),
+                                ),
+                              );
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: const Color(0xFF1F1F5D),
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 14),
+                              shape: const RoundedRectangleBorder(
+                                borderRadius: BorderRadius.only(
+                                  topRight: Radius.circular(12),
+                                  bottomRight: Radius.circular(12),
+                                ),
+                              ),
+                            ),
+                            child: const Text("Examples"),
+                          ),
                         ],
                       ),
                     );
