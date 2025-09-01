@@ -3,93 +3,91 @@ import '../../features/dailyenglish/vocabulary/vocab_state.dart';
 import '../../features/dailyenglish/idioms/idioms_state.dart';
 import '../../features/dailyenglish/phrasalVerbs/phrasal_verb_state.dart';
 import '../../features/dailyenglish/editorials/editorial_state.dart';
-import '../../features/currentaffairs/generalAwareness/banking_awareness_state.dart'; // ✅ NEW
+import '../../features/currentaffairs/generalAwareness/banking_awareness_state.dart';  
+import '../../features/currentaffairs/upscAwareness/upsc_state.dart'
+    as upsc;  
 import 'package:equatable/equatable.dart';
-final dummyBankingAwarenessItems = [
-  BankingAwarenessItem(
-    imageUrl:
-        "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800",
-    title: "India Signs Historic Climate Agreement",
+
+// Dummy UPSC Awareness Items
+final List<upsc.UpscAwarenessItem> dummyUpscAwarenessItems = [
+ const upsc.UpscAwarenessItem(
+    imageUrl: "https://picsum.photos/200/300",
+    title: "UPSC Topic 1",
     date: "2025-09-01",
-    backgroundContextTitle: "Why This Matters",
-    backgroundContextPoints: const [
-      BackgroundContextPoint(
-        title: "Global Climate Crisis",
-        explanation:
-            "The world is facing record-breaking heatwaves, making climate action urgent.",
+    backgroundContextTitle: "Background of Topic 1",
+    backgroundContextPoints: [
+      upsc.BackgroundContextPoint(
+        title: "Historical Context",
+        explanation: "This topic emerged after important policy reforms.",
       ),
-      BackgroundContextPoint(
-        title: "India’s Role",
-        explanation:
-            "As one of the largest carbon emitters, India’s policies strongly impact global climate goals.",
+      upsc.BackgroundContextPoint(
+        title: "Current Relevance",
+        explanation: "This remains a major issue in 2025 due to reforms.",
       ),
     ],
-    topicTitle: "India’s Climate Agreement",
-    subTopicTitles: const [
-      SubTopic(
-        titleStatement: "Key Provisions",
-        points:
-            "India committed to 40% renewable energy by 2030 and net zero by 2070.",
+    topicTitle: "Main Issue in Topic 1",
+    subTopicTitles: [
+      upsc.SubTopic(
+        titleStatement: "Subtopic A",
+        points: "Key details about Subtopic A",
       ),
-      SubTopic(
-        titleStatement: "International Reactions",
-        points:
-            "World leaders praised the move, though some urged faster timelines.",
+      upsc.SubTopic(
+        titleStatement: "Subtopic B",
+        points: "Key details about Subtopic B",
       ),
     ],
-    keyHighlightsOfTopic:
-        "The agreement includes massive solar expansion and investment in green hydrogen.",
-    keyHighlightsTitle: const [
-      KeyHighlight(points: [
-        HighlightPoint(
-          statement: "Solar Expansion",
-          subStatements: ["100 GW capacity by 2030", "Investment in storage"],
-        ),
-        HighlightPoint(
-          statement: "Green Hydrogen",
-          subStatements: ["Pilot projects", "Export partnerships"],
-        ),
-      ])
-    ],
-    consequencesTitle: "Potential Consequences",
-    subTopicConsequencesTitle: const [
-      SubTopic(
-        titleStatement: "Economic Impact",
-        points: "Could create millions of green jobs but raise short-term costs.",
-      ),
-      SubTopic(
-        titleStatement: "Political Impact",
-        points:
-            "Boosts India’s global leadership in climate talks, but opposition may push back.",
+    keyHighlightsOfTopic: "These are the main highlights.",
+    keyHighlightsTitle: [
+      upsc.KeyHighlight(
+        points: [
+          upsc.HighlightPoint(
+            statement: "Highlight 1",
+            subStatements: ["Detail 1.1", "Detail 1.2"],
+          ),
+          upsc.HighlightPoint(
+            statement: "Highlight 2",
+            subStatements: ["Detail 2.1"],
+          ),
+        ],
       ),
     ],
-    conclusionPoints: const [
-      ConclusionPoint(
-        title: "A Step Forward",
-        explanation:
-            "While ambitious, success depends on strong implementation.",
+    consequencesTitle: "Consequences of Topic 1",
+    subTopicConsequencesTitle: [
+      upsc.SubTopic(
+        titleStatement: "Economic Consequence",
+        points: "Impact on economy and growth",
+      ),
+      upsc.SubTopic(
+        titleStatement: "Social Consequence",
+        points: "Impact on society and culture",
       ),
     ],
-    importantPoints: const [
-      ImportantPoint(
-        title: "India’s Energy Mix",
-        explanation: "Currently 70% coal, transition will be challenging.",
-      ),
-      ImportantPoint(
-        title: "International Cooperation",
-        explanation: "India will need foreign investment to meet its targets.",
+    conclusionPoints: [
+      upsc.ConclusionPoint(
+        title: "Final Note",
+        explanation: "This will affect UPSC preparation strategies.",
       ),
     ],
-    questions: const [
-      Question(
-        statement: "What year has India committed to reach net zero?",
-        options: ["2050", "2060", "2070", "2080"],
-        correctOption: "2070",
+    importantPoints: [
+      upsc.ImportantPoint(
+        title: "Important Law",
+        explanation: "This law plays a crucial role here.",
       ),
-      Question(
-        statement: "What renewable energy target was set for 2030?",
-        options: ["30%", "35%", "40%", "50%"],
-        correctOption: "40%",
+      upsc.ImportantPoint(
+        title: "Important Person",
+        explanation: "A key leader influenced this topic.",
+      ),
+    ],
+    questions: [
+      upsc.Question(
+        statement: "What is the key takeaway from Topic 1?",
+        options: ["Option A", "Option B", "Option C"],
+        correctOption: "Option A",
+      ),
+      upsc.Question(
+        statement: "Which consequence is most significant?",
+        options: ["Economic", "Social", "Cultural"],
+        correctOption: "Economic",
       ),
     ],
   ),
@@ -101,7 +99,8 @@ class AppState extends Equatable {
   final IdiomsState idiomsState;
   final PhrasalVerbsState phrasalVerbsState;
   final EditorialState editorialState;
-  final BankingAwarenessState bankingAwarenessState; // ✅ NEW
+  final BankingAwarenessState bankingAwarenessState;
+  final upsc.UpscAwarenessState upscAwarenessState;
 
   const AppState({
     required this.authState,
@@ -109,7 +108,8 @@ class AppState extends Equatable {
     required this.idiomsState,
     required this.phrasalVerbsState,
     required this.editorialState,
-    required this.bankingAwarenessState, // ✅ NEW
+    required this.bankingAwarenessState,
+    required this.upscAwarenessState,
   });
 
   factory AppState.initial() => AppState(
@@ -118,11 +118,12 @@ class AppState extends Equatable {
         idiomsState: IdiomsState.initial(),
         phrasalVerbsState: PhrasalVerbsState.initial(),
         editorialState: EditorialState.initial(),
-        bankingAwarenessState: BankingAwarenessState(
-          items: dummyBankingAwarenessItems,
-          isLoading:false,
-          error: null
-        ), // ✅ NEW
+        bankingAwarenessState: BankingAwarenessState.initial(),
+        upscAwarenessState: upsc.UpscAwarenessState(
+          items: dummyUpscAwarenessItems,
+          isLoading: false,
+          error: null,
+        ),
       );
 
   AppState copyWith({
@@ -131,7 +132,8 @@ class AppState extends Equatable {
     IdiomsState? idiomsState,
     PhrasalVerbsState? phrasalVerbsState,
     EditorialState? editorialState,
-    BankingAwarenessState? bankingAwarenessState, // ✅ NEW
+    BankingAwarenessState? bankingAwarenessState,
+    upsc.UpscAwarenessState? upscAwarenessState,
   }) {
     return AppState(
       authState: authState ?? this.authState,
@@ -139,7 +141,9 @@ class AppState extends Equatable {
       idiomsState: idiomsState ?? this.idiomsState,
       phrasalVerbsState: phrasalVerbsState ?? this.phrasalVerbsState,
       editorialState: editorialState ?? this.editorialState,
-      bankingAwarenessState: bankingAwarenessState ?? this.bankingAwarenessState, // ✅
+      bankingAwarenessState:
+          bankingAwarenessState ?? this.bankingAwarenessState,
+      upscAwarenessState: upscAwarenessState ?? this.upscAwarenessState,
     );
   }
 
@@ -149,9 +153,9 @@ class AppState extends Equatable {
         'idiomsState': idiomsState.toJson(),
         'phrasalVerbsState': phrasalVerbsState.toJson(),
         'editorialState': editorialState.toJson(),
-        'bankingAwarenessState': {
-          // ✅ You’ll need to implement toJson in BankingAwarenessState
-        },
+        'bankingAwarenessState': bankingAwarenessState.toJson(),
+        // ✅ Now using real UPSC serialization
+        'upscAwarenessState': upscAwarenessState.toJson(),
       };
 
   static AppState fromJson(dynamic json) {
@@ -163,9 +167,10 @@ class AppState extends Equatable {
       idiomsState: IdiomsState.fromJson(json['idiomsState']),
       phrasalVerbsState: PhrasalVerbsState.fromJson(json['phrasalVerbsState']),
       editorialState: EditorialState.fromJson(json['editorialState']),
-      bankingAwarenessState: BankingAwarenessState(
-          // ✅ You’ll need a proper fromJson in BankingAwarenessState
-      ),
+      bankingAwarenessState: BankingAwarenessState.fromJson(json['bankingAwarenessState']),
+       
+      upscAwarenessState:
+          upsc.UpscAwarenessState.fromJson(json['upscAwarenessState']),
     );
   }
 
@@ -176,6 +181,7 @@ class AppState extends Equatable {
         idiomsState,
         phrasalVerbsState,
         editorialState,
-        bankingAwarenessState, // ✅
+        bankingAwarenessState,
+        upscAwarenessState,
       ];
 }

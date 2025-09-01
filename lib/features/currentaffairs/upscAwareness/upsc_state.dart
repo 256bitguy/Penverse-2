@@ -1,25 +1,25 @@
 import 'package:meta/meta.dart';
 
 @immutable
-class BankingAwarenessState {
+class UpscAwarenessState {
   final bool isLoading;
-  final List<BankingAwarenessItem> items;
+  final List<UpscAwarenessItem> items;
   final String? error;
 
-  const BankingAwarenessState({
+  const UpscAwarenessState({
     this.isLoading = false,
     this.items = const [],
     this.error,
   });
 
-  factory BankingAwarenessState.initial() => const BankingAwarenessState();
+  factory UpscAwarenessState.initial() => const UpscAwarenessState();
 
-  BankingAwarenessState copyWith({
+  UpscAwarenessState copyWith({
     bool? isLoading,
-    List<BankingAwarenessItem>? items,
+    List<UpscAwarenessItem>? items,
     String? error,
   }) {
-    return BankingAwarenessState(
+    return UpscAwarenessState(
       isLoading: isLoading ?? this.isLoading,
       items: items ?? this.items,
       error: error,
@@ -32,11 +32,11 @@ class BankingAwarenessState {
         'error': error,
       };
 
-  factory BankingAwarenessState.fromJson(Map<String, dynamic> json) {
-    return BankingAwarenessState(
+  factory UpscAwarenessState.fromJson(Map<String, dynamic> json) {
+    return UpscAwarenessState(
       isLoading: json['isLoading'] ?? false,
       items: (json['items'] as List<dynamic>? ?? [])
-          .map((e) => BankingAwarenessItem.fromJson(e))
+          .map((e) => UpscAwarenessItem.fromJson(e))
           .toList(),
       error: json['error'],
     );
@@ -44,7 +44,7 @@ class BankingAwarenessState {
 }
 
 @immutable
-class BankingAwarenessItem {
+class UpscAwarenessItem {
   final String imageUrl;
   final String title;
   final String date;
@@ -60,7 +60,7 @@ class BankingAwarenessItem {
   final List<ImportantPoint> importantPoints;
   final List<Question> questions;
 
-  const BankingAwarenessItem({
+  const UpscAwarenessItem({
     required this.imageUrl,
     required this.title,
     required this.date,
@@ -87,8 +87,7 @@ class BankingAwarenessItem {
         'topicTitle': topicTitle,
         'subTopicTitles': subTopicTitles.map((e) => e.toJson()).toList(),
         'keyHighlightsOfTopic': keyHighlightsOfTopic,
-        'keyHighlightsTitle':
-            keyHighlightsTitle.map((e) => e.toJson()).toList(),
+        'keyHighlightsTitle': keyHighlightsTitle.map((e) => e.toJson()).toList(),
         'consequencesTitle': consequencesTitle,
         'subTopicConsequencesTitle':
             subTopicConsequencesTitle.map((e) => e.toJson()).toList(),
@@ -97,16 +96,15 @@ class BankingAwarenessItem {
         'questions': questions.map((e) => e.toJson()).toList(),
       };
 
-  factory BankingAwarenessItem.fromJson(Map<String, dynamic> json) {
-    return BankingAwarenessItem(
+  factory UpscAwarenessItem.fromJson(Map<String, dynamic> json) {
+    return UpscAwarenessItem(
       imageUrl: json['imageUrl'] ?? '',
       title: json['title'] ?? '',
       date: json['date'] ?? '',
       backgroundContextTitle: json['backgroundContextTitle'],
-      backgroundContextPoints:
-          (json['backgroundContextPoints'] as List<dynamic>? ?? [])
-              .map((e) => BackgroundContextPoint.fromJson(e))
-              .toList(),
+      backgroundContextPoints: (json['backgroundContextPoints'] as List<dynamic>? ?? [])
+          .map((e) => BackgroundContextPoint.fromJson(e))
+          .toList(),
       topicTitle: json['topicTitle'] ?? '',
       subTopicTitles: (json['subTopicTitles'] as List<dynamic>? ?? [])
           .map((e) => SubTopic.fromJson(e))
@@ -116,10 +114,9 @@ class BankingAwarenessItem {
           .map((e) => KeyHighlight.fromJson(e))
           .toList(),
       consequencesTitle: json['consequencesTitle'],
-      subTopicConsequencesTitle:
-          (json['subTopicConsequencesTitle'] as List<dynamic>? ?? [])
-              .map((e) => SubTopic.fromJson(e))
-              .toList(),
+      subTopicConsequencesTitle: (json['subTopicConsequencesTitle'] as List<dynamic>? ?? [])
+          .map((e) => SubTopic.fromJson(e))
+          .toList(),
       conclusionPoints: (json['conclusionPoints'] as List<dynamic>? ?? [])
           .map((e) => ConclusionPoint.fromJson(e))
           .toList(),
@@ -138,8 +135,7 @@ class BackgroundContextPoint {
   final String title;
   final String explanation;
 
-  const BackgroundContextPoint(
-      {required this.title, required this.explanation});
+  const BackgroundContextPoint({required this.title, required this.explanation});
 
   Map<String, dynamic> toJson() => {
         'title': title,
@@ -198,8 +194,7 @@ class HighlightPoint {
   final String statement;
   final List<String> subStatements;
 
-  const HighlightPoint(
-      {required this.statement, this.subStatements = const []});
+  const HighlightPoint({required this.statement, this.subStatements = const []});
 
   Map<String, dynamic> toJson() => {
         'statement': statement,
@@ -209,9 +204,8 @@ class HighlightPoint {
   factory HighlightPoint.fromJson(Map<String, dynamic> json) {
     return HighlightPoint(
       statement: json['statement'] ?? '',
-      subStatements: (json['subStatements'] as List<dynamic>? ?? [])
-          .map((e) => e.toString())
-          .toList(),
+      subStatements:
+          (json['subStatements'] as List<dynamic>? ?? []).map((e) => e.toString()).toList(),
     );
   }
 }
@@ -277,9 +271,7 @@ class Question {
   factory Question.fromJson(Map<String, dynamic> json) {
     return Question(
       statement: json['statement'] ?? '',
-      options: (json['options'] as List<dynamic>? ?? [])
-          .map((e) => e.toString())
-          .toList(),
+      options: (json['options'] as List<dynamic>? ?? []).map((e) => e.toString()).toList(),
       correctOption: json['correctOption'] ?? '',
     );
   }

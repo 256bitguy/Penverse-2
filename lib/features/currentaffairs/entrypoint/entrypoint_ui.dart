@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import '../../../core/constants/constants.dart';
 import './component/app_navigation_bar.dart';
 import '../../currentaffairs/generalAwareness/ui/banking_awareness.dart';
- 
+import '../../currentaffairs/upscAwareness/ui/upsc_awareness.dart';
 class EntryPointCA extends StatefulWidget {
   const EntryPointCA({super.key});
 
@@ -21,7 +21,7 @@ class _EntryPointCAState extends State<EntryPointCA> {
 
   final List<Widget> pages = const [
     DailyNewsScreen(),
-    DailyNewsScreen(),
+    DailyAffairsScreen(),
   ];
 
   @override

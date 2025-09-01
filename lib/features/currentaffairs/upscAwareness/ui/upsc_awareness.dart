@@ -5,16 +5,16 @@ import 'package:redux/redux.dart';
 import '../../../../core/constants/constants.dart';
 import '../../../../core/store/app_state.dart';
 import 'details.dart';
-import '../banking_awareness_viewmodel.dart';  
+import '../upsc_viewmodel.dart'; 
 
-class DailyNewsScreen extends StatefulWidget {
-  const DailyNewsScreen({super.key});
+class DailyAffairsScreen extends StatefulWidget {
+  const DailyAffairsScreen({super.key});
 
   @override
-  State<DailyNewsScreen> createState() => _DailyNewsScreenState();
+  State<DailyAffairsScreen> createState() => _DailyNewsScreenState();
 }
 
-class _DailyNewsScreenState extends State<DailyNewsScreen> {
+class _DailyNewsScreenState extends State<DailyAffairsScreen> {
   int currentIndex = 0;
   late PageController _pageController;
 
@@ -26,8 +26,8 @@ class _DailyNewsScreenState extends State<DailyNewsScreen> {
     // load news from store
     Future.microtask(() {
       final store = StoreProvider.of<AppState>(context, listen: false);
-      final vm = BankingAwarenessViewModel.fromStore(store);
-      vm.loadBankingAwareness();
+      final vm = UpscAwarenessViewModel.fromStore(store);
+      vm.loadUpscAwareness();
     });
   }
 
@@ -41,11 +41,17 @@ class _DailyNewsScreenState extends State<DailyNewsScreen> {
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
 
-    return StoreConnector<AppState, BankingAwarenessViewModel>(
+    return StoreConnector<AppState, UpscAwarenessViewModel>(
       distinct: true,
       converter: (Store<AppState> store) =>
-          BankingAwarenessViewModel.fromStore(store),
+          UpscAwarenessViewModel.fromStore(store),
+          
       builder: (context, vm) {
+print("🟢 UPSC Screen Rebuild");
+        print("   isLoading: ${vm.isLoading}");
+        print("   items count: ${vm.items.length}");
+        print("   error: ${vm.error}");
+
         if (vm.items.isEmpty) {
           return const Scaffold(
             body: Center(child: CircularProgressIndicator()),
