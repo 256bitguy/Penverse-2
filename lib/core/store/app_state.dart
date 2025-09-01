@@ -2,56 +2,94 @@ import '../../features/auth/auth_state.dart';
 import '../../features/dailyenglish/vocabulary/vocab_state.dart';
 import '../../features/dailyenglish/idioms/idioms_state.dart';
 import '../../features/dailyenglish/phrasalVerbs/phrasal_verb_state.dart';
-import '../../features/dailyenglish/editorials/editorial_state.dart'; // <-- import editorial state
+import '../../features/dailyenglish/editorials/editorial_state.dart';
+import '../../features/currentaffairs/generalAwareness/banking_awareness_state.dart'; // ✅ NEW
 import 'package:equatable/equatable.dart';
-
-final dummyIdioms = [
-  IdiomItem(
-    imageUrl: "https://picsum.photos/id/1/200/300",
-    idiom: "Break the ice",
-    meaning: "To initiate conversation in a social setting",
-    englishExplanation:
-        "Used when someone starts talking to ease tension in a group of strangers.",
-    hindiExplanation: "चुप्पी तोड़ना या बातचीत शुरू करना।",
-    examples: [
-      IdiomExample(
-        sentence: "He told a joke to break the ice at the party.",
-        situation: "First meeting with strangers",
-        hindiSentence: "उसने पार्टी में बातचीत शुरू करने के लिए मजाक सुनाया।",
+final dummyBankingAwarenessItems = [
+  BankingAwarenessItem(
+    imageUrl:
+        "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800",
+    title: "India Signs Historic Climate Agreement",
+    date: "2025-09-01",
+    backgroundContextTitle: "Why This Matters",
+    backgroundContextPoints: const [
+      BackgroundContextPoint(
+        title: "Global Climate Crisis",
+        explanation:
+            "The world is facing record-breaking heatwaves, making climate action urgent.",
       ),
-      IdiomExample(
-        sentence: "The teacher asked a fun question to break the ice.",
-        situation: "First day of class",
-        hindiSentence: "शिक्षक ने क्लास में माहौल हल्का करने के लिए मजेदार सवाल पूछा।",
+      BackgroundContextPoint(
+        title: "India’s Role",
+        explanation:
+            "As one of the largest carbon emitters, India’s policies strongly impact global climate goals.",
       ),
     ],
-  ),
-  IdiomItem(
-    imageUrl: "https://picsum.photos/id/1/200/300",
-    idiom: "Once in a blue moon",
-    meaning: "Something that happens very rarely",
-    englishExplanation: "Used to describe an event that does not occur often.",
-    hindiExplanation: "जो बहुत कम बार होता है।",
-    examples: [
-      IdiomExample(
-        sentence: "He visits us once in a blue moon.",
-        situation: "Rare family visits",
-        hindiSentence: "वह हमसे बहुत ही कम मिलने आता है।",
+    topicTitle: "India’s Climate Agreement",
+    subTopicTitles: const [
+      SubTopic(
+        titleStatement: "Key Provisions",
+        points:
+            "India committed to 40% renewable energy by 2030 and net zero by 2070.",
+      ),
+      SubTopic(
+        titleStatement: "International Reactions",
+        points:
+            "World leaders praised the move, though some urged faster timelines.",
       ),
     ],
-  ),
-  IdiomItem(
-    imageUrl: "https://picsum.photos/id/1/200/300",
-    idiom: "Under the weather",
-    meaning: "Feeling sick or unwell",
-    englishExplanation:
-        "Describes someone not feeling well, usually mild sickness.",
-    hindiExplanation: "थोड़ा बीमार महसूस करना।",
-    examples: [
-      IdiomExample(
-        sentence: "I am feeling a bit under the weather today.",
-        situation: "Calling in sick for work",
-        hindiSentence: "मैं आज थोड़ा बीमार महसूस कर रहा हूँ।",
+    keyHighlightsOfTopic:
+        "The agreement includes massive solar expansion and investment in green hydrogen.",
+    keyHighlightsTitle: const [
+      KeyHighlight(points: [
+        HighlightPoint(
+          statement: "Solar Expansion",
+          subStatements: ["100 GW capacity by 2030", "Investment in storage"],
+        ),
+        HighlightPoint(
+          statement: "Green Hydrogen",
+          subStatements: ["Pilot projects", "Export partnerships"],
+        ),
+      ])
+    ],
+    consequencesTitle: "Potential Consequences",
+    subTopicConsequencesTitle: const [
+      SubTopic(
+        titleStatement: "Economic Impact",
+        points: "Could create millions of green jobs but raise short-term costs.",
+      ),
+      SubTopic(
+        titleStatement: "Political Impact",
+        points:
+            "Boosts India’s global leadership in climate talks, but opposition may push back.",
+      ),
+    ],
+    conclusionPoints: const [
+      ConclusionPoint(
+        title: "A Step Forward",
+        explanation:
+            "While ambitious, success depends on strong implementation.",
+      ),
+    ],
+    importantPoints: const [
+      ImportantPoint(
+        title: "India’s Energy Mix",
+        explanation: "Currently 70% coal, transition will be challenging.",
+      ),
+      ImportantPoint(
+        title: "International Cooperation",
+        explanation: "India will need foreign investment to meet its targets.",
+      ),
+    ],
+    questions: const [
+      Question(
+        statement: "What year has India committed to reach net zero?",
+        options: ["2050", "2060", "2070", "2080"],
+        correctOption: "2070",
+      ),
+      Question(
+        statement: "What renewable energy target was set for 2030?",
+        options: ["30%", "35%", "40%", "50%"],
+        correctOption: "40%",
       ),
     ],
   ),
@@ -62,7 +100,8 @@ class AppState extends Equatable {
   final VocabState vocabState;
   final IdiomsState idiomsState;
   final PhrasalVerbsState phrasalVerbsState;
-  final EditorialState editorialState; // <-- new editorial state
+  final EditorialState editorialState;
+  final BankingAwarenessState bankingAwarenessState; // ✅ NEW
 
   const AppState({
     required this.authState,
@@ -70,27 +109,29 @@ class AppState extends Equatable {
     required this.idiomsState,
     required this.phrasalVerbsState,
     required this.editorialState,
+    required this.bankingAwarenessState, // ✅ NEW
   });
 
   factory AppState.initial() => AppState(
         authState: AuthState.initial(),
-        editorialState: EditorialState.initial(),
-        idiomsState: IdiomsState(
-          items: dummyIdioms, // 👈 put dummy array here
-          isLoading: false,
-          error: null,
-        ),
+        vocabState: VocabState.initial(),
+        idiomsState: IdiomsState.initial(),
         phrasalVerbsState: PhrasalVerbsState.initial(),
-        vocabState: VocabState.initial()
+        editorialState: EditorialState.initial(),
+        bankingAwarenessState: BankingAwarenessState(
+          items: dummyBankingAwarenessItems,
+          isLoading:false,
+          error: null
+        ), // ✅ NEW
       );
 
-  // copyWith (immutability)
   AppState copyWith({
     AuthState? authState,
     VocabState? vocabState,
     IdiomsState? idiomsState,
     PhrasalVerbsState? phrasalVerbsState,
-    EditorialState? editorialState, // <-- copyWith for editorial
+    EditorialState? editorialState,
+    BankingAwarenessState? bankingAwarenessState, // ✅ NEW
   }) {
     return AppState(
       authState: authState ?? this.authState,
@@ -98,16 +139,19 @@ class AppState extends Equatable {
       idiomsState: idiomsState ?? this.idiomsState,
       phrasalVerbsState: phrasalVerbsState ?? this.phrasalVerbsState,
       editorialState: editorialState ?? this.editorialState,
+      bankingAwarenessState: bankingAwarenessState ?? this.bankingAwarenessState, // ✅
     );
   }
 
-  // JSON serialization for persistence
   Map<String, dynamic> toJson() => {
         'authState': authState.toJson(),
         'vocabState': vocabState.toJson(),
         'idiomsState': idiomsState.toJson(),
         'phrasalVerbsState': phrasalVerbsState.toJson(),
-        'editorialState': editorialState.toJson(), // <-- add editorial
+        'editorialState': editorialState.toJson(),
+        'bankingAwarenessState': {
+          // ✅ You’ll need to implement toJson in BankingAwarenessState
+        },
       };
 
   static AppState fromJson(dynamic json) {
@@ -118,8 +162,10 @@ class AppState extends Equatable {
       vocabState: VocabState.fromJson(json['vocabState']),
       idiomsState: IdiomsState.fromJson(json['idiomsState']),
       phrasalVerbsState: PhrasalVerbsState.fromJson(json['phrasalVerbsState']),
-      editorialState: EditorialState.fromJson(
-          json['editorialState']), // <-- parse editorial
+      editorialState: EditorialState.fromJson(json['editorialState']),
+      bankingAwarenessState: BankingAwarenessState(
+          // ✅ You’ll need a proper fromJson in BankingAwarenessState
+      ),
     );
   }
 
@@ -129,6 +175,7 @@ class AppState extends Equatable {
         vocabState,
         idiomsState,
         phrasalVerbsState,
-        editorialState, // <-- include in props
+        editorialState,
+        bankingAwarenessState, // ✅
       ];
 }

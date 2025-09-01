@@ -8,10 +8,11 @@ import '../home/presentation/screens/home_screen.dart';
 
 import '../subjects/subject/ui/subject_list.dart';
 import './component/app_navigation_bar.dart';
-import '../currentaffairs/presentation/screens/daily_ga_ui.dart';
+
 import '../dailyenglish/entrypoint/entrypoint_ui.dart';
- import '../dailyenglish/editorials/ui/daily_editorial.dart';
- 
+import '../dailyenglish/editorials/ui/daily_editorial.dart';
+import '../currentaffairs/entrypoint/entrypoint_ui.dart';
+
 /// This page will contain all the bottom navigation tabs
 class EntryPointUI extends StatefulWidget {
   const EntryPointUI({super.key});
@@ -35,6 +36,15 @@ class _EntryPointUIState extends State<EntryPointUI> {
     } else {
       setState(() => currentIndex = index);
     }
+     if (index == 3) {
+      // 👇 Replace first nav with second nav
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (_) => const EntryPointCA()),
+      );
+    } else {
+      setState(() => currentIndex = index);
+    }
     currentIndex = index;
     setState(() {});
   }
@@ -43,7 +53,7 @@ class _EntryPointUIState extends State<EntryPointUI> {
     const HomePage(),
     const SubjectsScreen(id: 1),
     const ParagraphScreen(),
-    const DailyScreen(),
+    const EntryPointCA(),
     const EntryPointEnglish(),
   ];
 

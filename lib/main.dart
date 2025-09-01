@@ -8,7 +8,7 @@ import 'core/store/app_state.dart';
 import 'features/auth/ui/login_screen.dart';
 import './features/entrypoint/entrypoint_ui.dart';
 import 'features/onboarding/presentation/screens/splash_screen.dart';
-import './features/dailyenglish/vocabulary/ui/daily_vocab.dart';
+ 
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
