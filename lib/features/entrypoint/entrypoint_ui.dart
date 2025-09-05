@@ -12,6 +12,7 @@ import './component/app_navigation_bar.dart';
 import '../dailyenglish/entrypoint/entrypoint_ui.dart';
 import '../dailyenglish/editorials/ui/daily_editorial.dart';
 import '../currentaffairs/entrypoint/entrypoint_ui.dart';
+import '../maths/entrypoint/entrypoint_ui.dart';
 
 /// This page will contain all the bottom navigation tabs
 class EntryPointUI extends StatefulWidget {
@@ -36,11 +37,20 @@ class _EntryPointUIState extends State<EntryPointUI> {
     } else {
       setState(() => currentIndex = index);
     }
-     if (index == 3) {
+    if (index == 3) {
       // 👇 Replace first nav with second nav
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (_) => const EntryPointCA()),
+      );
+    } else {
+      setState(() => currentIndex = index);
+    }
+     if (index == 4) {
+      // 👇 Replace first nav with second nav
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (_) => const EntryPointMaths()),
       );
     } else {
       setState(() => currentIndex = index);
@@ -54,7 +64,7 @@ class _EntryPointUIState extends State<EntryPointUI> {
     const SubjectsScreen(id: 1),
     const ParagraphScreen(),
     const EntryPointCA(),
-    const EntryPointEnglish(),
+      EntryPointMaths(),
   ];
 
   @override

@@ -39,19 +39,19 @@ class HomePage extends StatelessWidget {
             SectionWidget(
               title: "Popular Subjects",
               items: [
-                {"image": "assets/images/onboarding1.png", "text": "Math"},
-                {"image": "assets/images/onboarding2.png", "text": "Science"},
-                {"image": "assets/images/onboarding3.png", "text": "History"},
-                {"image": "assets/images/onboarding1.png", "text": "English"},
+                {"image": "https://res.cloudinary.com/dmxskf3hq/image/upload/v1756991526/uploads/ghycw3amsnageaycpauw.jpg", "text": "Math"},
+                {"image": "https://res.cloudinary.com/dmxskf3hq/image/upload/v1756991526/uploads/ghycw3amsnageaycpauw.jpg", "text": "Science"},
+                {"image": "https://res.cloudinary.com/dmxskf3hq/image/upload/v1756991526/uploads/ghycw3amsnageaycpauw.jpg", "text": "History"},
+                {"image": "https://res.cloudinary.com/dmxskf3hq/image/upload/v1756991526/uploads/ghycw3amsnageaycpauw.jpg", "text": "English"},
               ],
             ),
             SectionWidget(
               title: "Recommended",
               items: [
-                {"image": "assets/images/onboarding1.png", "text": "Physics"},
-                {"image": "assets/images/onboarding2.png", "text": "Chemistry"},
-                {"image": "assets/images/onboarding1.png", "text": "Biology"},
-                {"image": "assets/images/onboarding3.png", "text": "Geography"},
+                {"image": "https://res.cloudinary.com/dmxskf3hq/image/upload/v1756991526/uploads/ghycw3amsnageaycpauw.jpg", "text": "Physics"},
+                {"image": "https://res.cloudinary.com/dmxskf3hq/image/upload/v1756991526/uploads/ghycw3amsnageaycpauw.jpg", "text": "Chemistry"},
+                {"image": "https://res.cloudinary.com/dmxskf3hq/image/upload/v1756991526/uploads/ghycw3amsnageaycpauw.jpg", "text": "Biology"},
+                {"image": "https://res.cloudinary.com/dmxskf3hq/image/upload/v1756991526/uploads/ghycw3amsnageaycpauw.jpg", "text": "Geography"},
               ],
             ),
           ],
@@ -104,7 +104,7 @@ class SectionWidget extends StatelessWidget {
                   children: [
                     ClipRRect(
                       borderRadius: BorderRadius.circular(20),
-                      child: Image.asset(
+                      child: Image.network(
                         item["image"]!,
                         width: itemWidth,
                         height: itemHeight,

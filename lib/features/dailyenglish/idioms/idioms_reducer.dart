@@ -13,6 +13,7 @@ IdiomsState _onLoad(IdiomsState state, LoadIdiomsAction action) {
 }
 
 IdiomsState _onLoadSuccess(IdiomsState state, LoadIdiomsSuccessAction action) {
+   print("📦 Updating state with data: ${action.items}");
   return state.copyWith(
     isLoading: false,
     items: action.items,

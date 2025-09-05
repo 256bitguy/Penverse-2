@@ -28,6 +28,7 @@ class _DailyIdiomsScreenState extends State<DailyIdiomsScreen> {
     Future.microtask(() {
       final store = StoreProvider.of<AppState>(context, listen: false);
       final vm = IdiomsViewModel.fromStore(store);
+      print("first");
       vm.loadIdioms();
     });
   }
@@ -45,8 +46,16 @@ class _DailyIdiomsScreenState extends State<DailyIdiomsScreen> {
       converter: (Store<AppState> store) => IdiomsViewModel.fromStore(store),
       builder: (context, vm) {
         if (vm.items.isEmpty) {
+          // Check if there's an error message
+          if (vm.error != null && vm.error!.isNotEmpty) {
+            return Scaffold(
+              body: Center(child: Text(vm.error!)),
+            );
+          }
+
+          // Otherwise, show empty state
           return const Scaffold(
-            body: Center(child: Text("No idioms found")),
+            body: Center(child: Text('No items available')),
           );
         }
 
@@ -165,15 +174,14 @@ class _DailyIdiomsScreenState extends State<DailyIdiomsScreen> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (_) =>
-                                      IdiomExamplePage(examples: idiom.examples),
+                                  builder: (_) => IdiomExamplePage(
+                                      examples: idiom.examples),
                                 ),
                               );
                             },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: const Color(0xFF1F1F5D),
-                              padding:
-                                  const EdgeInsets.symmetric(vertical: 14),
+                              padding: const EdgeInsets.symmetric(vertical: 14),
                               shape: const RoundedRectangleBorder(
                                 borderRadius: BorderRadius.only(
                                   topRight: Radius.circular(12),

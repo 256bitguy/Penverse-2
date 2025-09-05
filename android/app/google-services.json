@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "888154092729",
+    "project_id": "penverse-e4b41",
+    "storage_bucket": "penverse-e4b41.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:888154092729:android:df2a4df6ed10069db6d768",
+        "android_client_info": {
+          "package_name": "android.permission.INTERNET"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyALkAHSACCqTYbsPx-sNek9T0pUN1b1STs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -22,6 +22,7 @@ class IdiomsViewModel {
       isLoading: store.state.idiomsState.isLoading,
       error: store.state.idiomsState.error,
       loadIdioms: () {
+        print("second");
         store.dispatch(LoadIdiomsAction());
       },
     );

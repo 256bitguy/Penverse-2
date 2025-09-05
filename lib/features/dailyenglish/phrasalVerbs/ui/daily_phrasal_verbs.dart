@@ -4,14 +4,16 @@ import 'package:redux/redux.dart';
 
 import '../../../../core/constants/constants.dart';
 import '../../../../core/store/app_state.dart';
- import '../phrasal_verb_viewmodel.dart'; // ✅ your phrasal verb viewmodel
+import '../phrasal_verb_viewmodel.dart';
 import '../../../entrypoint/entrypoint_ui.dart';
 import 'examples.dart';
+
 class DailyPhrasalVerbScreen extends StatefulWidget {
   const DailyPhrasalVerbScreen({super.key});
 
   @override
-  State<DailyPhrasalVerbScreen> createState() => _DailyPhrasalVerbScreenState();
+  State<DailyPhrasalVerbScreen> createState() =>
+      _DailyPhrasalVerbScreenState();
 }
 
 class _DailyPhrasalVerbScreenState extends State<DailyPhrasalVerbScreen> {
@@ -23,7 +25,7 @@ class _DailyPhrasalVerbScreenState extends State<DailyPhrasalVerbScreen> {
     super.initState();
     _pageController = PageController(initialPage: currentIndex);
 
-    // Load phrasal verbs once widget is mounted
+    // Load phrasal verbs once the widget is mounted
     Future.microtask(() {
       final store = StoreProvider.of<AppState>(context, listen: false);
       final vm = PhrasalVerbsViewModel.fromStore(store);
@@ -44,15 +46,22 @@ class _DailyPhrasalVerbScreenState extends State<DailyPhrasalVerbScreen> {
       converter: (Store<AppState> store) =>
           PhrasalVerbsViewModel.fromStore(store),
       builder: (context, vm) {
+        // Handle empty state and errors
         if (vm.items.isEmpty) {
+          if (vm.error != null && vm.error!.isNotEmpty) {
+            return Scaffold(
+              body: Center(child: Text(vm.error!)),
+            );
+          }
           return const Scaffold(
-            body: Center(child: Text("No phrasal verbs found")),
+            body: Center(child: CircularProgressIndicator()),
           );
         }
 
         final screenSize = MediaQuery.of(context).size;
 
         return Scaffold(
+         
           appBar: AppBar(
             backgroundColor: AppColors.scaffoldBackground,
             elevation: 0,
@@ -67,20 +76,24 @@ class _DailyPhrasalVerbScreenState extends State<DailyPhrasalVerbScreen> {
             ),
             title: const Text(
               "Daily Phrasal Verbs",
-              style:
-                  TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+              ),
             ),
             centerTitle: true,
             actions: [
               IconButton(
                 icon: const Icon(Icons.search, color: Colors.white),
-                onPressed: () {},
+                onPressed: () {
+                  // TODO: Search feature
+                },
               ),
             ],
           ),
           body: Column(
             children: [
-              // Index indicator
+              // Page indicator
               Padding(
                 padding: const EdgeInsets.all(16),
                 child: Text(
@@ -88,6 +101,8 @@ class _DailyPhrasalVerbScreenState extends State<DailyPhrasalVerbScreen> {
                   style: const TextStyle(color: Colors.white, fontSize: 16),
                 ),
               ),
+
+              // Scrollable content
               Expanded(
                 child: PageView.builder(
                   controller: _pageController,
@@ -117,7 +132,7 @@ class _DailyPhrasalVerbScreenState extends State<DailyPhrasalVerbScreen> {
                           ),
                           const SizedBox(height: 24),
 
-                          // Phrasal Verb
+                          // Phrasal Verb Title
                           Text(
                             phrasal.phrasalVerb,
                             style: const TextStyle(
@@ -128,7 +143,7 @@ class _DailyPhrasalVerbScreenState extends State<DailyPhrasalVerbScreen> {
                           ),
                           const SizedBox(height: 6),
 
-                          // Part of speech
+                          // Meaning
                           Text(
                             phrasal.meaning,
                             style: const TextStyle(
@@ -158,36 +173,41 @@ class _DailyPhrasalVerbScreenState extends State<DailyPhrasalVerbScreen> {
                             ),
                           ),
                           const SizedBox(height: 30),
-
-                           Expanded(
-                                child: ElevatedButton(
-                                  onPressed: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (_) => PhrasalVerbExamplePage(
-                                              examples: phrasal.examples
-                                              )),
-                                    );
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: const Color(0xFF1F1F5D),
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 14),
-                                    shape: const RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.only(
-                                        topRight: Radius.circular(12),
-                                        bottomRight: Radius.circular(12),
-                                      ),
-                                    ),
-                                  ),
-                                  child: const Text("Antonyms"),
-                                ),
-                              ),
                         ],
                       ),
                     );
                   },
+                ),
+              ),
+
+              // Button pinned to bottom
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () {
+                    final phrasal = vm.items[currentIndex];
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) =>
+                            PhrasalVerbExamplePage(examples: phrasal.examples),
+                      ),
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF1F1F5D),
+                    padding: const EdgeInsets.symmetric(vertical: 14),
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.only(
+                        topRight: Radius.circular(12),
+                        bottomRight: Radius.circular(12),
+                      ),
+                    ),
+                  ),
+                  child: const Text(
+                    "View Examples",
+                    style: TextStyle(fontSize: 16, color: Colors.white),
+                  ),
                 ),
               ),
             ],

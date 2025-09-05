@@ -44,25 +44,27 @@ class IdiomItem extends Equatable {
     this.examples = const [],
   });
 
-  factory IdiomItem.fromJson(Map<String, dynamic> json) => IdiomItem(
-        imageUrl: json['image_url'] ?? '',
-        idiom: json['idiom'] ?? '',
-        meaning: json['meaning'] ?? '',
-        englishExplanation: json['english_explanation'] ?? '',
-        hindiExplanation: json['hindi_explanation'] ?? '',
-        examples: (json['examples'] as List<dynamic>? ?? [])
-            .map((e) => IdiomExample.fromJson(Map<String, dynamic>.from(e)))
-            .toList(),
-      );
+ factory IdiomItem.fromJson(Map<String, dynamic> json) => IdiomItem(
+  imageUrl: json['imageUrl'] ?? '', // ✅ FIXED
+  idiom: json['idiom'] ?? '',
+  meaning: json['meaning'] ?? '',
+  englishExplanation: json['englishExplanation'] ?? '', // ✅ FIXED
+  hindiExplanation: json['hindiExplanation'] ?? '',     // ✅ FIXED
+  examples: (json['examples'] as List<dynamic>? ?? [])
+      .map((e) => IdiomExample.fromJson(Map<String, dynamic>.from(e)))
+      .toList(),
+);
+
 
   Map<String, dynamic> toJson() => {
-        'image_url': imageUrl,
-        'idiom': idiom,
-        'meaning': meaning,
-        'english_explanation': englishExplanation,
-        'hindi_explanation': hindiExplanation,
-        'examples': examples.map((e) => e.toJson()).toList(),
-      };
+  'imageUrl': imageUrl,                      
+  'idiom': idiom,
+  'meaning': meaning,
+  'englishExplanation': englishExplanation,  
+  'hindiExplanation': hindiExplanation,      
+  'examples': examples.map((e) => e.toJson()).toList(),
+};
+
 
   @override
   List<Object?> get props =>
