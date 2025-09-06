@@ -11,6 +11,7 @@ import '../../features/currentaffairs/generalAwareness/banking_awareness_actions
 import '../../features/subjects/subject/redux/subject_actions.dart';
 import '../../features/subjects/book/redux/book_actions.dart';
 import '../../features/subjects/chapter/redux/chapter_actions.dart';
+import '../../features/subjects/topic/redux/topic_action.dart';
 
 List<Middleware<AppState>> createAppMiddleware(ApiGateway apiGateway) {
   print("third");
@@ -28,7 +29,27 @@ List<Middleware<AppState>> createAppMiddleware(ApiGateway apiGateway) {
         _loadBooksBySubject(apiGateway)),
     TypedMiddleware<AppState, LoadChaptersByBookAction>(
         _loadChaptersByBooks(apiGateway)),
+         TypedMiddleware<AppState, LoadTopicsByChapterAction>(
+        _loadTopicsByChapters(apiGateway)),
   ];
+}
+
+Middleware<AppState> _loadTopicsByChapters(ApiGateway apiGateway) {
+  return (Store<AppState> store, action, NextDispatcher next) async {
+    if (action is LoadTopicsByChapterAction) {
+      next(action); // Pass the action to the next middleware/reducer
+
+      try {
+        final response =
+            await apiGateway.topicService.fetchTopicsByChapter(action.chapterId);
+        store.dispatch(LoadTopicsSuccessAction(response));
+      } catch (e) {
+        store.dispatch(LoadTopicsFailureAction(e.toString()));
+      }
+    } else {
+      next(action);
+    }
+  };
 }
 
 Middleware<AppState> _loadChaptersByBooks(ApiGateway apiGateway) {
@@ -48,7 +69,6 @@ Middleware<AppState> _loadChaptersByBooks(ApiGateway apiGateway) {
     }
   };
 }
-
 
 Middleware<AppState> _loadBooksBySubject(ApiGateway apiGateway) {
   return (Store<AppState> store, action, NextDispatcher next) async {

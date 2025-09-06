@@ -9,6 +9,7 @@ import '../../features/dailyenglish/phrasalVerbs/phrasal_verb_reducer.dart';
 import '../../features/dailyenglish/editorials/editorial_reducer.dart';
 import '../../features/currentaffairs/generalAwareness/banking_awareness_reducer.dart';  
 import '../../features/currentaffairs/upscAwareness/upsc_reducer.dart';  
+import '../../features/subjects/topic/redux/topic_reducer.dart';
 import 'app_state.dart';
 
 AppState appReducer(AppState state, dynamic action) {
@@ -24,6 +25,7 @@ AppState appReducer(AppState state, dynamic action) {
         upscAwarenessReducer(state.upscAwarenessState, action),
     subjectState: subjectReducer(state.subjectState, action),
     bookState: bookReducer(state.bookState, action),
-    chapterState: chapterReducer(state.chapterState, action) // ✅ NEW
+    chapterState: chapterReducer(state.chapterState, action),
+    topicState:  topicReducer(state.topicState, action), // ✅ NEW
   );
 }

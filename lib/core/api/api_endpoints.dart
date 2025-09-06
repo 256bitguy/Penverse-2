@@ -36,6 +36,6 @@ class ApiEndpoints {
 static const String chapters = "$baseUrl/chapters/book";
   static String chapter(String id) => "$chapters/$id";
 
-  static const String topics = "$baseUrl/topics";
+  static const String topics = "$baseUrl/topics/chapter";
   static String topic(String id) => "$topics/$id";
 }

@@ -8,7 +8,7 @@ ChapterState chapterReducer(ChapterState state, dynamic action) {
   } else if (action is LoadChaptersSuccessAction) {
     return state.copyWith(
       isLoading: false,
-      chapters: action.chapters, // List<Chapter>
+      chapters: action.chapters ?? [], // List<Chapter>
       error: null,
     );
   } else if (action is LoadChaptersFailureAction) {

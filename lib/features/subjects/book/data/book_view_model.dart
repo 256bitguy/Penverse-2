@@ -25,7 +25,7 @@ class BookViewModel {
   static BookViewModel fromStore(Store<AppState> store) {
     return BookViewModel(
         isLoading: store.state.bookState.isLoading,
-        books: store.state.bookState.books,
+        books: store.state.bookState.books ?? [],
         error: store.state.bookState.error,
         loadBooks: () {
           store.dispatch(LoadBooksAction());

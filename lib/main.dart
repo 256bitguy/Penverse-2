@@ -1,3 +1,4 @@
+import 'package:Penverse/features/subjects/topic/ui/topics_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
@@ -51,6 +52,7 @@ class MyApp extends StatelessWidget {
           '/home': (context) => const EntryPointUI(),
           '/books': (context) => const BooksScreen(),
           '/chapters': (context) => const ChapterListScreen(),
+          '/topics': (context) => const TopicsListScreen(),
         },
       ),
     );

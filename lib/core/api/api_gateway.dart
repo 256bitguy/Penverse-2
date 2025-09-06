@@ -7,7 +7,7 @@ import '../../features/dailyenglish/phrasalVerbs/services/phrases_services.dart'
 import '../../features/dailyenglish/idioms/services/idioms_services.dart';
 import '../../features/currentaffairs/generalAwareness/services/bankingAwarenessService.dart';
 import '../../features/subjects/subject/service/subject_service.dart';
-
+import '../../features/subjects/topic/service/topic_service.dart';
 import '../../features/subjects/chapter/service/chapter_service.dart';
 
 class ApiGateway {
@@ -20,6 +20,7 @@ class ApiGateway {
   final SubjectService subjectService;
   final BookService bookService;
   final ChapterService chapterService;
+  final TopicService topicService;
 
   ApiGateway._(
       {required this.vocabService,
@@ -29,7 +30,8 @@ class ApiGateway {
       required this.bankingAwarenessService,
       required this.subjectService,
       required this.bookService,
-      required this.chapterService});
+      required this.chapterService,
+      required this.topicService});
 
   factory ApiGateway.create() {
     final client = ApiClient(); // internally create client
@@ -41,6 +43,7 @@ class ApiGateway {
         bankingAwarenessService: BankingAwarenessService(client),
         subjectService: SubjectService(client),
         bookService: BookService(client),
-        chapterService: ChapterService(client));
+        chapterService: ChapterService(client),
+        topicService: TopicService(client));
   }
 }
