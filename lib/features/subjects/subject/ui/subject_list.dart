@@ -1,169 +1,203 @@
+// lib/features/subjects/ui/subjects_screen.dart
 import 'package:flutter/material.dart';
-import '../../../../core/constants/constants.dart';
+import 'package:flutter_redux/flutter_redux.dart';
+import '../redux/subject_state.dart';
+import '../data/subject_view_model.dart';
 import '../../book/ui/books_list.dart';
+import '../../../../core/store/app_state.dart';
 
-class SubjectsScreen extends StatelessWidget {
+class SubjectsScreen extends StatefulWidget {
   final int id;
   const SubjectsScreen({super.key, required this.id});
 
   @override
-  Widget build(BuildContext context) {
-    final subjects = [
-      {"title": "English", "count": 24, "image": Icons.calculate},
-      {"title": "Science", "count": 18, "image": Icons.science},
-      {"title": "History", "count": 12, "image": Icons.history_edu},
-      {"title": "Literature", "count": 9, "image": Icons.menu_book},
-      {"title": "Economics", "count": 19, "image": Icons.history_edu},
-      {"title": "Polity", "count": 92, "image": Icons.science},
-      {"title": "CSAT", "count":45 , "image": Icons.menu_book},
-    ];
+  State<SubjectsScreen> createState() => _SubjectsScreenState();
+}
 
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: AppColors.scaffoldBackground,
-        elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.menu, color: Colors.white),
-          onPressed: () => Scaffold.of(context).openDrawer(),
-        ),
-        title: const Text(
-          "Penverse",
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        centerTitle: true,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.person, color: Colors.white),
-            onPressed: () {
-              // TODO: navigate to profile
-            },
-          ),
-        ],
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            // 🔍 Search Bar
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-              decoration: BoxDecoration(
-                color: Colors.white
-                    .withValues(alpha: 0.1), // semi-transparent for dark mode
-                borderRadius: BorderRadius.circular(16),
-                border: Border.all(
-                  color: Colors.white.withValues(alpha: 0.3), // subtle border
-                  width: 1,
-                ),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.3),
-                    blurRadius: 8,
-                    offset: const Offset(0, 4), // shadow direction: bottom
-                  ),
-                ],
-                gradient: LinearGradient(
-                  colors: [
-                    Colors.blue.withValues(alpha: 0.2),
-                    Colors.purple.withValues(alpha: 0.2),
-                  ],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                ),
-              ),
-              child: Row(
-                children: [
-                  const Icon(Icons.search, color: Colors.grey),
-                  const SizedBox(width: 8),
-                  const Expanded(
-                    child: TextField(
-                      decoration: InputDecoration(
-                        hintText: "Search subjects...",
-                        border: InputBorder.none,
-                      ),
-                    ),
-                  ),
-                  IconButton(
-                    icon: const Icon(Icons.filter_list, color: Colors.grey),
-                    onPressed: () {
-                      // TODO: filter action
-                    },
-                  ),
-                ],
+class _SubjectsScreenState extends State<SubjectsScreen> {
+  final TextEditingController _searchController = TextEditingController();
+  String _searchQuery = "";
+
+  @override
+  void initState() {
+    super.initState();
+    // Load subjects immediately when screen mounts
+    Future.microtask(() {
+      final store = StoreProvider.of<AppState>(context, listen: false);
+      final vm = SubjectsViewModel.fromStore(store);
+      vm.loadSubjects();
+    });
+
+    _searchController.addListener(() {
+      setState(() {
+        _searchQuery = _searchController.text.trim().toLowerCase();
+      });
+    });
+  }
+
+  IconData getIcon(String iconValue) {
+    switch (iconValue) {
+      case "calculate":
+        return Icons.calculate;
+      case "science":
+        return Icons.science;
+      case "history":
+        return Icons.history_edu;
+      case "menu_book":
+        return Icons.menu_book;
+      default:
+        return Icons.book;
+    }
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return StoreConnector<AppState, SubjectsViewModel>(
+      converter: (store) => SubjectsViewModel.fromStore(store),
+      builder: (context, vm) {
+        if (vm.isLoading) {
+          return const Scaffold(
+            body: Center(child: CircularProgressIndicator()),
+          );
+        }
+
+        if (vm.error != null) {
+          return Scaffold(
+            body: Center(child: Text("Error: ${vm.error}")),
+          );
+        }
+
+        // Filter subjects by search query
+        final filteredSubjects = vm.subjects.where((subject) {
+          return subject.name.toLowerCase().contains(_searchQuery);
+        }).toList();
+
+        return Scaffold(
+          appBar: AppBar(
+            elevation: 0,
+            title: const Text(
+              "Subjects",
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
               ),
             ),
-            const SizedBox(height: 30),
+            centerTitle: true,
+            actions: [
+              IconButton(
+                icon: const Icon(Icons.person, color: Colors.white),
+                onPressed: () {
+                  // TODO: navigate to profile
+                },
+              ),
+            ],
+          ),
+          body: Column(
+            children: [
+              // 🔍 Search Bar
+              Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: TextField(
+                  controller: _searchController,
+                  style: const TextStyle(color: Colors.white),
+                  decoration: InputDecoration(
+                    hintText: "Search subjects...",
+                    hintStyle: TextStyle(color: Colors.grey.shade300),
+                    prefixIcon: const Icon(Icons.search, color: Colors.white),
+                    filled: true,
+                    fillColor: Colors.blueGrey.withOpacity(0.3),
+                    contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 14),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(16),
+                      borderSide:
+                          BorderSide(color: Colors.white.withOpacity(0.3)),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(16),
+                      borderSide: const BorderSide(color: Colors.blueAccent),
+                    ),
+                  ),
+                ),
+              ),
 
-            // 📚 Subject List
-            Expanded(
-              child: ListView.builder(
-                itemCount: subjects.length,
-                itemBuilder: (context, index) {
-                  final subject = subjects[index];
-                  return Container(
-                    margin:
-                        const EdgeInsets.symmetric(vertical: 5, horizontal: 4),
-                    child: Card(
-                      elevation: 3,
-                      color: const Color(0xFF6472BB), // shadow depth
-                      shadowColor: Colors.black.withValues(alpha: 0.3),
-                      shape: RoundedRectangleBorder(
-                        borderRadius:
-                            BorderRadius.circular(20), // bigger radius
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 6, horizontal: 8),
+              // 📚 Subjects List
+              Expanded(
+                child: ListView.builder(
+                  itemCount: filteredSubjects.length,
+                  itemBuilder: (context, index) {
+                    final subject = filteredSubjects[index];
+
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 12.0, vertical: 8.0),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white.withOpacity(0.08),
+                          borderRadius: BorderRadius.circular(16),
+                          border: Border.all(
+                            color: Colors.white.withOpacity(0.3),
+                            width: 1,
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.2),
+                              blurRadius: 6,
+                              offset: const Offset(0, 3),
+                            ),
+                          ],
+                        ),
                         child: ListTile(
-                          contentPadding: const EdgeInsets.symmetric(
-                              horizontal: 8, vertical: 8),
+                          contentPadding: const EdgeInsets.all(12),
                           leading: CircleAvatar(
-                            radius: 34, // bigger avatar
+                            radius: 28,
                             backgroundColor: Colors.blue.shade200,
                             child: Icon(
-                              subject["image"] as IconData,
-                              color: const Color(0xFF8B94C4),
-                              size: 32, // bigger icon
+                              getIcon(subject.iconValue),
+                              color: Colors.white,
+                              size: 30,
                             ),
                           ),
                           title: Text(
-                            subject["title"].toString(),
+                            subject.name,
                             style: const TextStyle(
                               fontWeight: FontWeight.bold,
-                              color: Color(0xFFB2B9DB),
-                              fontSize: 18, // increased font size
+                              color: Colors.white,
+                              fontSize: 18,
                             ),
                           ),
                           subtitle: Text(
-                            "${subject["count"]} ",
-                            style: const TextStyle(
-                              color: Color(0xFFE6E8F1),
-                              fontSize: 14,
-                            ),
+                            "${subject.totalBooks} Books",
+                            style: const TextStyle(color: Colors.white70),
                           ),
-                          trailing: const Icon(Icons.arrow_forward_ios,
-                              size: 18, color: Colors.grey),
+                          trailing: const Icon(
+                            Icons.arrow_forward_ios,
+                            size: 18,
+                            color: Colors.white54,
+                          ),
                           onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (_) =>  BooksListScreen(id: id+1),
-                              ),
-                            );
+                            if(subject.totalBooks != 0)
+                            vm.loadBooksBySubject(subject.id);
+
+                            // Navigate to books screen
+                            Navigator.pushNamed(context, '/books');
                           },
                         ),
                       ),
-                    ),
-                  );
-                },
+                    );
+                  },
+                ),
               ),
-            )
-          ],
-        ),
-      ),
+            ],
+          ),
+        );
+      },
     );
   }
 }

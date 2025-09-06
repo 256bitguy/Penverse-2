@@ -1,166 +1,100 @@
+// lib/features/book/ui/books_screen.dart
 import 'package:flutter/material.dart';
-import '../../../../core/constants/constants.dart';
-import '../../chapter/ui/chapters_list.dart';
+import 'package:flutter_redux/flutter_redux.dart';
+import '../../../../core/store/app_state.dart';
+import '../data/book_view_model.dart';
 
-class BooksListScreen extends StatelessWidget {
-  final int id;
-  const BooksListScreen({super.key, required this.id});
+class BooksScreen extends StatelessWidget {
+  const BooksScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final subjects = [
-      {"title": "Norman Liwis", "count": 24, "image": Icons.calculate},
-      {"title": "M N Mahto", "count": 18, "image": Icons.science},
-      {"title": "P C Agarwal", "count": 12, "image": Icons.history_edu},
-      {"title": "English", "count": 9, "image": Icons.menu_book},
-    ];
+    return StoreConnector<AppState, BookViewModel>(
+      converter: (store) => BookViewModel.fromStore(store),
+      builder: (context, vm) {
+        if (vm.isLoading) {
+          return const Scaffold(
+            body: Center(child: CircularProgressIndicator()),
+          );
+        }
 
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: AppColors.scaffoldBackground,
-        elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.menu, color: Colors.white),
-          onPressed: () => Scaffold.of(context).openDrawer(),
-        ),
-        title: const Text(
-          "Penverse",
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
+        if (vm.error != null) {
+          return Scaffold(
+            body: Center(
+              child: Text('Error: ${vm.error}', style: const TextStyle(color: Colors.red)),
+            ),
+          );
+        }
+
+        if (vm.books.isEmpty) {
+          return const Scaffold(
+            body: Center(
+              child: Text('No books found', style: TextStyle(color: Colors.white70)),
+            ),
+          );
+        }
+
+        return Scaffold(
+          appBar: AppBar(
+            title: const Text(
+              "Books",
+              style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+            ),
+            centerTitle: true,
           ),
-        ),
-        centerTitle: true,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.person, color: Colors.white),
-            onPressed: () {
-              // TODO: navigate to profile
+          body: ListView.builder(
+            padding: const EdgeInsets.all(16),
+            itemCount: vm.books.length,
+            itemBuilder: (context, index) {
+              final book = vm.books[index];
+              return Container(
+                margin: const EdgeInsets.symmetric(vertical: 8),
+                decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(0.08),
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(color: Colors.white.withOpacity(0.3)),
+                  boxShadow: [
+                    BoxShadow(color: Colors.black.withOpacity(0.2), blurRadius: 6, offset: const Offset(0, 3)),
+                  ],
+                ),
+                child: ListTile(
+                  contentPadding: const EdgeInsets.all(12),
+                  leading: book.coverImage.isNotEmpty
+                      ? ClipRRect(
+                          borderRadius: BorderRadius.circular(8),
+                          child: Image.network(
+                            book.coverImage,
+                            width: 50,
+                            height: 50,
+                            fit: BoxFit.cover,
+                          ),
+                        )
+                      : CircleAvatar(
+                          radius: 28,
+                          backgroundColor: Colors.blue.shade200,
+                          child: const Icon(Icons.book, size: 32, color: Colors.white),
+                        ),
+                  title: Text(
+                    book.title,
+                    style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 16),
+                  ),
+                  subtitle: Text(
+                    'Author: ${book.author} | Chapters: ${book.totalChapters}',
+                    style: const TextStyle(color: Colors.white70),
+                  ),
+                  trailing: const Icon(Icons.arrow_forward_ios, size: 18, color: Colors.white54),
+                  onTap: () {
+                    if (book.totalChapters != 0) {
+                      vm.loadChaptersByBook(book.id);
+                      Navigator.pushNamed(context, '/chapters');
+                    }
+                  },
+                ),
+              );
             },
           ),
-        ],
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            // 🔍 Search Bar
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-              decoration: BoxDecoration(
-                color: Colors.white
-                    .withValues(alpha: 0.1), // semi-transparent for dark mode
-                borderRadius: BorderRadius.circular(16),
-                border: Border.all(
-                  color: Colors.white.withValues(alpha: 0.3), // subtle border
-                  width: 1,
-                ),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.3),
-                    blurRadius: 8,
-                    offset: const Offset(0, 4), // shadow direction: bottom
-                  ),
-                ],
-                gradient: LinearGradient(
-                  colors: [
-                    Colors.blue.withValues(alpha: 0.2),
-                    Colors.purple.withValues(alpha: 0.2),
-                  ],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                ),
-              ),
-              child: Row(
-                children: [
-                  const Icon(Icons.search, color: Colors.grey),
-                  const SizedBox(width: 8),
-                  const Expanded(
-                    child: TextField(
-                      decoration: InputDecoration(
-                        hintText: "Search subjects...",
-                        border: InputBorder.none,
-                      ),
-                    ),
-                  ),
-                  IconButton(
-                    icon: const Icon(Icons.filter_list, color: Colors.grey),
-                    onPressed: () {
-                      // TODO: filter action
-                    },
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 30),
-
-            // 📚 Subject List
-            Expanded(
-              child: ListView.builder(
-                itemCount: subjects.length,
-                itemBuilder: (context, index) {
-                  final subject = subjects[index];
-                  return Container(
-                    margin:
-                        const EdgeInsets.symmetric(vertical: 10, horizontal: 4),
-                    child: Card(
-                      elevation: 6,
-                      color: const Color(0xFF6472BB), // shadow depth
-                      shadowColor: Colors.black.withValues(alpha: 0.3),
-                      shape: RoundedRectangleBorder(
-                        borderRadius:
-                            BorderRadius.circular(20), // bigger radius
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 12, horizontal: 8),
-                        child: ListTile(
-                          contentPadding: const EdgeInsets.symmetric(
-                              horizontal: 16, vertical: 8),
-                          leading: CircleAvatar(
-                            radius: 34, // bigger avatar
-                            backgroundColor: Colors.blue.shade200,
-                            child: Icon(
-                              subject["image"] as IconData,
-                              color: const Color(0xFF8B94C4),
-                              size: 32, // bigger icon
-                            ),
-                          ),
-                          title: Text(
-                            subject["title"].toString(),
-                            style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: Color(0xFFB2B9DB),
-                              fontSize: 18, // increased font size
-                            ),
-                          ),
-                          subtitle: Text(
-                            "${subject["count"]}  ",
-                            style: const TextStyle(
-                              color: Color(0xFFE6E8F1),
-                              fontSize: 14,
-                            ),
-                          ),
-                          trailing: const Icon(Icons.arrow_forward_ios,
-                              size: 18, color: Colors.grey),
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (_) =>  ChapterListScreen(id: id+1),
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-                    ),
-                  );
-                },
-              ),
-            )
-          ],
-        ),
-      ),
+        );
+      },
     );
   }
 }

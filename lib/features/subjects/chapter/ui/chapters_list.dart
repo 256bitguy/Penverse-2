@@ -3,8 +3,8 @@ import '../../../../core/constants/constants.dart';
 import '../../topic/ui/topics_list.dart';
 
 class ChapterListScreen extends StatelessWidget {
-  final int id;
-  const ChapterListScreen({super.key, required this.id});
+  
+  const ChapterListScreen({super.key, });
 
   @override
   Widget build(BuildContext context) {
@@ -143,14 +143,14 @@ class ChapterListScreen extends StatelessWidget {
                           ),
                           trailing: const Icon(Icons.arrow_forward_ios,
                               size: 18, color: Colors.grey),
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (_) =>  TopicListScreen(id: id+1),
-                              ),
-                            );
-                          },
+                          // onTap: () {
+                          //   Navigator.push(
+                          //     context,
+                          //     MaterialPageRoute(
+                          //       builder: (_) =>  TopicListScreen(id: id+1),
+                          //     ),
+                          //   );
+                          // },
                         ),
                       ),
                     ),

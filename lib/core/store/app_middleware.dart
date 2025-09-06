@@ -8,8 +8,12 @@ import '../../features/dailyenglish/editorials/editorial_actions.dart';
 import '../../features/dailyenglish/idioms/idioms_actions.dart';
 import '../../features/dailyenglish/phrasalVerbs/phrasal_verbs_actions.dart';
 import '../../features/currentaffairs/generalAwareness/banking_awareness_actions.dart';
+import '../../features/subjects/subject/redux/subject_actions.dart';
+import '../../features/subjects/book/redux/book_actions.dart';
+import '../../features/subjects/chapter/redux/chapter_actions.dart';
 
 List<Middleware<AppState>> createAppMiddleware(ApiGateway apiGateway) {
+  print("third");
   return [
     TypedMiddleware<AppState, LoadVocabAction>(_fetchVocab(apiGateway)),
     TypedMiddleware<AppState, LoadEditorialAction>(
@@ -19,7 +23,66 @@ List<Middleware<AppState>> createAppMiddleware(ApiGateway apiGateway) {
         _fetchPhrasalVerbs(apiGateway)),
     TypedMiddleware<AppState, LoadBankingAwarenessAction>(
         _fetchBankingAwareness(apiGateway)),
+    TypedMiddleware<AppState, LoadSubjectsAction>(_loadSubjects(apiGateway)),
+    TypedMiddleware<AppState, LoadBooksBySubjectAction>(
+        _loadBooksBySubject(apiGateway)),
+    TypedMiddleware<AppState, LoadChaptersByBookAction>(
+        _loadChaptersByBooks(apiGateway)),
   ];
+}
+
+Middleware<AppState> _loadChaptersByBooks(ApiGateway apiGateway) {
+  return (Store<AppState> store, action, NextDispatcher next) async {
+    if (action is LoadChaptersByBookAction) {
+      next(action); // Pass the action to the next middleware/reducer
+
+      try {
+        final response =
+            await apiGateway.chapterService.fetchChaptersByBook(action.bookId);
+        store.dispatch(LoadChaptersSuccessAction(response));
+      } catch (e) {
+        store.dispatch(LoadChaptersFailureAction(e.toString()));
+      }
+    } else {
+      next(action);
+    }
+  };
+}
+
+
+Middleware<AppState> _loadBooksBySubject(ApiGateway apiGateway) {
+  return (Store<AppState> store, action, NextDispatcher next) async {
+    if (action is LoadBooksBySubjectAction) {
+      next(action); // Pass the action to the next middleware/reducer
+
+      try {
+        final response =
+            await apiGateway.bookService.fetchBooksBySubject(action.subjectId);
+        store.dispatch(LoadBooksSuccessAction(response));
+      } catch (e) {
+        store.dispatch(LoadBooksFailureAction(e.toString()));
+      }
+    } else {
+      next(action);
+    }
+  };
+}
+
+Middleware<AppState> _loadSubjects(ApiGateway apiGateway) {
+  return (Store<AppState> store, action, NextDispatcher next) async {
+    if (action is LoadSubjectsAction) {
+      next(action); // Pass the action to the next middleware/reducer
+
+      try {
+        final response = await apiGateway.subjectService.fetchSubjects();
+        store.dispatch(LoadSubjectsSuccessAction(response));
+      } catch (e) {
+        store.dispatch(LoadSubjectsFailureAction(e.toString()));
+      }
+    } else {
+      next(action);
+    }
+  };
 }
 
 Middleware<AppState> _fetchBankingAwareness(ApiGateway apiGateway) {

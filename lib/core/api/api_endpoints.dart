@@ -26,25 +26,16 @@ class ApiEndpoints {
   // ===== DAILY VOCAB =====
   static const String dailyVocab = "$baseUrl/dailyvocab";
   static String dailyVocabByDate(String date) => "$dailyVocab/$date";
+ 
+   static const String subjects = "$baseUrl/subjects";
+  static String subject() => subjects;
+  
+   static const String books = "$baseUrl/books/subject";
+  static String book(String id) => "$books/$id";
+  
+static const String chapters = "$baseUrl/chapters/book";
+  static String chapter(String id) => "$chapters/$id";
 
-  // // ===== EDITORIAL =====
-  // static const String editorial = "$baseUrl/editorial";
-
-  // static const String editorialSearch = "$editorial/search";
-
-  // // ===== IDIOMS =====
-  // static const String idioms = "$baseUrl/idioms";
-  // static String idiomsById(String id) => "$idioms/$id";
-
-  // // ===== PHRASAL VERBS =====
-  // static const String phrasalVerbs = "$baseUrl/phrasal-verbs";
-  // static String phrasalVerbsById(String id) => "$phrasalVerbs/$id";
-  // static String phrasalVerbsByTopicId(String topicId) => "$phrasalVerbs/topic/$topicId";
-
-  // // ===== VOCABULARY =====
-  // static const String vocabulary = "$baseUrl/vocabulary";
-  // static String vocabularyById(String id) => "$vocabulary/$id";
-  // static String vocabularyByTopic(String topicId) => "$vocabulary/$topicId";
-  // static const String vocabularyPublish = "$vocabulary/publish";
-  // static const String vocabularyByDate = "$vocabulary/by-date";
+  static const String topics = "$baseUrl/topics";
+  static String topic(String id) => "$topics/$id";
 }

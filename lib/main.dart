@@ -6,29 +6,36 @@ import './core/api/api_gateway.dart';
 import 'core/theme/app_theme.dart';
 import 'core/store/app_store.dart';
 import 'core/store/app_state.dart';
-import './core/api/api_endpoints.dart';
+
 import 'features/auth/ui/login_screen.dart';
 import './features/entrypoint/entrypoint_ui.dart';
 import 'features/onboarding/presentation/screens/splash_screen.dart';
-import './features/dailyenglish/vocabulary/vocab_actions.dart';
+
+import './features/subjects/book/ui/books_list.dart';
+import './features/subjects/chapter/ui/chapters_list.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  ApiClient().init(baseUrl: 'https://penverse-app-backend-2.onrender.com/api/v1', authToken: '1234');
+  ApiClient().init(
+      baseUrl: 'https://penverse-app-backend-2.onrender.com/api/v1',
+      authToken: '1234');
 
-
- final apiGateway = ApiGateway.create();
- 
+  final apiGateway = ApiGateway.create();
 
   final store = await createStore(apiGateway);
-  
-  runApp(MyApp(store: store, apiGateway: apiGateway));}
+
+  runApp(MyApp(store: store, apiGateway: apiGateway));
+}
 
 class MyApp extends StatelessWidget {
   final Store<AppState> store;
   final ApiGateway apiGateway;
 
-  const MyApp({super.key, required this.store, required this.apiGateway,});
+  const MyApp({
+    super.key,
+    required this.store,
+    required this.apiGateway,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -42,11 +49,14 @@ class MyApp extends StatelessWidget {
           '/': (context) => AuthWrapper(apiGateway: apiGateway),
           '/login': (context) => const LoginScreen(),
           '/home': (context) => const EntryPointUI(),
+          '/books': (context) => const BooksScreen(),
+          '/chapters': (context) => const ChapterListScreen(),
         },
       ),
     );
   }
 }
+
 class AuthWrapper extends StatelessWidget {
   final ApiGateway apiGateway;
 
@@ -66,4 +76,3 @@ class AuthWrapper extends StatelessWidget {
     );
   }
 }
-
