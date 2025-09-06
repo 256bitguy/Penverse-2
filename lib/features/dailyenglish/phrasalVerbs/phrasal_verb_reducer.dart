@@ -17,8 +17,8 @@ PhrasalVerbsState _onLoad(
 
 PhrasalVerbsState _onLoadSuccess(
     PhrasalVerbsState state, LoadPhrasalVerbsSuccessAction action) {
-  print(action.items);
-  print("ye dekho yaha kaise handover kr rha");
+ 
+ 
   return state.copyWith(
     isLoading: false,
     items: action.items,

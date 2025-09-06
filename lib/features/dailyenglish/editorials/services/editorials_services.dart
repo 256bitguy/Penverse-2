@@ -20,8 +20,7 @@ class EditorialService {
         await client.get(ApiEndpoints.dailyEditorialByDate(formattedDate));
 
     // 4. Print raw response for debugging
-
-    print("this is also here");
+ 
     // 5. Extract data
     final body = response.data;
 

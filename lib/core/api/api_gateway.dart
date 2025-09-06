@@ -21,7 +21,7 @@ class ApiGateway {
   });
 
   factory ApiGateway.create() {
-      print("🚀 ApiGateway created!");
+    
     final client = ApiClient(); // internally create client
     return ApiGateway._(
       vocabService: VocabService(client),

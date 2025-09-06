@@ -101,8 +101,6 @@ class _DailyNewsScreenState extends State<DailyNewsScreen> {
                       setState(() => currentIndex = index);
                     },
                     itemBuilder: (context, index) {
-                      final item = vm.items[index];
-                      print(item);
                       return SingleChildScrollView(
                         physics: const BouncingScrollPhysics(),
                         child: Column(
@@ -112,7 +110,7 @@ class _DailyNewsScreenState extends State<DailyNewsScreen> {
                             ClipRRect(
                               borderRadius: BorderRadius.circular(20),
                               child: Image.network(
-                                "https://res.cloudinary.com/dmxskf3hq/image/upload/v1757146040/uploads/kc20ljpzsygygrb9lle2.jpg",
+                                vm.items[currentIndex].imageUrl,
                                 height: screenSize.height / 2,
                                 width: screenSize.width / 1.2,
                                 fit: BoxFit.cover,
@@ -126,8 +124,8 @@ class _DailyNewsScreenState extends State<DailyNewsScreen> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (_) =>
-                                        DailyScreen(newsItem: vm.items[0]),
+                                    builder: (_) => DailyScreen(
+                                        newsItem: vm.items[currentIndex]),
                                   ),
                                 );
                               },

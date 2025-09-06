@@ -47,11 +47,7 @@ class _DailyNewsScreenState extends State<DailyAffairsScreen> {
           UpscAwarenessViewModel.fromStore(store),
           
       builder: (context, vm) {
-print("🟢 UPSC Screen Rebuild");
-        print("   isLoading: ${vm.isLoading}");
-        print("   items count: ${vm.items.length}");
-        print("   error: ${vm.error}");
-
+ 
         if (vm.items.isEmpty) {
           return const Scaffold(
             body: Center(child: CircularProgressIndicator()),

@@ -19,10 +19,10 @@ class BankingAwarenessService {
     final response =
         await client.get(ApiEndpoints.dailyAwarenessByDate(formattedDate));
 
-    // 4. Print raw response for debugging
+     
 
-    print("this is also here $response");
-    // 5. Extract data
+   
+     
     final body = response.data;
 
     if (body == null || body['data'] == null) {
@@ -31,7 +31,7 @@ class BankingAwarenessService {
 
     final list = body['data'] as List<dynamic>;
 
-    // 6. Map to EditorialItem list
+     
     return list.map((json) => BankingAwarenessItem.fromJson(json)).toList();
   }
 }

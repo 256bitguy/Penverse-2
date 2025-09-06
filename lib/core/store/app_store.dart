@@ -12,7 +12,7 @@ import '../api/api_gateway.dart';
 import '../store/app_middleware.dart';
 
 Future<Store<AppState>> createStore(ApiGateway apiGateway) async {
-  //  print("📦 createStore started with ApiGateway: $apiGateway"); 
+ 
   final persistor = Persistor<AppState>(
     storage: FlutterStorage(
       location: kIsWeb
@@ -24,8 +24,8 @@ Future<Store<AppState>> createStore(ApiGateway apiGateway) async {
   );
 
   final initialState = await persistor.load();
-  // print("📂 Initial state loaded: $initialState");
- final store = Store<AppState>(
+
+  final store = Store<AppState>(
     appReducer,
     initialState: initialState ?? AppState.initial(),
     middleware: [
@@ -34,7 +34,5 @@ Future<Store<AppState>> createStore(ApiGateway apiGateway) async {
     ],
   );
 
-  // print("✅ Store created successfully");
   return store;
-
 }

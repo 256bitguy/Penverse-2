@@ -8,27 +8,25 @@ class PhrasalVerbService {
 
   PhrasalVerbService(this.client);
 
-Future<List<PhrasalVerbItem>> getDailyPhrasalVerbs() async {
-  final now = DateTime.now();
-  final formattedDate = DateFormat('yyyy-MM-dd').format(now);
+  Future<List<PhrasalVerbItem>> getDailyPhrasalVerbs() async {
+    final now = DateTime.now();
+    final formattedDate = DateFormat('yyyy-MM-dd').format(now);
 
-  final response = await client.get(ApiEndpoints.dailyPhrasalVerbsByDate(formattedDate));
+    final response =
+        await client.get(ApiEndpoints.dailyPhrasalVerbsByDate(formattedDate));
 
-  final body = response.data;
+    final body = response.data;
 
-  print("📢 Raw API Response: $body");
-  print("Response runtimeType: ${body.runtimeType}");
+    // ✅ Ensure body is a Map with a 'data' key
+    if (body is Map<String, dynamic> && body['data'] is List) {
+      final list = body['data'] as List<dynamic>;
 
-  // ✅ Ensure body is a Map with a 'data' key
-  if (body is Map<String, dynamic> && body['data'] is List) {
-    final list = body['data'] as List<dynamic>;
+      return list
+          .map((json) =>
+              PhrasalVerbItem.fromJson(Map<String, dynamic>.from(json)))
+          .toList();
+    }
 
-    return list
-        .map((json) => PhrasalVerbItem.fromJson(Map<String, dynamic>.from(json)))
-        .toList();
+    throw Exception("Unexpected response format: $body");
   }
-
-  throw Exception("Unexpected response format: $body");
-}
-
 }

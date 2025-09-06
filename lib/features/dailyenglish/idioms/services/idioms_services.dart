@@ -19,7 +19,7 @@ class IdiomService {
     final response = await client.get(ApiEndpoints.dailyIdiomsByDate(formattedDate));
 
     // 4. Debug log
-    print("📢 Idioms Response: ${response.data}");
+ 
 
     // 5. Extract data safely
     final body = response.data;

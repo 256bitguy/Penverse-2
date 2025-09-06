@@ -28,7 +28,7 @@ class _DailyIdiomsScreenState extends State<DailyIdiomsScreen> {
     Future.microtask(() {
       final store = StoreProvider.of<AppState>(context, listen: false);
       final vm = IdiomsViewModel.fromStore(store);
-      print("first");
+       
       vm.loadIdioms();
     });
   }

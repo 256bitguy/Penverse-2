@@ -15,7 +15,6 @@ class VocabService {
         await client.get(ApiEndpoints.dailyVocabByDate(formattedDate));
 
     final body = response.data;
-    print("📢 Raw API Response: $body");
 
     if (body is Map<String, dynamic> && body['data'] is List) {
       final list = body['data'] as List<dynamic>;

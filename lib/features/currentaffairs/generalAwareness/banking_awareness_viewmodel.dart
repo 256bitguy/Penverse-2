@@ -22,7 +22,6 @@ class BankingAwarenessViewModel {
       isLoading: store.state.bankingAwarenessState.isLoading,
       error: store.state.bankingAwarenessState.error,
       loadBankingAwareness: () {
-        print("first");
         store.dispatch(LoadBankingAwarenessAction());
       },
     );

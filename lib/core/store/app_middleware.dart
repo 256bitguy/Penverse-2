@@ -10,8 +10,6 @@ import '../../features/dailyenglish/phrasalVerbs/phrasal_verbs_actions.dart';
 import '../../features/currentaffairs/generalAwareness/banking_awareness_actions.dart';
 
 List<Middleware<AppState>> createAppMiddleware(ApiGateway apiGateway) {
-  // print("🔥 App middleware initialized with a $apiGateway");
-  print("third");
   return [
     TypedMiddleware<AppState, LoadVocabAction>(_fetchVocab(apiGateway)),
     TypedMiddleware<AppState, LoadEditorialAction>(
@@ -27,19 +25,14 @@ List<Middleware<AppState>> createAppMiddleware(ApiGateway apiGateway) {
 Middleware<AppState> _fetchBankingAwareness(ApiGateway apiGateway) {
   return (Store<AppState> store, action, NextDispatcher next) async {
     if (action is LoadBankingAwarenessAction) {
-      // print("🟡 Middleware received LoadVocabAction");
-
-      next(action); // Pass action to reducer first
+      next(action);
 
       try {
-        print("🌍 Fetching awareness from API...");
         final response =
             await apiGateway.bankingAwarenessService.getDailyBankingAwareness();
-        print("✅ API fetch success. Dispatching Bankingawarenss");
-        print(response);
+
         store.dispatch(LoadBankingAwarenessSuccessAction(response));
       } catch (error) {
-        print("❌ API fetch failed: $error");
         store.dispatch(LoadBankingAwarenessFailureAction(error.toString()));
       }
     } else {
@@ -51,17 +44,13 @@ Middleware<AppState> _fetchBankingAwareness(ApiGateway apiGateway) {
 Middleware<AppState> _fetchVocab(ApiGateway apiGateway) {
   return (Store<AppState> store, action, NextDispatcher next) async {
     if (action is LoadVocabAction) {
-      // print("🟡 Middleware received LoadVocabAction");
-
       next(action); // Pass action to reducer first
 
       try {
-        print("🌍 Fetching vocab from API...");
         final response = await apiGateway.vocabService.getDailyVocab();
-        print("✅ API fetch success. Dispatching LoadVocabSuccessAction");
+
         store.dispatch(LoadVocabSuccessAction(response));
       } catch (error) {
-        print("❌ API fetch failed: $error");
         store.dispatch(LoadVocabFailureAction(error.toString()));
       }
     } else {
@@ -74,12 +63,10 @@ Middleware<AppState> _fetchEditorials(ApiGateway apiGateway) {
   return (Store<AppState> store, action, NextDispatcher next) async {
     if (action is LoadEditorialAction) {
       try {
-        print("action has been picked up editorial verb");
         final response = await apiGateway.editorialService.getDailyEditorials();
-        print("see here:-  $response");
+
         store.dispatch(LoadEditorialSuccessAction(response));
       } catch (error) {
-        print("ye error to hai hi apna $error");
         store.dispatch(LoadEditorialFailureAction(error.toString()));
       }
     } else {
@@ -92,14 +79,10 @@ Middleware<AppState> _fetchIdioms(ApiGateway apiGateway) {
   return (Store<AppState> store, action, NextDispatcher next) async {
     next(action);
     try {
-      // print("🌍 Fetching idioms from API...");
       final response = await apiGateway.idiomService.getDailyIdioms();
-      // print("✅ API fetch success. Dispatching LoadVocabSuccessAction");
 
       store.dispatch(LoadIdiomsSuccessAction(response));
     } catch (error) {
-      // print("sixth");
-// print("❌ API fetch failed: $error");
       store.dispatch(LoadIdiomsFailureAction(error.toString()));
     }
   };
@@ -109,13 +92,11 @@ Middleware<AppState> _fetchPhrasalVerbs(ApiGateway apiGateway) {
   return (Store<AppState> store, action, NextDispatcher next) async {
     if (action is LoadPhrasalVerbsAction) {
       try {
-        print("action has been picked up phrasal verb");
         final response =
             await apiGateway.phrasalVerbService.getDailyPhrasalVerbs();
-        print("see here:-  $response");
+
         store.dispatch(LoadPhrasalVerbsSuccessAction(response));
       } catch (error) {
-        print("ye error to hai hi apna $error");
         store.dispatch(LoadPhrasalVerbsFailureAction(error.toString()));
       }
     } else {
