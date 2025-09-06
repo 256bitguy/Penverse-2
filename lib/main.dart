@@ -14,7 +14,7 @@ import './features/dailyenglish/vocabulary/vocab_actions.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  ApiClient().init(baseUrl: 'http://localhost:8000', authToken: '1234');
+  ApiClient().init(baseUrl: 'https://penverse-app-backend-2.onrender.com/api/v1', authToken: '1234');
 
 
  final apiGateway = ApiGateway.create();

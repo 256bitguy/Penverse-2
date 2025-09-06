@@ -24,7 +24,7 @@ class ApiEndpoints {
   static String dailyPhrasalVerbsByDate(String date) => "$dailyPhrasalVerbs/$date";
 
   // ===== DAILY VOCAB =====
-  static const String dailyVocab = "$baseUrl/dailyvocabs";
+  static const String dailyVocab = "$baseUrl/dailyvocab";
   static String dailyVocabByDate(String date) => "$dailyVocab/$date";
 
   // // ===== EDITORIAL =====

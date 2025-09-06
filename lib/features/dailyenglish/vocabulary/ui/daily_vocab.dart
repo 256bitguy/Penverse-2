@@ -8,6 +8,7 @@ import 'antonyms.dart';
 import 'synonyms.dart';
 import '../vocab_viewmodel.dart'; // ✅ your viewmodel
 import '../../../entrypoint/entrypoint_ui.dart';
+
 class DailyVocabScreen extends StatefulWidget {
   const DailyVocabScreen({super.key});
 
@@ -60,9 +61,9 @@ class _DailyVocabScreenState extends State<DailyVocabScreen> {
               icon: const Icon(Icons.arrow_back, color: Colors.white),
               onPressed: () {
                 Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (_) => const EntryPointUI()),
-      );
+                  context,
+                  MaterialPageRoute(builder: (_) => const EntryPointUI()),
+                );
               },
             ),
             title: const Text(
@@ -110,7 +111,7 @@ class _DailyVocabScreenState extends State<DailyVocabScreen> {
                             borderRadius: BorderRadius.circular(24),
                             child: Image.network(
                               vocab.imageUrl,
-                              height: screenSize.height / 2,
+                               height: screenSize.height / 2.5,
                               width: screenSize.width,
                               fit: BoxFit.cover,
                             ),
@@ -140,14 +141,27 @@ class _DailyVocabScreenState extends State<DailyVocabScreen> {
                           const SizedBox(height: 20),
 
                           // English explanation
-                          Text(
-                            vocab.englishExplanation,
-                            style: const TextStyle(
-                              fontSize: 16,
-                              color: Colors.white,
-                            ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: vocab.explanations
+                                .map((e) => Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(e.meaning,
+                                            style:
+                                                TextStyle(color: Colors.white)),
+                                        Text(e.englishExplanation,
+                                            style: TextStyle(
+                                                color: Colors.white70)),
+                                        Text(e.hindiExplanation,
+                                            style: TextStyle(
+                                                color: Colors.white70)),
+                                        const SizedBox(height: 8),
+                                      ],
+                                    ))
+                                .toList(),
                           ),
-                          const SizedBox(height: 8),
 
                           // Hindi explanation
                           Text(
@@ -169,8 +183,7 @@ class _DailyVocabScreenState extends State<DailyVocabScreen> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (_) => SynonymPage(
-                                              synonyms: vocab.synonyms
-                                              )),
+                                              synonyms: vocab.synonyms)),
                                     );
                                   },
                                   style: ElevatedButton.styleFrom(
@@ -194,8 +207,7 @@ class _DailyVocabScreenState extends State<DailyVocabScreen> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (_) => AntonymPage(
-                                              antonyms: vocab.antonyms
-                                              )),
+                                              antonyms: vocab.antonyms)),
                                     );
                                   },
                                   style: ElevatedButton.styleFrom(

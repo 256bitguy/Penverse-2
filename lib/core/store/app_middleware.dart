@@ -29,12 +29,12 @@ Middleware<AppState> _fetchVocab(ApiGateway apiGateway) {
       next(action); // Pass action to reducer first
 
       try {
-        // print("🌍 Fetching vocab from API...");
+        print("🌍 Fetching vocab from API...");
         final response = await apiGateway.vocabService.getDailyVocab();
-        // print("✅ API fetch success. Dispatching LoadVocabSuccessAction");
+        print("✅ API fetch success. Dispatching LoadVocabSuccessAction");
         store.dispatch(LoadVocabSuccessAction(response));
       } catch (error) {
-        // print("❌ API fetch failed: $error");
+        print("❌ API fetch failed: $error");
         store.dispatch(LoadVocabFailureAction(error.toString()));
       }
     } else {

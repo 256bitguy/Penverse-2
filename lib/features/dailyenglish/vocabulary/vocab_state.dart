@@ -1,5 +1,32 @@
 import 'package:equatable/equatable.dart';
 
+class Explanation extends Equatable {
+  final String meaning;
+  final String englishExplanation;
+  final String hindiExplanation;
+
+  const Explanation({
+    required this.meaning,
+    required this.englishExplanation,
+    required this.hindiExplanation,
+  });
+
+  factory Explanation.fromJson(Map<String, dynamic> json) => Explanation(
+        meaning: json['meaning'] ?? '',
+        englishExplanation: json['englishExplanation'] ?? json['english_explanation'] ?? '',
+        hindiExplanation: json['hindiExplanation'] ?? '',
+      );
+
+  Map<String, dynamic> toJson() => {
+        'meaning': meaning,
+        'englishExplanation': englishExplanation,
+        'hindiExplanation': hindiExplanation,
+      };
+
+  @override
+  List<Object?> get props => [meaning, englishExplanation, hindiExplanation];
+}
+
 class Synonym extends Equatable {
   final String word;
   final String meaning;
@@ -16,7 +43,7 @@ class Synonym extends Equatable {
   factory Synonym.fromJson(Map<String, dynamic> json) => Synonym(
         word: json['word'] ?? '',
         meaning: json['meaning'] ?? '',
-        englishExplanation: json['englishExplanation'] ?? '',
+        englishExplanation: json['englishExplanation'] ?? json['english_explanation'] ?? '',
         hindiExplanation: json['hindiExplanation'] ?? '',
       );
 
@@ -31,7 +58,6 @@ class Synonym extends Equatable {
   List<Object?> get props => [word, meaning, englishExplanation, hindiExplanation];
 }
 
-// You can reuse Synonym as Antonym; keeping a separate class if you prefer:
 class Antonym extends Synonym {
   const Antonym({
     required super.word,
@@ -43,7 +69,7 @@ class Antonym extends Synonym {
   factory Antonym.fromJson(Map<String, dynamic> json) => Antonym(
         word: json['word'] ?? '',
         meaning: json['meaning'] ?? '',
-        englishExplanation: json['englishExplanation'] ?? '',
+        englishExplanation: json['englishExplanation'] ?? json['english_explanation'] ?? '',
         hindiExplanation: json['hindiExplanation'] ?? '',
       );
 }
@@ -54,6 +80,7 @@ class VocabItem extends Equatable {
   final String partOfSpeech;
   final String englishExplanation;
   final String hindiExplanation;
+  final List<Explanation> explanations;
   final List<Synonym> synonyms;
   final List<Antonym> antonyms;
 
@@ -63,23 +90,31 @@ class VocabItem extends Equatable {
     required this.partOfSpeech,
     required this.englishExplanation,
     required this.hindiExplanation,
+    required this.explanations,
     this.synonyms = const [],
     this.antonyms = const [],
   });
 
-  factory VocabItem.fromJson(Map<String, dynamic> json) => VocabItem(
-        imageUrl: json['image_url'] ?? '',
-        word: json['word'] ?? '',
-        partOfSpeech: json['part_of_speech'] ?? '',
-        englishExplanation: json['english_explanation'] ?? '',
-        hindiExplanation: json['hindiExplanation'] ?? '',
-        synonyms: (json['synonyms'] as List<dynamic>? ?? [])
-            .map((e) => Synonym.fromJson(Map<String, dynamic>.from(e)))
-            .toList(),
-        antonyms: (json['antonyms'] as List<dynamic>? ?? [])
-            .map((e) => Antonym.fromJson(Map<String, dynamic>.from(e)))
-            .toList(),
-      );
+  factory VocabItem.fromJson(Map<String, dynamic> json) {
+    final exps = (json['explanations'] as List<dynamic>? ?? [])
+        .map((e) => Explanation.fromJson(Map<String, dynamic>.from(e)))
+        .toList();
+
+    return VocabItem(
+      imageUrl: json['image_url'] ?? json['imageUrl'] ?? '',
+      word: json['word'] ?? '',
+      partOfSpeech: json['part_of_speech'] ?? json['partOfSpeech'] ?? '',
+      englishExplanation: exps.isNotEmpty ? exps[0].englishExplanation : '',
+      hindiExplanation: exps.isNotEmpty ? exps[0].hindiExplanation : '',
+      explanations: exps,
+      synonyms: (json['synonyms'] as List<dynamic>? ?? [])
+          .map((e) => Synonym.fromJson(Map<String, dynamic>.from(e)))
+          .toList(),
+      antonyms: (json['antonyms'] as List<dynamic>? ?? [])
+          .map((e) => Antonym.fromJson(Map<String, dynamic>.from(e)))
+          .toList(),
+    );
+  }
 
   Map<String, dynamic> toJson() => {
         'image_url': imageUrl,
@@ -87,13 +122,22 @@ class VocabItem extends Equatable {
         'part_of_speech': partOfSpeech,
         'english_explanation': englishExplanation,
         'hindiExplanation': hindiExplanation,
+        'explanations': explanations.map((e) => e.toJson()).toList(),
         'synonyms': synonyms.map((s) => s.toJson()).toList(),
         'antonyms': antonyms.map((a) => a.toJson()).toList(),
       };
 
   @override
-  List<Object?> get props =>
-      [imageUrl, word, partOfSpeech, englishExplanation, hindiExplanation, synonyms, antonyms];
+  List<Object?> get props => [
+        imageUrl,
+        word,
+        partOfSpeech,
+        englishExplanation,
+        hindiExplanation,
+        explanations,
+        synonyms,
+        antonyms
+      ];
 }
 
 class VocabState extends Equatable {
@@ -112,7 +156,7 @@ class VocabState extends Equatable {
   VocabState copyWith({
     List<VocabItem>? items,
     bool? isLoading,
-    String? error, // pass null explicitly to clear
+    String? error,
   }) {
     return VocabState(
       items: items ?? this.items,
@@ -121,7 +165,6 @@ class VocabState extends Equatable {
     );
   }
 
-  // ✅ Add these two to fix your error
   Map<String, dynamic> toJson() => {
         'items': items.map((e) => e.toJson()).toList(),
         'isLoading': isLoading,

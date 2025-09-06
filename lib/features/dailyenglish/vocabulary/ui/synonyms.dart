@@ -59,7 +59,11 @@ class SynonymPage extends StatelessWidget {
                         color: Colors.white,
                       ),
                     ),
-                    Text(
+                   
+                  ],
+                ),
+                const SizedBox(height: 10),
+ Text(
                       synonym.meaning,
                       style: GoogleFonts.poppins(
                         fontSize: 20,
@@ -67,10 +71,6 @@ class SynonymPage extends StatelessWidget {
                         color: Colors.orangeAccent,
                       ),
                     ),
-                  ],
-                ),
-                const SizedBox(height: 10),
-
                 // English explanation
                 Text(
                   "  ${synonym.englishExplanation}",

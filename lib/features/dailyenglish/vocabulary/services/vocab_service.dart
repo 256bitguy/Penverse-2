@@ -13,11 +13,17 @@ class VocabService {
     final formattedDate = DateFormat('yyyy-MM-dd').format(now);
     final response =
         await client.get(ApiEndpoints.dailyVocabByDate(formattedDate));
-    // print("fifth");
-    // Ensure response.data is a List
-    final data = response.data as List<dynamic>;
-    // print("RAW RESPONSE DATA: ${response.data}");
-    // Map each JSON item into a VocabItem
-    return data.map((json) => VocabItem.fromJson(json)).toList();
+
+    final body = response.data;
+    print("📢 Raw API Response: $body");
+
+    if (body is Map<String, dynamic> && body['data'] is List) {
+      final list = body['data'] as List<dynamic>;
+      return list
+          .map((json) => VocabItem.fromJson(Map<String, dynamic>.from(json)))
+          .toList();
+    }
+
+    throw Exception("Unexpected response format: $body");
   }
 }
