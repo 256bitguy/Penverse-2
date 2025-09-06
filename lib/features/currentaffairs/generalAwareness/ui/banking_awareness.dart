@@ -5,7 +5,7 @@ import 'package:redux/redux.dart';
 import '../../../../core/constants/constants.dart';
 import '../../../../core/store/app_state.dart';
 import 'details.dart';
-import '../banking_awareness_viewmodel.dart';  
+import '../banking_awareness_viewmodel.dart';
 
 class DailyNewsScreen extends StatefulWidget {
   const DailyNewsScreen({super.key});
@@ -46,12 +46,13 @@ class _DailyNewsScreenState extends State<DailyNewsScreen> {
       converter: (Store<AppState> store) =>
           BankingAwarenessViewModel.fromStore(store),
       builder: (context, vm) {
+        print(vm.items[0].title);
+
         if (vm.items.isEmpty) {
           return const Scaffold(
             body: Center(child: CircularProgressIndicator()),
           );
         }
-
         return Scaffold(
           appBar: AppBar(
             backgroundColor: AppColors.scaffoldBackground,
@@ -63,7 +64,6 @@ class _DailyNewsScreenState extends State<DailyNewsScreen> {
             ),
             centerTitle: true,
           ),
-          
           body: SafeArea(
             child: Column(
               children: [
@@ -102,6 +102,7 @@ class _DailyNewsScreenState extends State<DailyNewsScreen> {
                     },
                     itemBuilder: (context, index) {
                       final item = vm.items[index];
+                      print(item);
                       return SingleChildScrollView(
                         physics: const BouncingScrollPhysics(),
                         child: Column(
@@ -111,7 +112,7 @@ class _DailyNewsScreenState extends State<DailyNewsScreen> {
                             ClipRRect(
                               borderRadius: BorderRadius.circular(20),
                               child: Image.network(
-                                item.imageUrl,
+                                "https://res.cloudinary.com/dmxskf3hq/image/upload/v1757146040/uploads/kc20ljpzsygygrb9lle2.jpg",
                                 height: screenSize.height / 2,
                                 width: screenSize.width / 1.2,
                                 fit: BoxFit.cover,
@@ -126,7 +127,7 @@ class _DailyNewsScreenState extends State<DailyNewsScreen> {
                                   context,
                                   MaterialPageRoute(
                                     builder: (_) =>
-                                        DailyScreen(newsItem: vm.items[currentIndex]),
+                                        DailyScreen(newsItem: vm.items[0]),
                                   ),
                                 );
                               },
@@ -140,7 +141,7 @@ class _DailyNewsScreenState extends State<DailyNewsScreen> {
                                   borderRadius: BorderRadius.circular(12),
                                 ),
                                 child: Text(
-                                  item.title,
+                                  vm.items[currentIndex].title,
                                   style: const TextStyle(
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold,

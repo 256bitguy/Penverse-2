@@ -39,19 +39,15 @@ class HomePage extends StatelessWidget {
             SectionWidget(
               title: "Popular Subjects",
               items: [
-                {"image": "https://res.cloudinary.com/dmxskf3hq/image/upload/v1756991526/uploads/ghycw3amsnageaycpauw.jpg", "text": "Math"},
-                {"image": "https://res.cloudinary.com/dmxskf3hq/image/upload/v1756991526/uploads/ghycw3amsnageaycpauw.jpg", "text": "Science"},
-                {"image": "https://res.cloudinary.com/dmxskf3hq/image/upload/v1756991526/uploads/ghycw3amsnageaycpauw.jpg", "text": "History"},
-                {"image": "https://res.cloudinary.com/dmxskf3hq/image/upload/v1756991526/uploads/ghycw3amsnageaycpauw.jpg", "text": "English"},
+                {"image": "https://res.cloudinary.com/dmxskf3hq/image/upload/v1757150162/uploads/fnxbvj8uayplo5htbqg7.png", "text": "History"},
+               
               ],
             ),
             SectionWidget(
               title: "Recommended",
               items: [
-                {"image": "https://res.cloudinary.com/dmxskf3hq/image/upload/v1756991526/uploads/ghycw3amsnageaycpauw.jpg", "text": "Physics"},
-                {"image": "https://res.cloudinary.com/dmxskf3hq/image/upload/v1756991526/uploads/ghycw3amsnageaycpauw.jpg", "text": "Chemistry"},
-                {"image": "https://res.cloudinary.com/dmxskf3hq/image/upload/v1756991526/uploads/ghycw3amsnageaycpauw.jpg", "text": "Biology"},
-                {"image": "https://res.cloudinary.com/dmxskf3hq/image/upload/v1756991526/uploads/ghycw3amsnageaycpauw.jpg", "text": "Geography"},
+                {"image": "https://res.cloudinary.com/dmxskf3hq/image/upload/v1757150162/uploads/fnxbvj8uayplo5htbqg7.png", "text": "Banking"},
+               
               ],
             ),
           ],

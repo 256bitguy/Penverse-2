@@ -1,0 +1,37 @@
+import 'package:intl/intl.dart';
+import '../../../../core/api/api_endpoints.dart';
+import '../../../../core/api/api_client.dart';
+import '../banking_awareness_state.dart'; // Your EditorialItem model
+
+class BankingAwarenessService {
+  final ApiClient client;
+
+  BankingAwarenessService(this.client);
+
+  Future<List<BankingAwarenessItem>> getDailyBankingAwareness() async {
+    // 1. Get current date
+    final now = DateTime.now();
+
+    // 2. Format date as YYYY-MM-DD
+    final formattedDate = DateFormat('yyyy-MM-dd').format(now);
+
+    // 3. API Call
+    final response =
+        await client.get(ApiEndpoints.dailyAwarenessByDate(formattedDate));
+
+    // 4. Print raw response for debugging
+
+    print("this is also here $response");
+    // 5. Extract data
+    final body = response.data;
+
+    if (body == null || body['data'] == null) {
+      throw Exception("Invalid editorial response: ${response.data}");
+    }
+
+    final list = body['data'] as List<dynamic>;
+
+    // 6. Map to EditorialItem list
+    return list.map((json) => BankingAwarenessItem.fromJson(json)).toList();
+  }
+}

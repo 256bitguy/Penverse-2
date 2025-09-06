@@ -7,10 +7,11 @@ import '../../features/dailyenglish/vocabulary/vocab_actions.dart';
 import '../../features/dailyenglish/editorials/editorial_actions.dart';
 import '../../features/dailyenglish/idioms/idioms_actions.dart';
 import '../../features/dailyenglish/phrasalVerbs/phrasal_verbs_actions.dart';
+import '../../features/currentaffairs/generalAwareness/banking_awareness_actions.dart';
 
 List<Middleware<AppState>> createAppMiddleware(ApiGateway apiGateway) {
   // print("🔥 App middleware initialized with a $apiGateway");
-  // print("third");
+  print("third");
   return [
     TypedMiddleware<AppState, LoadVocabAction>(_fetchVocab(apiGateway)),
     TypedMiddleware<AppState, LoadEditorialAction>(
@@ -18,7 +19,33 @@ List<Middleware<AppState>> createAppMiddleware(ApiGateway apiGateway) {
     TypedMiddleware<AppState, LoadIdiomsAction>(_fetchIdioms(apiGateway)),
     TypedMiddleware<AppState, LoadPhrasalVerbsAction>(
         _fetchPhrasalVerbs(apiGateway)),
+    TypedMiddleware<AppState, LoadBankingAwarenessAction>(
+        _fetchBankingAwareness(apiGateway)),
   ];
+}
+
+Middleware<AppState> _fetchBankingAwareness(ApiGateway apiGateway) {
+  return (Store<AppState> store, action, NextDispatcher next) async {
+    if (action is LoadBankingAwarenessAction) {
+      // print("🟡 Middleware received LoadVocabAction");
+
+      next(action); // Pass action to reducer first
+
+      try {
+        print("🌍 Fetching awareness from API...");
+        final response =
+            await apiGateway.bankingAwarenessService.getDailyBankingAwareness();
+        print("✅ API fetch success. Dispatching Bankingawarenss");
+        print(response);
+        store.dispatch(LoadBankingAwarenessSuccessAction(response));
+      } catch (error) {
+        print("❌ API fetch failed: $error");
+        store.dispatch(LoadBankingAwarenessFailureAction(error.toString()));
+      }
+    } else {
+      next(action);
+    }
+  };
 }
 
 Middleware<AppState> _fetchVocab(ApiGateway apiGateway) {
@@ -49,10 +76,10 @@ Middleware<AppState> _fetchEditorials(ApiGateway apiGateway) {
       try {
         print("action has been picked up editorial verb");
         final response = await apiGateway.editorialService.getDailyEditorials();
-         print("see here:-  $response");
+        print("see here:-  $response");
         store.dispatch(LoadEditorialSuccessAction(response));
       } catch (error) {
-         print("ye error to hai hi apna $error");
+        print("ye error to hai hi apna $error");
         store.dispatch(LoadEditorialFailureAction(error.toString()));
       }
     } else {

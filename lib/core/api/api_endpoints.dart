@@ -8,8 +8,8 @@ class ApiEndpoints {
   static String awarenessSearchByTitle(String title) => "$awareness/search/title?title=$title";
 
   // ===== DAILY AWARENESS =====
-  static const String dailyAwareness = "$baseUrl/dailyawareness";
-  static String dailyAwarenessByDate(String date) => "$dailyAwareness/$date";
+  static const String dailybankingawareness = "$baseUrl/dailybankingawareness";
+  static String dailyAwarenessByDate(String date) => "$dailybankingawareness/$date";
 
   // ===== DAILY EDITORIAL =====
   static const String dailyEditorial = "$baseUrl/dailyeditorial";
