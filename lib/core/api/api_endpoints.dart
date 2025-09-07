@@ -1,6 +1,6 @@
 class ApiEndpoints {
-  // static const String baseUrl = "https://penverse-app-backend-2.onrender.com/api/v1";
-  static const String baseUrl = "http://localhost:8000/api/v1";
+  static const String baseUrl = "https://penverse-app-backend-2.onrender.com/api/v1";
+  // static const String baseUrl = "http://localhost:8000/api/v1";
 
   // ===== AWARENESS =====
   static const String awareness = "$baseUrl/awareness";

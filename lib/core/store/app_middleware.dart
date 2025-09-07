@@ -20,6 +20,8 @@ List<Middleware<AppState>> createAppMiddleware(ApiGateway apiGateway) {
     TypedMiddleware<AppState, LoadVocabAction>(_fetchVocab(apiGateway)),
     TypedMiddleware<AppState, LoadEditorialAction>(
         _fetchEditorials(apiGateway)),
+        TypedMiddleware<AppState, LoadEditorialByDateAction>(
+        _fetchEditorials(apiGateway)),
     TypedMiddleware<AppState, LoadIdiomsAction>(_fetchIdioms(apiGateway)),
     TypedMiddleware<AppState, LoadPhrasalVerbsAction>(
         _fetchPhrasalVerbs(apiGateway)),
@@ -44,7 +46,8 @@ Middleware<AppState> _fetchNote(ApiGateway apiGateway) {
       next(action); // Continue to next middleware/reducer
 
       try {
-        final response = await apiGateway.notesService.fetchNoteById(action.topicId);
+        final response =
+            await apiGateway.notesService.fetchNoteById(action.topicId);
         store.dispatch(FetchNoteSuccessAction(response));
       } catch (e) {
         store.dispatch(FetchNoteFailureAction(e.toString()));
@@ -169,7 +172,13 @@ Middleware<AppState> _fetchEditorials(ApiGateway apiGateway) {
     if (action is LoadEditorialAction) {
       try {
         final response = await apiGateway.editorialService.getDailyEditorials();
-
+        store.dispatch(LoadEditorialSuccessAction(response));
+      } catch (error) {
+        store.dispatch(LoadEditorialFailureAction(error.toString()));
+      }
+    } else if (action is LoadEditorialByDateAction) {
+      try {
+        final response = await apiGateway.editorialService.getEditorialByDate(action.date);
         store.dispatch(LoadEditorialSuccessAction(response));
       } catch (error) {
         store.dispatch(LoadEditorialFailureAction(error.toString()));

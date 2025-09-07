@@ -4,9 +4,10 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/constants/constants.dart';
 import '../../../../core/store/app_state.dart';
-import '../editorial_viewmodel.dart';  
-import '../editorial_state.dart';  
+import '../editorial_viewmodel.dart';
+import '../editorial_state.dart';
 import '../ui/component/quiz_screen.dart';
+
 class ParagraphScreen extends StatefulWidget {
   const ParagraphScreen({super.key});
 
@@ -18,24 +19,23 @@ class _ParagraphScreenState extends State<ParagraphScreen> {
   late Timer _timer;
   int _seconds = 0;
 
-@override
-void initState() {
-  super.initState();
+  @override
+  void initState() {
+    super.initState();
 
-  // Start timer
-  _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-    setState(() {
-      _seconds++;
+    // Start timer
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      setState(() {
+        _seconds++;
+      });
     });
-  });
 
-  // Trigger loadEditorial safely after the first frame
-  WidgetsBinding.instance.addPostFrameCallback((_) {
-    final store = StoreProvider.of<AppState>(context, listen: false);
-    EditorialViewModel.fromStore(store).loadEditorial();
-  });
-}
-
+    // Trigger loadEditorial safely after the first frame
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final store = StoreProvider.of<AppState>(context, listen: false);
+      EditorialViewModel.fromStore(store).loadEditorial();
+    });
+  }
 
   @override
   void dispose() {
@@ -55,12 +55,6 @@ void initState() {
       distinct: true,
       converter: (store) => EditorialViewModel.fromStore(store),
       builder: (context, vm) {
-        if (false) {
-          return const Scaffold(
-            body: Center(child: CircularProgressIndicator()),
-          );
-        }
-
         if (vm.error != null) {
           return Scaffold(
             body: Center(child: Text("Error: ${vm.error}")),
@@ -88,13 +82,29 @@ void initState() {
             ),
             title: const Text(
               "Penverse",
-              style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+              style:
+                  TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
             ),
             centerTitle: true,
             actions: [
+             
+              // 📅 Date picker button
               IconButton(
-                icon: const Icon(Icons.search, color: Colors.white),
-                onPressed: () {},
+                icon: const Icon(Icons.calendar_today, color: Colors.white),
+                onPressed: () async {
+                  final pickedDate = await showDatePicker(
+                    context: context,
+                    initialDate: DateTime.now(),
+                    firstDate: DateTime(2020),
+                    lastDate: DateTime.now(),
+                  );
+                  if (pickedDate != null) {
+                    final store =
+                        StoreProvider.of<AppState>(context, listen: false);
+                    EditorialViewModel.fromStore(store).loadEditorialByDate(pickedDate);
+                    print("date picked $pickedDate");
+                  }
+                },
               ),
             ],
           ),
@@ -116,62 +126,71 @@ void initState() {
                 ),
               ),
 
-              // Paragraph (scrollable)
+              // Paragraphs (scrollable)
               Expanded(
-  child: SingleChildScrollView(
-    physics: const BouncingScrollPhysics(),
-    padding: const EdgeInsets.all(16),
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          item.title,
-          style: GoogleFonts.poppins(
-            fontSize: 22,
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
-          ),
-        ),
-        const SizedBox(height: 16),
-        Text(
-          item.paragraph,
-          style: GoogleFonts.merriweather(
-            fontSize: 18,
-            height: 1.6,
-            color: Colors.white,
-            fontWeight: FontWeight.w400,
-          ),
-          textAlign: TextAlign.justify,
-        ),
-        const SizedBox(height: 24),
+                child: SingleChildScrollView(
+                  physics: const BouncingScrollPhysics(),
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        item.title,
+                        style: GoogleFonts.poppins(
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
+                      const SizedBox(height: 16),
 
-        // 👇 Instead of showing questions here:
-        if (item.questions.isNotEmpty)
-          Center(
-            child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.blue,
-                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
+                      // Render each paragraph separately
+                      for (final para in item.paragraph) ...[
+                        Text(
+                          para,
+                          style: GoogleFonts.merriweather(
+                            fontSize: 18,
+                            height: 1.6,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w400,
+                          ),
+                          textAlign: TextAlign.justify,
+                        ),
+                        const SizedBox(height: 16),
+                      ],
+
+                      const SizedBox(height: 24),
+
+                      // Quiz button
+                      if (item.questions.isNotEmpty)
+                        Center(
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.blue,
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 24, vertical: 12),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                            ),
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (_) => QuizScreen(item: item),
+                                ),
+                              );
+                            },
+                            child: const Text(
+                              "Start Quiz",
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ),
+                        ),
+                    ],
+                  ),
                 ),
               ),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (_) => QuizScreen(item: item),
-                  ),
-                );
-              },
-              child: const Text("Start Quiz", style: TextStyle(color: Colors.white)),
-            ),
-          ),
-      ],
-    ),
-  ),
-),
-
             ],
           ),
         );

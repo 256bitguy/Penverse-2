@@ -8,21 +8,26 @@ class EditorialViewModel {
   final bool isLoading;
   final String? error;
   final void Function() loadEditorial;
+  final void Function(DateTime date) loadEditorialByDate;
 
-  EditorialViewModel({
-    required this.items,
-    required this.isLoading,
-    required this.error,
-    required this.loadEditorial,
-  });
+  EditorialViewModel(
+      {required this.items,
+      required this.isLoading,
+      required this.error,
+      required this.loadEditorial,
+      required this.loadEditorialByDate});
 
   factory EditorialViewModel.fromStore(Store<AppState> store) {
     return EditorialViewModel(
-      items:  store.state.editorialState.items,
+      items: store.state.editorialState.items,
       isLoading: store.state.editorialState.isLoading,
       error: store.state.editorialState.error,
       loadEditorial: () {
         store.dispatch(LoadEditorialAction());
+      },
+      loadEditorialByDate: (DateTime date) {
+        print("done");
+        store.dispatch(LoadEditorialByDateAction(date));
       },
     );
   }

@@ -5,7 +5,8 @@ class EditorialOption extends Equatable {
 
   const EditorialOption({required this.statement});
 
-  factory EditorialOption.fromJson(Map<String, dynamic> json) => EditorialOption(
+  factory EditorialOption.fromJson(Map<String, dynamic> json) =>
+      EditorialOption(
         statement: json['statement'] ?? '',
       );
 
@@ -28,10 +29,12 @@ class EditorialQuestion extends Equatable {
     required this.correctAnswer,
   });
 
-  factory EditorialQuestion.fromJson(Map<String, dynamic> json) => EditorialQuestion(
+  factory EditorialQuestion.fromJson(Map<String, dynamic> json) =>
+      EditorialQuestion(
         statement: json['statement'] ?? '',
         options: (json['options'] as List<dynamic>? ?? [])
-            .map((e) => EditorialOption.fromJson(Map<String, dynamic>.from(e)))
+            .map((e) =>
+                EditorialOption.fromJson(Map<String, dynamic>.from(e)))
             .toList(),
         correctAnswer: json['correctAnswer'] ?? '',
       );
@@ -48,7 +51,7 @@ class EditorialQuestion extends Equatable {
 
 class EditorialItem extends Equatable {
   final String title;
-  final String paragraph;
+  final List<String> paragraph;
   final List<EditorialQuestion> questions;
 
   const EditorialItem({
@@ -59,9 +62,12 @@ class EditorialItem extends Equatable {
 
   factory EditorialItem.fromJson(Map<String, dynamic> json) => EditorialItem(
         title: json['title'] ?? '',
-        paragraph: json['paragraph'] ?? '',
+        paragraph: (json['paragraph'] as List<dynamic>? ?? [])
+            .map((e) => e.toString())
+            .toList(),
         questions: (json['questions'] as List<dynamic>? ?? [])
-            .map((e) => EditorialQuestion.fromJson(Map<String, dynamic>.from(e)))
+            .map((e) => EditorialQuestion.fromJson(
+                Map<String, dynamic>.from(e)))
             .toList(),
       );
 
@@ -111,7 +117,8 @@ class EditorialState extends Equatable {
     final map = Map<String, dynamic>.from(json as Map);
     return EditorialState(
       items: (map['items'] as List<dynamic>? ?? [])
-          .map((e) => EditorialItem.fromJson(Map<String, dynamic>.from(e)))
+          .map((e) =>
+              EditorialItem.fromJson(Map<String, dynamic>.from(e)))
           .toList(),
       isLoading: map['isLoading'] ?? false,
       error: map['error'],
