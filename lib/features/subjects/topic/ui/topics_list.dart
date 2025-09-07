@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import '../../../../core/store/app_state.dart';
 import '../data/topic_view_model.dart';
-
+import '../../notes/ui/notes_ui_screen.dart';
 class TopicsListScreen extends StatelessWidget {
   const TopicsListScreen({super.key});
 
@@ -93,7 +93,11 @@ class TopicsListScreen extends StatelessWidget {
                     color: Colors.white54,
                   ),
                   onTap: () {
-                    // TODO: Navigate to detailed topic screen if needed
+                    vm.loadNotesByTopic(topic.id);
+  Navigator.push(
+    context,
+    MaterialPageRoute(builder: (context) => const NotesUIScreen()),
+  );
                   },
                 ),
               );

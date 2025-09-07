@@ -10,6 +10,7 @@ import '../../features/currentaffairs/upscAwareness/upsc_state.dart' as upsc;
 import '../../features/subjects/subject/redux/subject_state.dart';
 import '../../features/subjects/chapter/redux/chapter_state.dart';
 import '../../features/subjects/topic/redux/topic_state.dart';
+import '../../features/subjects/notes/redux/notes_state.dart';
 import 'package:equatable/equatable.dart';
 
 class AppState extends Equatable {
@@ -24,6 +25,7 @@ class AppState extends Equatable {
   final BookState bookState;
   final ChapterState chapterState;
   final TopicState topicState;
+  final NotesState notesState;
 
   const AppState(
       {required this.authState,
@@ -36,7 +38,8 @@ class AppState extends Equatable {
       required this.subjectState,
       required this.bookState,
       required this.chapterState,
-      required this.topicState});
+      required this.topicState,
+      required this.notesState});
 
   factory AppState.initial() => AppState(
       authState: AuthState.initial(),
@@ -49,7 +52,8 @@ class AppState extends Equatable {
       subjectState: SubjectState.initial(),
       bookState: BookState.initial(),
       chapterState: ChapterState.initial(),
-      topicState: TopicState.initial());
+      topicState: TopicState.initial(),
+      notesState: NotesState.initial());
 
   AppState copyWith({
     AuthState? authState,
@@ -59,6 +63,11 @@ class AppState extends Equatable {
     EditorialState? editorialState,
     BankingAwarenessState? bankingAwarenessState,
     upsc.UpscAwarenessState? upscAwarenessState,
+    BookState?bookState,
+    SubjectState ? subjectState,
+    NotesState ? notesState,
+    ChapterState ? chapterState,
+    TopicState ? topicState
   }) {
     return AppState(
         authState: authState ?? this.authState,
@@ -72,7 +81,8 @@ class AppState extends Equatable {
         subjectState: subjectState ?? this.subjectState,
         bookState: bookState ?? this.bookState,
         chapterState: chapterState ?? this.chapterState,
-        topicState: topicState ?? this.topicState);
+        topicState: topicState ?? this.topicState,
+        notesState: notesState??this.notesState);
   }
 
   Map<String, dynamic> toJson() => {
@@ -104,8 +114,8 @@ class AppState extends Equatable {
         subjectState: SubjectState.fromJson(json['subjectState']),
         bookState: BookState.fromJson(json['bookState']),
         chapterState: ChapterState.fromJson(json['chapterState']),
-        topicState: TopicState.fromJson(json['topicState'])
-        );
+        topicState: TopicState.fromJson(json['topicState']),
+        notesState: NotesState.fromJson(json['notesState']));
   }
 
   @override

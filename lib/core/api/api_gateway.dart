@@ -1,4 +1,5 @@
 import 'package:Penverse/features/subjects/book/service/book_service.dart';
+import 'package:Penverse/features/subjects/notes/service/notes_service.dart';
 
 import 'api_client.dart';
 import '../../features/dailyenglish/vocabulary/services/vocab_service.dart';
@@ -21,6 +22,7 @@ class ApiGateway {
   final BookService bookService;
   final ChapterService chapterService;
   final TopicService topicService;
+  final NotesService notesService;
 
   ApiGateway._(
       {required this.vocabService,
@@ -31,7 +33,8 @@ class ApiGateway {
       required this.subjectService,
       required this.bookService,
       required this.chapterService,
-      required this.topicService});
+      required this.topicService,
+      required this.notesService});
 
   factory ApiGateway.create() {
     final client = ApiClient(); // internally create client
@@ -44,6 +47,7 @@ class ApiGateway {
         subjectService: SubjectService(client),
         bookService: BookService(client),
         chapterService: ChapterService(client),
-        topicService: TopicService(client));
+        topicService: TopicService(client),
+        notesService: NotesService(client));
   }
 }

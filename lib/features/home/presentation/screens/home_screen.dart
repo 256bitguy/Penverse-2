@@ -40,6 +40,7 @@ class HomePage extends StatelessWidget {
               title: "Popular Subjects",
               items: [
                 {"image": "https://res.cloudinary.com/dmxskf3hq/image/upload/v1757150162/uploads/fnxbvj8uayplo5htbqg7.png", "text": "History"},
+                {"image": "https://res.cloudinary.com/dmxskf3hq/image/upload/v1757150162/uploads/fnxbvj8uayplo5htbqg7.png", "text": "History 2"},
                
               ],
             ),

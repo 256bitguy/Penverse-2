@@ -1,5 +1,6 @@
 import 'package:Penverse/features/subjects/book/redux/book_reducer.dart';
 import 'package:Penverse/features/subjects/chapter/redux/chapter_reducer.dart';
+import 'package:Penverse/features/subjects/notes/redux/notes_reducer.dart';
 import 'package:Penverse/features/subjects/subject/redux/subject_reducer.dart';
 
 import '../../features/auth/auth_reducers.dart';
@@ -26,6 +27,7 @@ AppState appReducer(AppState state, dynamic action) {
     subjectState: subjectReducer(state.subjectState, action),
     bookState: bookReducer(state.bookState, action),
     chapterState: chapterReducer(state.chapterState, action),
-    topicState:  topicReducer(state.topicState, action), // ✅ NEW
+    topicState:  topicReducer(state.topicState, action),
+    notesState: notesReducer(state.notesState, action) // ✅ NEW
   );
 }

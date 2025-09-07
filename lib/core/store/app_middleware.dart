@@ -12,6 +12,7 @@ import '../../features/subjects/subject/redux/subject_actions.dart';
 import '../../features/subjects/book/redux/book_actions.dart';
 import '../../features/subjects/chapter/redux/chapter_actions.dart';
 import '../../features/subjects/topic/redux/topic_action.dart';
+import '../../features/subjects/notes/redux/notes_action.dart';
 
 List<Middleware<AppState>> createAppMiddleware(ApiGateway apiGateway) {
   print("third");
@@ -29,9 +30,30 @@ List<Middleware<AppState>> createAppMiddleware(ApiGateway apiGateway) {
         _loadBooksBySubject(apiGateway)),
     TypedMiddleware<AppState, LoadChaptersByBookAction>(
         _loadChaptersByBooks(apiGateway)),
-         TypedMiddleware<AppState, LoadTopicsByChapterAction>(
+    TypedMiddleware<AppState, LoadTopicsByChapterAction>(
         _loadTopicsByChapters(apiGateway)),
+    TypedMiddleware<AppState, FetchNoteByTopicIdAction>(
+      _fetchNote(apiGateway),
+    ),
   ];
+}
+
+Middleware<AppState> _fetchNote(ApiGateway apiGateway) {
+  return (Store<AppState> store, action, NextDispatcher next) async {
+    if (action is FetchNoteByTopicIdAction) {
+      next(action); // Continue to next middleware/reducer
+
+      try {
+        final response = await apiGateway.notesService.fetchNoteById(action.topicId);
+        store.dispatch(FetchNoteSuccessAction(response));
+      } catch (e) {
+        store.dispatch(FetchNoteFailureAction(e.toString()));
+      }
+    } else {
+      // Pass other actions down the chain
+      next(action);
+    }
+  };
 }
 
 Middleware<AppState> _loadTopicsByChapters(ApiGateway apiGateway) {
@@ -40,8 +62,8 @@ Middleware<AppState> _loadTopicsByChapters(ApiGateway apiGateway) {
       next(action); // Pass the action to the next middleware/reducer
 
       try {
-        final response =
-            await apiGateway.topicService.fetchTopicsByChapter(action.chapterId);
+        final response = await apiGateway.topicService
+            .fetchTopicsByChapter(action.chapterId);
         store.dispatch(LoadTopicsSuccessAction(response));
       } catch (e) {
         store.dispatch(LoadTopicsFailureAction(e.toString()));
