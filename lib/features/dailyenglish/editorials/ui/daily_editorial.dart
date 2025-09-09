@@ -18,6 +18,7 @@ class ParagraphScreen extends StatefulWidget {
 class _ParagraphScreenState extends State<ParagraphScreen> {
   late Timer _timer;
   int _seconds = 0;
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
@@ -57,38 +58,51 @@ class _ParagraphScreenState extends State<ParagraphScreen> {
       builder: (context, vm) {
         if (vm.error != null) {
           return Scaffold(
+            key: _scaffoldKey,
             body: Center(child: Text("Error: ${vm.error}")),
           );
         }
 
         if (vm.items.isEmpty) {
-          return const Scaffold(
-            body: Center(child: Text("No editorial content found")),
+          return Scaffold(
+            key: _scaffoldKey,
+            body: const Center(child: Text("No editorial content found")),
           );
         }
 
-        // Take first editorial item for display
         final EditorialItem item = vm.items[0];
 
         return Scaffold(
+          key: _scaffoldKey,
+          drawer: Drawer(
+            child: ListView(
+              padding: EdgeInsets.zero,
+              children: const [
+                DrawerHeader(
+                  decoration: BoxDecoration(color: AppColors.scaffoldBackground),
+                  child: Text(
+                    "Menu",
+                    style: TextStyle(color: Colors.white, fontSize: 24),
+                  ),
+                ),
+                ListTile(title: Text("Option 1")),
+                ListTile(title: Text("Option 2")),
+              ],
+            ),
+          ),
           appBar: AppBar(
             backgroundColor: AppColors.scaffoldBackground,
             elevation: 0,
             leading: IconButton(
               icon: const Icon(Icons.menu, color: Colors.white),
-              onPressed: () {
-                Scaffold.of(context).openDrawer();
-              },
+              onPressed: () => _scaffoldKey.currentState?.openDrawer(),
             ),
             title: const Text(
               "Penverse",
-              style:
-                  TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+              style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
             ),
             centerTitle: true,
             actions: [
-             
-              // 📅 Date picker button
               IconButton(
                 icon: const Icon(Icons.calendar_today, color: Colors.white),
                 onPressed: () async {
@@ -144,7 +158,7 @@ class _ParagraphScreenState extends State<ParagraphScreen> {
                       ),
                       const SizedBox(height: 16),
 
-                      // Render each paragraph separately
+                      // Render paragraphs
                       for (final para in item.paragraph) ...[
                         Text(
                           para,
