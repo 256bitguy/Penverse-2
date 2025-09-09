@@ -29,4 +29,25 @@ class PhrasalVerbService {
 
     throw Exception("Unexpected response format: $body");
   }
+  Future<List<PhrasalVerbItem>> fetchPhrasesByTopic(String topicId) async {
+  if (topicId.isEmpty) {
+    throw Exception("topicId is required");
+  }
+
+  final response =
+      await client.get(ApiEndpoints.phrasalVerbsByTopic(topicId));
+
+  final body = response.data;
+
+  // Ensure body is a Map with a 'data' key
+  if (body is Map<String, dynamic> && body['data'] is List) {
+    final list = body['data'] as List<dynamic>;
+
+    return list
+        .map((json) => PhrasalVerbItem.fromJson(Map<String, dynamic>.from(json)))
+        .toList();
+  }
+
+  throw Exception("Unexpected response format: $body");
+}
 }

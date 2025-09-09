@@ -48,10 +48,11 @@ class AppBottomNavigationBar extends StatelessWidget {
             isActive: currentIndex == 3,
             onTap: () => onNavTap(3),
           ),
-          BottomAppBarItem(
-            name: 'Maths',
+          
+           BottomAppBarItem(
+            name: 'Quiz',
             iconLocation: AppIcons.search,
-            isActive: currentIndex == 4,
+            isActive: currentIndex == 5,
             onTap: () => onNavTap(4),
           ),
         ],

@@ -2,7 +2,7 @@ import 'package:redux/redux.dart';
 import '../../core/store/app_state.dart';
 import '../../core/api/api_gateway.dart';
 
-// Import feature actions
+// Feature Actions
 import '../../features/dailyenglish/vocabulary/vocab_actions.dart';
 import '../../features/dailyenglish/editorials/editorial_actions.dart';
 import '../../features/dailyenglish/idioms/idioms_actions.dart';
@@ -13,14 +13,14 @@ import '../../features/subjects/book/redux/book_actions.dart';
 import '../../features/subjects/chapter/redux/chapter_actions.dart';
 import '../../features/subjects/topic/redux/topic_action.dart';
 import '../../features/subjects/notes/redux/notes_action.dart';
+import '../../features/questions/question/reduxx/question_action.dart';
 
 List<Middleware<AppState>> createAppMiddleware(ApiGateway apiGateway) {
-  print("third");
   return [
     TypedMiddleware<AppState, LoadVocabAction>(_fetchVocab(apiGateway)),
     TypedMiddleware<AppState, LoadEditorialAction>(
         _fetchEditorials(apiGateway)),
-        TypedMiddleware<AppState, LoadEditorialByDateAction>(
+    TypedMiddleware<AppState, LoadEditorialByDateAction>(
         _fetchEditorials(apiGateway)),
     TypedMiddleware<AppState, LoadIdiomsAction>(_fetchIdioms(apiGateway)),
     TypedMiddleware<AppState, LoadPhrasalVerbsAction>(
@@ -34,17 +34,45 @@ List<Middleware<AppState>> createAppMiddleware(ApiGateway apiGateway) {
         _loadChaptersByBooks(apiGateway)),
     TypedMiddleware<AppState, LoadTopicsByChapterAction>(
         _loadTopicsByChapters(apiGateway)),
+
+    // Topic-specific middlewares
     TypedMiddleware<AppState, FetchNoteByTopicIdAction>(
-      _fetchNote(apiGateway),
-    ),
+        _fetchNoteByTopic(apiGateway)),
+    TypedMiddleware<AppState, FetchVocabByTopicIdAction>(
+        _fetchVocabByTopic(apiGateway)),
+    TypedMiddleware<AppState, FetchIdiomsByTopicIdAction>(
+        _fetchIdiomsByTopic(apiGateway)),
+    TypedMiddleware<AppState, FetchPhrasesByTopicIdAction>(
+        _fetchPhrasesByTopic(apiGateway)),
+    TypedMiddleware<AppState, FetchAwarenessByTopicIdAction>(
+        _fetchAwarenessByTopic(apiGateway)),
+    TypedMiddleware<AppState, FetchQuestionsByTopicIdAction>(
+        _fetchQuestionByTopic(apiGateway)),
   ];
 }
 
-Middleware<AppState> _fetchNote(ApiGateway apiGateway) {
+// ---------------- Topic-specific middlewares ----------------
+Middleware<AppState> _fetchQuestionByTopic(ApiGateway apiGateway) {
+  return (Store<AppState> store, action, NextDispatcher next) async {
+    if (action is FetchQuestionsByTopicIdAction) {
+      next(action);
+      try {
+        final response = await apiGateway.questionService
+            .fetchQuestionsByTopicId(action.topicId);
+        store.dispatch(FetchQuestionsSuccessAction(response));
+      } catch (e) {
+        store.dispatch(FetchQuestionsFailureAction(e.toString()));
+      }
+    } else {
+      next(action);
+    }
+  };
+}
+
+Middleware<AppState> _fetchNoteByTopic(ApiGateway apiGateway) {
   return (Store<AppState> store, action, NextDispatcher next) async {
     if (action is FetchNoteByTopicIdAction) {
-      next(action); // Continue to next middleware/reducer
-
+      next(action);
       try {
         final response =
             await apiGateway.notesService.fetchNoteById(action.topicId);
@@ -53,23 +81,21 @@ Middleware<AppState> _fetchNote(ApiGateway apiGateway) {
         store.dispatch(FetchNoteFailureAction(e.toString()));
       }
     } else {
-      // Pass other actions down the chain
       next(action);
     }
   };
 }
 
-Middleware<AppState> _loadTopicsByChapters(ApiGateway apiGateway) {
+Middleware<AppState> _fetchVocabByTopic(ApiGateway apiGateway) {
   return (Store<AppState> store, action, NextDispatcher next) async {
-    if (action is LoadTopicsByChapterAction) {
-      next(action); // Pass the action to the next middleware/reducer
-
+    if (action is FetchVocabByTopicIdAction) {
+      next(action);
       try {
-        final response = await apiGateway.topicService
-            .fetchTopicsByChapter(action.chapterId);
-        store.dispatch(LoadTopicsSuccessAction(response));
+        final response =
+            await apiGateway.vocabService.fetchVocabByTopic(action.topicId);
+        store.dispatch(LoadVocabSuccessAction(response));
       } catch (e) {
-        store.dispatch(LoadTopicsFailureAction(e.toString()));
+        store.dispatch(LoadVocabFailureAction(e.toString()));
       }
     } else {
       next(action);
@@ -77,17 +103,68 @@ Middleware<AppState> _loadTopicsByChapters(ApiGateway apiGateway) {
   };
 }
 
-Middleware<AppState> _loadChaptersByBooks(ApiGateway apiGateway) {
+Middleware<AppState> _fetchIdiomsByTopic(ApiGateway apiGateway) {
   return (Store<AppState> store, action, NextDispatcher next) async {
-    if (action is LoadChaptersByBookAction) {
-      next(action); // Pass the action to the next middleware/reducer
-
+    if (action is FetchIdiomsByTopicIdAction) {
+      next(action);
       try {
         final response =
-            await apiGateway.chapterService.fetchChaptersByBook(action.bookId);
-        store.dispatch(LoadChaptersSuccessAction(response));
+            await apiGateway.idiomService.fetchIdiomsByTopic(action.topicId);
+        store.dispatch(LoadIdiomsSuccessAction(response));
       } catch (e) {
-        store.dispatch(LoadChaptersFailureAction(e.toString()));
+        store.dispatch(LoadIdiomsFailureAction(e.toString()));
+      }
+    } else {
+      next(action);
+    }
+  };
+}
+
+Middleware<AppState> _fetchPhrasesByTopic(ApiGateway apiGateway) {
+  return (Store<AppState> store, action, NextDispatcher next) async {
+    if (action is FetchPhrasesByTopicIdAction) {
+      next(action);
+      try {
+        final response = await apiGateway.phrasalVerbService
+            .fetchPhrasesByTopic(action.topicId);
+        store.dispatch(LoadPhrasalVerbsSuccessAction(response));
+      } catch (e) {
+        store.dispatch(LoadPhrasalVerbsFailureAction(e.toString()));
+      }
+    } else {
+      next(action);
+    }
+  };
+}
+
+Middleware<AppState> _fetchAwarenessByTopic(ApiGateway apiGateway) {
+  return (Store<AppState> store, action, NextDispatcher next) async {
+    if (action is FetchAwarenessByTopicIdAction) {
+      next(action);
+      try {
+        final response = await apiGateway.bankingAwarenessService
+            .AwarenessByTopic(action.topicId);
+        store.dispatch(LoadBankingAwarenessSuccessAction(response));
+      } catch (e) {
+        store.dispatch(LoadBankingAwarenessFailureAction(e.toString()));
+      }
+    } else {
+      next(action);
+    }
+  };
+}
+
+// ---------------- Existing middlewares ----------------
+
+Middleware<AppState> _loadSubjects(ApiGateway apiGateway) {
+  return (Store<AppState> store, action, NextDispatcher next) async {
+    if (action is LoadSubjectsAction) {
+      next(action);
+      try {
+        final response = await apiGateway.subjectService.fetchSubjects();
+        store.dispatch(LoadSubjectsSuccessAction(response));
+      } catch (e) {
+        store.dispatch(LoadSubjectsFailureAction(e.toString()));
       }
     } else {
       next(action);
@@ -98,8 +175,7 @@ Middleware<AppState> _loadChaptersByBooks(ApiGateway apiGateway) {
 Middleware<AppState> _loadBooksBySubject(ApiGateway apiGateway) {
   return (Store<AppState> store, action, NextDispatcher next) async {
     if (action is LoadBooksBySubjectAction) {
-      next(action); // Pass the action to the next middleware/reducer
-
+      next(action);
       try {
         final response =
             await apiGateway.bookService.fetchBooksBySubject(action.subjectId);
@@ -113,16 +189,16 @@ Middleware<AppState> _loadBooksBySubject(ApiGateway apiGateway) {
   };
 }
 
-Middleware<AppState> _loadSubjects(ApiGateway apiGateway) {
+Middleware<AppState> _loadChaptersByBooks(ApiGateway apiGateway) {
   return (Store<AppState> store, action, NextDispatcher next) async {
-    if (action is LoadSubjectsAction) {
-      next(action); // Pass the action to the next middleware/reducer
-
+    if (action is LoadChaptersByBookAction) {
+      next(action);
       try {
-        final response = await apiGateway.subjectService.fetchSubjects();
-        store.dispatch(LoadSubjectsSuccessAction(response));
+        final response =
+            await apiGateway.chapterService.fetchChaptersByBook(action.bookId);
+        store.dispatch(LoadChaptersSuccessAction(response));
       } catch (e) {
-        store.dispatch(LoadSubjectsFailureAction(e.toString()));
+        store.dispatch(LoadChaptersFailureAction(e.toString()));
       }
     } else {
       next(action);
@@ -130,18 +206,16 @@ Middleware<AppState> _loadSubjects(ApiGateway apiGateway) {
   };
 }
 
-Middleware<AppState> _fetchBankingAwareness(ApiGateway apiGateway) {
+Middleware<AppState> _loadTopicsByChapters(ApiGateway apiGateway) {
   return (Store<AppState> store, action, NextDispatcher next) async {
-    if (action is LoadBankingAwarenessAction) {
+    if (action is LoadTopicsByChapterAction) {
       next(action);
-
       try {
-        final response =
-            await apiGateway.bankingAwarenessService.getDailyBankingAwareness();
-
-        store.dispatch(LoadBankingAwarenessSuccessAction(response));
-      } catch (error) {
-        store.dispatch(LoadBankingAwarenessFailureAction(error.toString()));
+        final response = await apiGateway.topicService
+            .fetchTopicsByChapter(action.chapterId);
+        store.dispatch(LoadTopicsSuccessAction(response));
+      } catch (e) {
+        store.dispatch(LoadTopicsFailureAction(e.toString()));
       }
     } else {
       next(action);
@@ -152,14 +226,12 @@ Middleware<AppState> _fetchBankingAwareness(ApiGateway apiGateway) {
 Middleware<AppState> _fetchVocab(ApiGateway apiGateway) {
   return (Store<AppState> store, action, NextDispatcher next) async {
     if (action is LoadVocabAction) {
-      next(action); // Pass action to reducer first
-
+      next(action);
       try {
         final response = await apiGateway.vocabService.getDailyVocab();
-
         store.dispatch(LoadVocabSuccessAction(response));
-      } catch (error) {
-        store.dispatch(LoadVocabFailureAction(error.toString()));
+      } catch (e) {
+        store.dispatch(LoadVocabFailureAction(e.toString()));
       }
     } else {
       next(action);
@@ -173,15 +245,16 @@ Middleware<AppState> _fetchEditorials(ApiGateway apiGateway) {
       try {
         final response = await apiGateway.editorialService.getDailyEditorials();
         store.dispatch(LoadEditorialSuccessAction(response));
-      } catch (error) {
-        store.dispatch(LoadEditorialFailureAction(error.toString()));
+      } catch (e) {
+        store.dispatch(LoadEditorialFailureAction(e.toString()));
       }
     } else if (action is LoadEditorialByDateAction) {
       try {
-        final response = await apiGateway.editorialService.getEditorialByDate(action.date);
+        final response =
+            await apiGateway.editorialService.getEditorialByDate(action.date);
         store.dispatch(LoadEditorialSuccessAction(response));
-      } catch (error) {
-        store.dispatch(LoadEditorialFailureAction(error.toString()));
+      } catch (e) {
+        store.dispatch(LoadEditorialFailureAction(e.toString()));
       }
     } else {
       next(action);
@@ -194,10 +267,9 @@ Middleware<AppState> _fetchIdioms(ApiGateway apiGateway) {
     next(action);
     try {
       final response = await apiGateway.idiomService.getDailyIdioms();
-
       store.dispatch(LoadIdiomsSuccessAction(response));
-    } catch (error) {
-      store.dispatch(LoadIdiomsFailureAction(error.toString()));
+    } catch (e) {
+      store.dispatch(LoadIdiomsFailureAction(e.toString()));
     }
   };
 }
@@ -208,10 +280,26 @@ Middleware<AppState> _fetchPhrasalVerbs(ApiGateway apiGateway) {
       try {
         final response =
             await apiGateway.phrasalVerbService.getDailyPhrasalVerbs();
-
         store.dispatch(LoadPhrasalVerbsSuccessAction(response));
-      } catch (error) {
-        store.dispatch(LoadPhrasalVerbsFailureAction(error.toString()));
+      } catch (e) {
+        store.dispatch(LoadPhrasalVerbsFailureAction(e.toString()));
+      }
+    } else {
+      next(action);
+    }
+  };
+}
+
+Middleware<AppState> _fetchBankingAwareness(ApiGateway apiGateway) {
+  return (Store<AppState> store, action, NextDispatcher next) async {
+    if (action is LoadBankingAwarenessAction) {
+      next(action);
+      try {
+        final response =
+            await apiGateway.bankingAwarenessService.getDailyBankingAwareness();
+        store.dispatch(LoadBankingAwarenessSuccessAction(response));
+      } catch (e) {
+        store.dispatch(LoadBankingAwarenessFailureAction(e.toString()));
       }
     } else {
       next(action);

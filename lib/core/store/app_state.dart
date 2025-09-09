@@ -1,3 +1,4 @@
+
 import 'package:Penverse/features/subjects/book/redux/book_state.dart';
 
 import '../../features/auth/auth_state.dart';
@@ -11,6 +12,7 @@ import '../../features/subjects/subject/redux/subject_state.dart';
 import '../../features/subjects/chapter/redux/chapter_state.dart';
 import '../../features/subjects/topic/redux/topic_state.dart';
 import '../../features/subjects/notes/redux/notes_state.dart';
+import '../../features/questions/question/reduxx/question_state.dart';
 import 'package:equatable/equatable.dart';
 
 class AppState extends Equatable {
@@ -26,6 +28,7 @@ class AppState extends Equatable {
   final ChapterState chapterState;
   final TopicState topicState;
   final NotesState notesState;
+  final QuestionsState questionsState;
 
   const AppState(
       {required this.authState,
@@ -39,7 +42,8 @@ class AppState extends Equatable {
       required this.bookState,
       required this.chapterState,
       required this.topicState,
-      required this.notesState});
+      required this.notesState,
+      required this.questionsState});
 
   factory AppState.initial() => AppState(
       authState: AuthState.initial(),
@@ -53,22 +57,23 @@ class AppState extends Equatable {
       bookState: BookState.initial(),
       chapterState: ChapterState.initial(),
       topicState: TopicState.initial(),
-      notesState: NotesState.initial());
+      notesState: NotesState.initial(),
+      questionsState: QuestionsState.initial());
 
-  AppState copyWith({
-    AuthState? authState,
-    VocabState? vocabState,
-    IdiomsState? idiomsState,
-    PhrasalVerbsState? phrasalVerbsState,
-    EditorialState? editorialState,
-    BankingAwarenessState? bankingAwarenessState,
-    upsc.UpscAwarenessState? upscAwarenessState,
-    BookState?bookState,
-    SubjectState ? subjectState,
-    NotesState ? notesState,
-    ChapterState ? chapterState,
-    TopicState ? topicState
-  }) {
+  AppState copyWith(
+      {AuthState? authState,
+      VocabState? vocabState,
+      IdiomsState? idiomsState,
+      PhrasalVerbsState? phrasalVerbsState,
+      EditorialState? editorialState,
+      BankingAwarenessState? bankingAwarenessState,
+      upsc.UpscAwarenessState? upscAwarenessState,
+      BookState? bookState,
+      SubjectState? subjectState,
+      NotesState? notesState,
+      ChapterState? chapterState,
+      TopicState? topicState,
+      QuestionsState? questionsState}) {
     return AppState(
         authState: authState ?? this.authState,
         vocabState: vocabState ?? this.vocabState,
@@ -82,7 +87,8 @@ class AppState extends Equatable {
         bookState: bookState ?? this.bookState,
         chapterState: chapterState ?? this.chapterState,
         topicState: topicState ?? this.topicState,
-        notesState: notesState??this.notesState);
+        notesState: notesState ?? this.notesState,
+        questionsState: questionsState ?? this.questionsState);
   }
 
   Map<String, dynamic> toJson() => {
@@ -95,6 +101,7 @@ class AppState extends Equatable {
         // ✅ Now using real UPSC serialization
         'upscAwarenessState': upscAwarenessState.toJson(),
         'subjectState': subjectState.toJson(),
+        'questionsState' : questionsState.toJson(),
       };
 
   static AppState fromJson(dynamic json) {
@@ -115,7 +122,8 @@ class AppState extends Equatable {
         bookState: BookState.fromJson(json['bookState']),
         chapterState: ChapterState.fromJson(json['chapterState']),
         topicState: TopicState.fromJson(json['topicState']),
-        notesState: NotesState.fromJson(json['notesState']));
+        notesState: NotesState.fromJson(json['notesState']),
+        questionsState: QuestionsState.fromJson(json['questionsState']));
   }
 
   @override
@@ -127,6 +135,7 @@ class AppState extends Equatable {
         editorialState,
         bankingAwarenessState,
         upscAwarenessState,
-        topicState
+        topicState,
+        questionsState
       ];
 }

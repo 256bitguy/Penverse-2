@@ -10,6 +10,7 @@ import '../../features/currentaffairs/generalAwareness/services/bankingAwareness
 import '../../features/subjects/subject/service/subject_service.dart';
 import '../../features/subjects/topic/service/topic_service.dart';
 import '../../features/subjects/chapter/service/chapter_service.dart';
+import '../../features/questions/question/service/question_service.dart';
 
 class ApiGateway {
   final VocabService vocabService;
@@ -23,6 +24,7 @@ class ApiGateway {
   final ChapterService chapterService;
   final TopicService topicService;
   final NotesService notesService;
+  final QuestionsService questionService;
 
   ApiGateway._(
       {required this.vocabService,
@@ -34,7 +36,8 @@ class ApiGateway {
       required this.bookService,
       required this.chapterService,
       required this.topicService,
-      required this.notesService});
+      required this.notesService,
+      required this.questionService});
 
   factory ApiGateway.create() {
     final client = ApiClient(); // internally create client
@@ -48,6 +51,7 @@ class ApiGateway {
         bookService: BookService(client),
         chapterService: ChapterService(client),
         topicService: TopicService(client),
-        notesService: NotesService(client));
+        notesService: NotesService(client),
+        questionService: QuestionsService(client));
   }
 }

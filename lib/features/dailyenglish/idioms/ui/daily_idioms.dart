@@ -9,7 +9,8 @@ import '../../../entrypoint/entrypoint_ui.dart';
 import 'examples.dart'; // ✅ your IdiomExamplePage
 
 class DailyIdiomsScreen extends StatefulWidget {
-  const DailyIdiomsScreen({super.key});
+  final String? topicId;
+  const DailyIdiomsScreen({super.key, required this.topicId});
 
   @override
   State<DailyIdiomsScreen> createState() => _DailyIdiomsScreenState();
@@ -25,12 +26,14 @@ class _DailyIdiomsScreenState extends State<DailyIdiomsScreen> {
     _pageController = PageController(initialPage: currentIndex);
 
     // Load idioms once widget is mounted
-    Future.microtask(() {
-      final store = StoreProvider.of<AppState>(context, listen: false);
-      final vm = IdiomsViewModel.fromStore(store);
-       
-      vm.loadIdioms();
-    });
+    if (widget.topicId == null) {
+      Future.microtask(() {
+        final store = StoreProvider.of<AppState>(context, listen: false);
+        final vm = IdiomsViewModel.fromStore(store);
+
+        vm.loadIdioms();
+      });
+    }
   }
 
   @override

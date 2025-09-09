@@ -10,7 +10,8 @@ import '../vocab_viewmodel.dart'; // ✅ your viewmodel
 import '../../../entrypoint/entrypoint_ui.dart';
 
 class DailyVocabScreen extends StatefulWidget {
-  const DailyVocabScreen({super.key});
+  final String? topicId;
+  const DailyVocabScreen({super.key, required this.topicId});
 
   @override
   State<DailyVocabScreen> createState() => _DailyVocabScreenState();
@@ -26,11 +27,13 @@ class _DailyVocabScreenState extends State<DailyVocabScreen> {
     _pageController = PageController(initialPage: currentIndex);
 
     // Load vocab once widget is mounted
-    Future.microtask(() {
-      final store = StoreProvider.of<AppState>(context, listen: false);
-      final vm = VocabViewModel.fromStore(store);
-      vm.loadVocab();
-    });
+    if (widget.topicId == null) {
+      Future.microtask(() {
+        final store = StoreProvider.of<AppState>(context, listen: false);
+        final vm = VocabViewModel.fromStore(store);
+        vm.loadVocab();
+      });
+    }
   }
 
   @override
@@ -111,7 +114,7 @@ class _DailyVocabScreenState extends State<DailyVocabScreen> {
                             borderRadius: BorderRadius.circular(24),
                             child: Image.network(
                               vocab.imageUrl,
-                               height: screenSize.height / 2.5,
+                              height: screenSize.height / 2.5,
                               width: screenSize.width,
                               fit: BoxFit.cover,
                             ),

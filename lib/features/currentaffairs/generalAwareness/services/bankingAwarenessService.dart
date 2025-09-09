@@ -34,4 +34,21 @@ class BankingAwarenessService {
      
     return list.map((json) => BankingAwarenessItem.fromJson(json)).toList();
   }
+
+
+   Future<List<BankingAwarenessItem>> AwarenessByTopic(String topicId) async {
+    if (topicId.isEmpty) {
+      throw Exception("topicId cannot be empty");
+    }
+
+    final response = await client.get(ApiEndpoints.awarenessByTopic(topicId));
+    final body = response.data;
+
+    if (body == null || body['data'] == null) {
+      throw Exception("Invalid response for topicId $topicId: ${response.data}");
+    }
+
+    final list = body['data'] as List<dynamic>;
+    return list.map((json) => BankingAwarenessItem.fromJson(json)).toList();
+  }
 }

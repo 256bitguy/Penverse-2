@@ -1,3 +1,6 @@
+
+ 
+import 'package:Penverse/features/questions/question/reduxx/questions_reducer.dart';
 import 'package:Penverse/features/subjects/book/redux/book_reducer.dart';
 import 'package:Penverse/features/subjects/chapter/redux/chapter_reducer.dart';
 import 'package:Penverse/features/subjects/notes/redux/notes_reducer.dart';
@@ -11,6 +14,7 @@ import '../../features/dailyenglish/editorials/editorial_reducer.dart';
 import '../../features/currentaffairs/generalAwareness/banking_awareness_reducer.dart';  
 import '../../features/currentaffairs/upscAwareness/upsc_reducer.dart';  
 import '../../features/subjects/topic/redux/topic_reducer.dart';
+ 
 import 'app_state.dart';
 
 AppState appReducer(AppState state, dynamic action) {
@@ -28,6 +32,8 @@ AppState appReducer(AppState state, dynamic action) {
     bookState: bookReducer(state.bookState, action),
     chapterState: chapterReducer(state.chapterState, action),
     topicState:  topicReducer(state.topicState, action),
-    notesState: notesReducer(state.notesState, action) // ✅ NEW
+    notesState: notesReducer(state.notesState, action),
+    questionsState: questionsReducer(state.questionsState, action)
+ 
   );
 }

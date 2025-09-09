@@ -32,7 +32,7 @@ class _EntryPointUIState extends State<EntryPointMaths> {
     AdditionQuiz(),
     SubtractionQuiz(),
     MultiplicationQuiz(),
-    FractionDecimalQuiz(),
+    const FractionDecimalQuiz(),
     SquareQuiz()
   ];
 

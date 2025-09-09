@@ -3,6 +3,11 @@ import 'phrasal_verb_state.dart';
 /// Action to start loading phrasal verbs
 class LoadPhrasalVerbsAction {}
 
+class FetchPhrasesByTopicIdAction {
+  final String topicId;
+  FetchPhrasesByTopicIdAction(this.topicId);
+}
+
 /// Action when phrasal verbs load successfully
 class LoadPhrasalVerbsSuccessAction {
   final List<PhrasalVerbItem> items;

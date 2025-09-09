@@ -9,11 +9,11 @@ import '../../../entrypoint/entrypoint_ui.dart';
 import 'examples.dart';
 
 class DailyPhrasalVerbScreen extends StatefulWidget {
-  const DailyPhrasalVerbScreen({super.key});
+  final String? topicId;
+  const DailyPhrasalVerbScreen({super.key, required this.topicId});
 
   @override
-  State<DailyPhrasalVerbScreen> createState() =>
-      _DailyPhrasalVerbScreenState();
+  State<DailyPhrasalVerbScreen> createState() => _DailyPhrasalVerbScreenState();
 }
 
 class _DailyPhrasalVerbScreenState extends State<DailyPhrasalVerbScreen> {
@@ -25,12 +25,13 @@ class _DailyPhrasalVerbScreenState extends State<DailyPhrasalVerbScreen> {
     super.initState();
     _pageController = PageController(initialPage: currentIndex);
 
-    // Load phrasal verbs once the widget is mounted
-    Future.microtask(() {
-      final store = StoreProvider.of<AppState>(context, listen: false);
-      final vm = PhrasalVerbsViewModel.fromStore(store);
-      vm.loadPhrasalVerbs();
-    });
+    if (widget.topicId == null) {
+      Future.microtask(() {
+        final store = StoreProvider.of<AppState>(context, listen: false);
+        final vm = PhrasalVerbsViewModel.fromStore(store);
+        vm.loadPhrasalVerbs();
+      });
+    }
   }
 
   @override
@@ -61,7 +62,6 @@ class _DailyPhrasalVerbScreenState extends State<DailyPhrasalVerbScreen> {
         final screenSize = MediaQuery.of(context).size;
 
         return Scaffold(
-         
           appBar: AppBar(
             backgroundColor: AppColors.scaffoldBackground,
             elevation: 0,

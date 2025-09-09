@@ -28,10 +28,10 @@ class _EntryPointUIState extends State<EntryPointEnglish> {
   }
 
   final List<Widget> pages = const [
-    DailyVocabScreen(),
+    DailyVocabScreen(topicId: ""),
     ParagraphScreen(),
-    DailyPhrasalVerbScreen(),
-    DailyIdiomsScreen(),
+    DailyPhrasalVerbScreen(topicId: "",),
+    DailyIdiomsScreen(topicId: ""),
   ];
 
   @override
