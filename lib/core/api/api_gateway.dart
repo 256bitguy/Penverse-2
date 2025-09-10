@@ -11,6 +11,7 @@ import '../../features/subjects/subject/service/subject_service.dart';
 import '../../features/subjects/topic/service/topic_service.dart';
 import '../../features/subjects/chapter/service/chapter_service.dart';
 import '../../features/questions/question/service/question_service.dart';
+import '../../features/questions/quiz/service/quiz_service.dart';
 
 class ApiGateway {
   final VocabService vocabService;
@@ -25,6 +26,7 @@ class ApiGateway {
   final TopicService topicService;
   final NotesService notesService;
   final QuestionsService questionService;
+  final QuizService quizService;
 
   ApiGateway._(
       {required this.vocabService,
@@ -37,7 +39,8 @@ class ApiGateway {
       required this.chapterService,
       required this.topicService,
       required this.notesService,
-      required this.questionService});
+      required this.questionService,
+      required this.quizService});
 
   factory ApiGateway.create() {
     final client = ApiClient(); // internally create client
@@ -52,6 +55,7 @@ class ApiGateway {
         chapterService: ChapterService(client),
         topicService: TopicService(client),
         notesService: NotesService(client),
-        questionService: QuestionsService(client));
+        questionService: QuestionsService(client),
+        quizService: QuizService(client));
   }
 }

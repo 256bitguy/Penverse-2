@@ -5,6 +5,8 @@ import 'package:flutter_redux/flutter_redux.dart';
 
 import '../redux/notes_state.dart';
 import '../data/notes_view_model.dart';
+import '../../../questions/quiz/redux/quiz_action.dart';
+import '../../../questions/quiz/ui/quiz_list_screen.dart';  
 
 class NotesUIScreen extends StatelessWidget {
   const NotesUIScreen({super.key});
@@ -64,6 +66,39 @@ class NotesUIScreen extends StatelessWidget {
 
               // All Topics Fully Expanded
               ...note.topics.map((topic) => _buildTopicSection(topic)).toList(),
+
+              const SizedBox(height: 30),
+
+              // ✅ Start Quiz Button
+              StoreConnector<AppState, void Function()>(
+                converter: (store) {
+                  return () {
+                    store.dispatch(FetchAllQuizzesAction(note.id));
+               
+                    Navigator.push(context, MaterialPageRoute(builder: (_) => const QuizListScreen( )));
+                  };
+                },
+                builder: (context, startQuiz) {
+                  return Center(
+                    child: ElevatedButton.icon(
+                      style: ElevatedButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 14, horizontal: 24),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        backgroundColor: Colors.deepPurple,
+                      ),
+                      onPressed: startQuiz,
+                      // icon: const Icon(LucideIcons.playCircle, color: Colors.white),
+                      label: const Text(
+                        "Start Quiz",
+                        style: TextStyle(fontSize: 16, color: Colors.white),
+                      ),
+                    ),
+                  );
+                },
+              ),
             ],
           ),
         );
@@ -101,7 +136,8 @@ class NotesUIScreen extends StatelessWidget {
                 const SizedBox(width: 8),
                 Text(
                   topic.name,
-                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                  style: const TextStyle(
+                      fontWeight: FontWeight.bold, fontSize: 18),
                 ),
               ],
             ),
@@ -119,7 +155,9 @@ class NotesUIScreen extends StatelessWidget {
             const SizedBox(height: 12),
 
             // Subtopics - fully expanded
-            ...topic.subtopics.map((subtopic) => _buildSubtopicSection(subtopic)).toList(),
+            ...topic.subtopics
+                .map((subtopic) => _buildSubtopicSection(subtopic))
+                .toList(),
           ],
         ),
       ),
@@ -144,7 +182,8 @@ class NotesUIScreen extends StatelessWidget {
                 const SizedBox(width: 8),
                 Text(
                   subtopic.name,
-                  style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
+                  style: const TextStyle(
+                      fontWeight: FontWeight.w600, fontSize: 16),
                 ),
               ],
             ),
@@ -185,12 +224,14 @@ class NotesUIScreen extends StatelessWidget {
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Icon(LucideIcons.circleDot, size: 18, color: Colors.blueGrey),
+                  const Icon(LucideIcons.circleDot,
+                      size: 18, color: Colors.blueGrey),
                   const SizedBox(width: 6),
                   Expanded(
                     child: Text(
                       point.text,
-                      style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+                      style: const TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 15),
                     ),
                   ),
                 ],
@@ -201,9 +242,9 @@ class NotesUIScreen extends StatelessWidget {
                 padding: const EdgeInsets.only(top: 6, left: 24),
                 child: Text(
                   point.explanation,
-                  style:  TextStyle(
+                  style: const TextStyle(
                     fontSize: 14,
-                    color: const Color.fromARGB(255, 211, 143, 143),
+                    color: Color.fromARGB(255, 211, 143, 143),
                   ),
                 ),
               ),

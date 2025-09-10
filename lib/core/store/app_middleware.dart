@@ -14,6 +14,7 @@ import '../../features/subjects/chapter/redux/chapter_actions.dart';
 import '../../features/subjects/topic/redux/topic_action.dart';
 import '../../features/subjects/notes/redux/notes_action.dart';
 import '../../features/questions/question/reduxx/question_action.dart';
+import '../../features/questions/quiz/redux/quiz_action.dart';
 
 List<Middleware<AppState>> createAppMiddleware(ApiGateway apiGateway) {
   return [
@@ -48,7 +49,50 @@ List<Middleware<AppState>> createAppMiddleware(ApiGateway apiGateway) {
         _fetchAwarenessByTopic(apiGateway)),
     TypedMiddleware<AppState, FetchQuestionsByTopicIdAction>(
         _fetchQuestionByTopic(apiGateway)),
+    TypedMiddleware<AppState, FetchAllQuizzesAction>(
+        _fetchQuestionSetListByNotes(apiGateway)),
+    TypedMiddleware<AppState, FetchQuizByIdAction>(
+        _fetchQuizSetListByQuizId(apiGateway)),
   ];
+}
+
+Middleware<AppState> _fetchQuestionSetListByNotes(ApiGateway apiGateway) {
+  return (Store<AppState> store, action, NextDispatcher next) async {
+    if (action is FetchAllQuizzesAction) {
+      next(action);
+      try {
+        final response =
+            await apiGateway.quizService.fetchQuizzesByTopicId(action.topicId);
+        store.dispatch(FetchAllQuizzesSuccessAction(response));
+      } catch (e) {
+        store.dispatch(FetchQuestionsFailureAction(e.toString()));
+      }
+    }
+    // ✅ Handle fetching a single quiz by ID
+    else {
+      next(action);
+    }
+  };
+}
+
+Middleware<AppState> _fetchQuizSetListByQuizId(ApiGateway apiGateway) {
+  return (Store<AppState> store, action, NextDispatcher next) async {
+    if (action is FetchQuizByIdAction) {
+      next(action);
+      try {
+        print(action.quizId);
+        final response =
+            await apiGateway.quizService.fetchQuizById(action.quizId);
+        store.dispatch(FetchQuizByIdSuccessAction(response));
+      } catch (e) {
+        store.dispatch(FetchQuizFailureAction(e.toString()));
+      }
+    }
+    // ✅ Handle fetching a single quiz by ID
+    else {
+      next(action);
+    }
+  };
 }
 
 // ---------------- Topic-specific middlewares ----------------

@@ -26,6 +26,14 @@ class ApiEndpoints {
   static const String question = "$baseUrl/questions/topic";
   static String questionById(String id) => "$question/$id";
 
+
+  // ===== QUiz =====
+ static const String quizzesAlls = "$baseUrl/questionset/topic";
+  static String quizzesAll(String id) => "$quizzesAlls/$id";
+
+  static const String quizByIdPre = "$baseUrl/questionset";
+  static String quizById(String quizId) => "$quizByIdPre/$quizId";
+
   // ===== AWARENESS =====
   static const String awareness = "$baseUrl/awareness";
   static String awarenessById(String id) => "$awareness/$id";
