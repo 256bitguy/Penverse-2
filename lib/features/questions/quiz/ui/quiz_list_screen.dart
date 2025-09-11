@@ -35,10 +35,10 @@ class QuizListScreen extends StatelessWidget {
             itemCount: quizzes.length,
             itemBuilder: (context, index) {
               final quiz = quizzes[index];
-              print(quiz.id);
+            
             return Card(
   child: ListTile(
-    title: Text(quiz.id),
+    title: Text(quiz.title),
     onTap: () async {
       // 1️⃣ Force print the quiz ID
       // print('Selected quiz ID: ${}'); // ✅ will show actual ID
