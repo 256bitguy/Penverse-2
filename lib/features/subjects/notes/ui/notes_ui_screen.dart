@@ -1,12 +1,13 @@
-import 'package:Penverse/core/store/app_state.dart';
-import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
+import '../../../questions/quiz/redux/quiz_action.dart';
+import '../../../questions/quiz/ui/quiz_list_screen.dart';
 import '../redux/notes_state.dart';
 import '../data/notes_view_model.dart';
-import '../../../questions/quiz/redux/quiz_action.dart';
-import '../../../questions/quiz/ui/quiz_list_screen.dart';  
+import '../../../../core/store/app_state.dart';
+import 'topic_list_file.dart';
 
 class NotesUIScreen extends StatelessWidget {
   const NotesUIScreen({super.key});
@@ -50,54 +51,76 @@ class NotesUIScreen extends StatelessWidget {
             backgroundColor: Colors.blueGrey.shade800,
             elevation: 2,
           ),
-          body: ListView(
-            padding: const EdgeInsets.all(16),
+          body: Column(
             children: [
-              // Note Images
-              if (note.images.isNotEmpty)
-                Wrap(
-                  spacing: 8,
-                  runSpacing: 8,
-                  children: note.images
-                      .map((img) => _buildRoundedImage(img, size: 100))
-                      .toList(),
-                ),
               const SizedBox(height: 20),
 
-              // All Topics Fully Expanded
-              ...note.topics.map((topic) => _buildTopicSection(topic)).toList(),
+              // Note image (centered if available)
+              if (note.images.isNotEmpty)
+                Center(
+                  child: Image.network(
+                    note.images.first,
+                    height: 600,
+                    width: 300,
+                    fit: BoxFit.contain,
+                  ),
+                ),
 
-              const SizedBox(height: 30),
+              const Spacer(),
 
-              // ✅ Start Quiz Button
-              StoreConnector<AppState, void Function()>(
-                converter: (store) {
-                  return () {
-                    store.dispatch(FetchAllQuizzesAction(note.id));
-               
-                    Navigator.push(context, MaterialPageRoute(builder: (_) => const QuizListScreen( )));
-                  };
-                },
-                builder: (context, startQuiz) {
-                  return Center(
-                    child: ElevatedButton.icon(
+              // Buttons
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                child: Column(
+                  children: [
+                    ElevatedButton.icon(
                       style: ElevatedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 14, horizontal: 24),
+                        minimumSize: const Size.fromHeight(50),
+                        backgroundColor: Colors.blueGrey,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12),
                         ),
-                        backgroundColor: Colors.deepPurple,
                       ),
-                      onPressed: startQuiz,
-                      // icon: const Icon(LucideIcons.playCircle, color: Colors.white),
+                      icon: const Icon(LucideIcons.bookOpen, color: Colors.white),
                       label: const Text(
-                        "Start Quiz",
+                        "Topics",
                         style: TextStyle(fontSize: 16, color: Colors.white),
                       ),
+                      onPressed: () {
+                        _showTopicsModal(context, note);
+                      },
                     ),
-                  );
-                },
+                    const SizedBox(height: 16),
+                    StoreConnector<AppState, void Function()>(
+                      converter: (store) {
+                        return () {
+                          store.dispatch(FetchAllQuizzesAction(note.id));
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (_) => const QuizListScreen()),
+                          );
+                        };
+                      },
+                      builder: (context, startQuiz) {
+                        return ElevatedButton.icon(
+                          style: ElevatedButton.styleFrom(
+                            minimumSize: const Size.fromHeight(50),
+                            backgroundColor: Colors.deepPurple,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                          ),
+                          icon: const Icon(LucideIcons.bookCheck, color: Colors.white),
+                          label: const Text(
+                            "Practise",
+                            style: TextStyle(fontSize: 16, color: Colors.white),
+                          ),
+                          onPressed: startQuiz,
+                        );
+                      },
+                    ),
+                  ],
+                ),
               ),
             ],
           ),
@@ -106,163 +129,46 @@ class NotesUIScreen extends StatelessWidget {
     );
   }
 
-  /// Reusable rounded image widget
-  Widget _buildRoundedImage(String url, {double size = 80}) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(12),
-      child: Image.network(
-        url,
-        height: size,
-        width: size,
-        fit: BoxFit.cover,
+  void _showTopicsModal(BuildContext context, NoteModel note) {
+    showModalBottomSheet(
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
-    );
-  }
-
-  /// Fully expanded topic section
-  Widget _buildTopicSection(TopicModel topic) {
-    return Card(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-      elevation: 3,
-      margin: const EdgeInsets.only(bottom: 16),
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                const Icon(LucideIcons.bookOpen, color: Colors.blueGrey),
-                const SizedBox(width: 8),
-                Text(
-                  topic.name,
-                  style: const TextStyle(
-                      fontWeight: FontWeight.bold, fontSize: 18),
-                ),
-              ],
-            ),
-            const SizedBox(height: 12),
-
-            // Topic Images
-            if (topic.images.isNotEmpty)
-              Wrap(
-                spacing: 8,
-                runSpacing: 8,
-                children: topic.images
-                    .map((img) => _buildRoundedImage(img, size: 80))
-                    .toList(),
-              ),
-            const SizedBox(height: 12),
-
-            // Subtopics - fully expanded
-            ...topic.subtopics
-                .map((subtopic) => _buildSubtopicSection(subtopic))
-                .toList(),
-          ],
-        ),
-      ),
-    );
-  }
-
-  /// Fully expanded subtopic section
-  Widget _buildSubtopicSection(SubtopicModel subtopic) {
-    return Card(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      color: const Color.fromARGB(255, 127, 127, 196),
-      elevation: 2,
-      margin: const EdgeInsets.symmetric(vertical: 8),
-      child: Padding(
-        padding: const EdgeInsets.all(12),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                const Icon(LucideIcons.layers, color: Colors.deepPurple),
-                const SizedBox(width: 8),
-                Text(
-                  subtopic.name,
-                  style: const TextStyle(
-                      fontWeight: FontWeight.w600, fontSize: 16),
-                ),
-              ],
-            ),
-            const SizedBox(height: 10),
-
-            // Subtopic Images
-            if (subtopic.images.isNotEmpty)
-              Wrap(
-                spacing: 8,
-                runSpacing: 8,
-                children: subtopic.images
-                    .map((img) => _buildRoundedImage(img, size: 70))
-                    .toList(),
-              ),
-            const SizedBox(height: 10),
-
-            // Points - fully visible
-            ...subtopic.points.map((point) => _buildPointCard(point)).toList(),
-          ],
-        ),
-      ),
-    );
-  }
-
-  /// Point card - fully visible
-  Widget _buildPointCard(PointModel point) {
-    return Card(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-      color: const Color.fromARGB(255, 174, 212, 135),
-      elevation: 1,
-      margin: const EdgeInsets.symmetric(vertical: 6),
-      child: Padding(
-        padding: const EdgeInsets.all(12),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            if (point.text.isNotEmpty)
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Icon(LucideIcons.circleDot,
-                      size: 18, color: Colors.blueGrey),
-                  const SizedBox(width: 6),
-                  Expanded(
-                    child: Text(
-                      point.text,
-                      style: const TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: 15),
-                    ),
-                  ),
-                ],
-              ),
-
-            if (point.explanation.isNotEmpty)
-              Padding(
-                padding: const EdgeInsets.only(top: 6, left: 24),
+      builder: (context) {
+        return ListView.separated(
+          shrinkWrap: true,
+          padding: const EdgeInsets.all(16),
+          itemCount: note.topics.length,
+          separatorBuilder: (_, __) => const Divider(),
+          itemBuilder: (context, index) {
+            final topic = note.topics[index];
+            return ListTile(
+              leading: CircleAvatar(
+               
                 child: Text(
-                  point.explanation,
-                  style: const TextStyle(
-                    fontSize: 14,
-                    color: Color.fromARGB(255, 211, 143, 143),
-                  ),
+                  "${index + 1}",
+                  style: const TextStyle(color: Color.fromARGB(255, 222, 217, 217)),
                 ),
               ),
-
-            // Point Images
-            if (point.images.isNotEmpty) ...[
-              const SizedBox(height: 8),
-              Wrap(
-                spacing: 8,
-                runSpacing: 8,
-                children: point.images
-                    .map((img) => _buildRoundedImage(img, size: 60))
-                    .toList(),
+              title: Text(
+                topic.name,
+                style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
               ),
-            ]
-          ],
-        ),
-      ),
+              trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+              onTap: () {
+                Navigator.pop(context); // close modal
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => TopicListScreen(topic: topic),
+                  ),
+                );
+              },
+            );
+          },
+        );
+      },
     );
   }
 }

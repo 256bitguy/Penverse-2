@@ -1,21 +1,31 @@
 // notes_state.dart
-
 class PointModel {
-  final String text;
-  final String explanation;
-  final List<String> images;
+  final String text;                // The main point
+  final String explanation;         // Explanation of the point
+  final List<String> examples;      // ✅ Array of examples
+  final List<String> images;        // Array of images
 
   PointModel({
     required this.text,
     required this.explanation,
+    required this.examples,
     required this.images,
   });
 
-  factory PointModel.fromJson(Map<String, dynamic> json) => PointModel(
-        text: json['text'] ?? '',
-        explanation: json['explanation'] ?? '',
-        images: List<String>.from(json['images'] ?? []),
-      );
+ factory PointModel.fromJson(Map<String, dynamic> json) => PointModel(
+      text: json['text'] ?? '',
+      explanation: json['explanation'] ?? '',
+      examples: (json['examples'] as List?)?.map((e) => e.toString()).toList() ?? [],
+      images: (json['images'] as List?)?.map((e) => e.toString()).toList() ?? [],
+    );
+
+
+  Map<String, dynamic> toJson() => {
+        'text': text,
+        'explanation': explanation,
+        'examples': examples,
+        'images': images,
+      };
 }
 
 class SubtopicModel {
