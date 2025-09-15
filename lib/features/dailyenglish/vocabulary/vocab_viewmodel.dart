@@ -8,12 +8,14 @@ class VocabViewModel {
   final bool isLoading;
   final String? error;
   final void Function() loadVocab;
+  final void Function(DateTime) loadVocabByDate;
 
   VocabViewModel({
     required this.items,
     required this.isLoading,
     required this.error,
     required this.loadVocab,
+    required this.loadVocabByDate,
   });
 
   factory VocabViewModel.fromStore(Store<AppState> store) {
@@ -23,6 +25,10 @@ class VocabViewModel {
       error: store.state.vocabState.error,
       loadVocab: () {
         store.dispatch(LoadVocabAction());
+      },
+      loadVocabByDate: (DateTime date) {
+        print("done");
+        store.dispatch(LoadVocabByDateAction(date));
       },
     );
   }

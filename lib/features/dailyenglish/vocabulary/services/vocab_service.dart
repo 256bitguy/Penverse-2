@@ -43,4 +43,27 @@ class VocabService {
 
   throw Exception("Unexpected response format for topicId $topicId: $body");
 }
+  Future<List<VocabItem>> getVocabByDate(DateTime date) async {
+    // Format the passed date as YYYY-MM-DD
+    final formattedDate = DateFormat('yyyy-MM-dd').format(date);
+    print("Fetching vocab for date: $formattedDate");
+
+    // API Call
+    final response = await client.get(
+      ApiEndpoints.dailyVocabByDate(formattedDate),
+    );
+
+    // Extract data
+    final body = response.data;
+
+    if (body == null || body['data'] == null) {
+      throw Exception("Invalid editorial response: ${response.data}");
+    }
+
+    final list = body['data'] as List<dynamic>;
+
+    // Map to EditorialItem list
+    return list.map((json) => VocabItem.fromJson(json)).toList();
+  }
+
 }

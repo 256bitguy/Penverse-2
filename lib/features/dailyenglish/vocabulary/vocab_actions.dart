@@ -6,7 +6,10 @@ class FetchVocabByTopicIdAction {
   final String topicId;
   FetchVocabByTopicIdAction(this.topicId);
 }
-
+class LoadVocabByDateAction {
+  final DateTime date; // this is the missing field
+  LoadVocabByDateAction(this.date);
+}
 /// Action when vocab loads successfully
 class LoadVocabSuccessAction {
   final List<VocabItem> items;

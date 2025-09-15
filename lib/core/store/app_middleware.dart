@@ -19,6 +19,8 @@ import '../../features/questions/quiz/redux/quiz_action.dart';
 List<Middleware<AppState>> createAppMiddleware(ApiGateway apiGateway) {
   return [
     TypedMiddleware<AppState, LoadVocabAction>(_fetchVocab(apiGateway)),
+    TypedMiddleware<AppState, LoadVocabByDateAction>(
+        _fetchVocab(apiGateway)),
     TypedMiddleware<AppState, LoadEditorialAction>(
         _fetchEditorials(apiGateway)),
     TypedMiddleware<AppState, LoadEditorialByDateAction>(
@@ -273,6 +275,14 @@ Middleware<AppState> _fetchVocab(ApiGateway apiGateway) {
       next(action);
       try {
         final response = await apiGateway.vocabService.getDailyVocab();
+        store.dispatch(LoadVocabSuccessAction(response));
+      } catch (e) {
+        store.dispatch(LoadVocabFailureAction(e.toString()));
+      }
+    } else if (action is LoadVocabByDateAction) {
+      try {
+        final response =
+            await apiGateway.vocabService.getVocabByDate(action.date);
         store.dispatch(LoadVocabSuccessAction(response));
       } catch (e) {
         store.dispatch(LoadVocabFailureAction(e.toString()));

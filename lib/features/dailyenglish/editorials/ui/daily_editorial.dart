@@ -56,19 +56,14 @@ class _ParagraphScreenState extends State<ParagraphScreen> {
       distinct: true,
       converter: (store) => EditorialViewModel.fromStore(store),
       builder: (context, vm) {
-        if (vm.error != null) {
-          return Scaffold(
-            key: _scaffoldKey,
-            body: Center(child: Text("Error: ${vm.error}")),
-          );
-        }
+        
 
-        if (vm.items.isEmpty) {
-          return Scaffold(
-            key: _scaffoldKey,
-            body: const Center(child: Text("No editorial content found")),
-          );
-        }
+        // if (vm.items.isEmpty) {
+        //   return Scaffold(
+        //     key: _scaffoldKey,
+        //     body: const Center(child: Text("No editorial content found")),
+        //   );
+        // }
 
         final EditorialItem item = vm.items[0];
 
@@ -122,7 +117,14 @@ class _ParagraphScreenState extends State<ParagraphScreen> {
               ),
             ],
           ),
-          body: Column(
+         body: vm.items.isEmpty
+            ? const Center(
+                child: Text(
+                  "No Editorial found \n Try Selecting other date",
+                  style: TextStyle(color: Colors.white, fontSize: 16),
+                ),
+              )
+            : Column(
             children: [
               // Timer at the top
               Container(
