@@ -3,11 +3,13 @@ import 'package:meta/meta.dart';
 @immutable
 class BankingAwarenessState {
   final bool isLoading;
+  final bool isEmpty;
   final List<BankingAwarenessItem> items;
   final String? error;
 
   const BankingAwarenessState({
     this.isLoading = false,
+    this.isEmpty = false,
     this.items = const [],
     this.error,
   });
@@ -18,11 +20,13 @@ class BankingAwarenessState {
     bool? isLoading,
     List<BankingAwarenessItem>? items,
     String? error,
+    bool? isEmpty,
   }) {
     return BankingAwarenessState(
       isLoading: isLoading ?? this.isLoading,
       items: items ?? this.items,
       error: error,
+      isEmpty: isEmpty ?? this.isEmpty,
     );
   }
 

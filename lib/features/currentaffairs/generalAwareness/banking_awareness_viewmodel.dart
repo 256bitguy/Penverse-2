@@ -7,13 +7,15 @@ class BankingAwarenessViewModel {
   final List<BankingAwarenessItem> items;
   final bool isLoading;
   final String? error;
-  final void Function() loadBankingAwareness;
+ 
+  final void Function(DateTime date) loadEditorialByDate;
 
   BankingAwarenessViewModel({
     required this.items,
     required this.isLoading,
     required this.error,
-    required this.loadBankingAwareness,
+    
+    required this.loadEditorialByDate,
   });
 
   factory BankingAwarenessViewModel.fromStore(Store<AppState> store) {
@@ -21,8 +23,10 @@ class BankingAwarenessViewModel {
       items: store.state.bankingAwarenessState.items,
       isLoading: store.state.bankingAwarenessState.isLoading,
       error: store.state.bankingAwarenessState.error,
-      loadBankingAwareness: () {
-        store.dispatch(LoadBankingAwarenessAction());
+      
+       loadEditorialByDate: (DateTime date) {
+         print("Loading awareness for date: $date");
+        store.dispatch(FetchAwarenessByDateAction(date));
       },
     );
   }

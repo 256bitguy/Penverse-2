@@ -19,8 +19,7 @@ import '../../features/questions/quiz/redux/quiz_action.dart';
 List<Middleware<AppState>> createAppMiddleware(ApiGateway apiGateway) {
   return [
     TypedMiddleware<AppState, LoadVocabAction>(_fetchVocab(apiGateway)),
-    TypedMiddleware<AppState, LoadVocabByDateAction>(
-        _fetchVocab(apiGateway)),
+    TypedMiddleware<AppState, LoadVocabByDateAction>(_fetchVocab(apiGateway)),
     TypedMiddleware<AppState, LoadEditorialAction>(
         _fetchEditorials(apiGateway)),
     TypedMiddleware<AppState, LoadEditorialByDateAction>(
@@ -28,7 +27,7 @@ List<Middleware<AppState>> createAppMiddleware(ApiGateway apiGateway) {
     TypedMiddleware<AppState, LoadIdiomsAction>(_fetchIdioms(apiGateway)),
     TypedMiddleware<AppState, LoadPhrasalVerbsAction>(
         _fetchPhrasalVerbs(apiGateway)),
-    TypedMiddleware<AppState, LoadBankingAwarenessAction>(
+    TypedMiddleware<AppState, FetchAwarenessByDateAction>(
         _fetchBankingAwareness(apiGateway)),
     TypedMiddleware<AppState, LoadSubjectsAction>(_loadSubjects(apiGateway)),
     TypedMiddleware<AppState, LoadBooksBySubjectAction>(
@@ -47,8 +46,9 @@ List<Middleware<AppState>> createAppMiddleware(ApiGateway apiGateway) {
         _fetchIdiomsByTopic(apiGateway)),
     TypedMiddleware<AppState, FetchPhrasesByTopicIdAction>(
         _fetchPhrasesByTopic(apiGateway)),
-    TypedMiddleware<AppState, FetchAwarenessByTopicIdAction>(
-        _fetchAwarenessByTopic(apiGateway)),
+    // TypedMiddleware<AppState, FetchAwarenessByTopicIdAction>(
+    //     _fetchAwarenessByTopic(apiGateway)),
+
     TypedMiddleware<AppState, FetchQuestionsByTopicIdAction>(
         _fetchQuestionByTopic(apiGateway)),
     TypedMiddleware<AppState, FetchAllQuizzesAction>(
@@ -183,22 +183,22 @@ Middleware<AppState> _fetchPhrasesByTopic(ApiGateway apiGateway) {
   };
 }
 
-Middleware<AppState> _fetchAwarenessByTopic(ApiGateway apiGateway) {
-  return (Store<AppState> store, action, NextDispatcher next) async {
-    if (action is FetchAwarenessByTopicIdAction) {
-      next(action);
-      try {
-        final response = await apiGateway.bankingAwarenessService
-            .AwarenessByTopic(action.topicId);
-        store.dispatch(LoadBankingAwarenessSuccessAction(response));
-      } catch (e) {
-        store.dispatch(LoadBankingAwarenessFailureAction(e.toString()));
-      }
-    } else {
-      next(action);
-    }
-  };
-}
+// Middleware<AppState> _fetchAwarenessByTopic(ApiGateway apiGateway) {
+//   return (Store<AppState> store, action, NextDispatcher next) async {
+//     if (action is FetchAwarenessByTopicIdAction) {
+//       next(action);
+//       try {
+//         final response = await apiGateway.bankingAwarenessService
+//             .AwarenessByTopic(action.topicId);
+//         store.dispatch(LoadBankingAwarenessSuccessAction(response));
+//       } catch (e) {
+//         store.dispatch(LoadBankingAwarenessFailureAction(e.toString()));
+//       }
+//     } else {
+//       next(action);
+//     }
+//   };
+// }
 
 // ---------------- Existing middlewares ----------------
 
@@ -346,11 +346,11 @@ Middleware<AppState> _fetchPhrasalVerbs(ApiGateway apiGateway) {
 
 Middleware<AppState> _fetchBankingAwareness(ApiGateway apiGateway) {
   return (Store<AppState> store, action, NextDispatcher next) async {
-    if (action is LoadBankingAwarenessAction) {
-      next(action);
+    if (action is FetchAwarenessByDateAction) {
+      // next(action);
       try {
-        final response =
-            await apiGateway.bankingAwarenessService.getDailyBankingAwareness();
+        final response = await apiGateway.bankingAwarenessService
+            .getDailyBankingAwareness(action.date);
         store.dispatch(LoadBankingAwarenessSuccessAction(response));
       } catch (e) {
         store.dispatch(LoadBankingAwarenessFailureAction(e.toString()));

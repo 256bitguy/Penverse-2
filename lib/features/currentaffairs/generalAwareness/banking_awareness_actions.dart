@@ -1,11 +1,14 @@
 import 'banking_awareness_state.dart';
 
-class LoadBankingAwarenessAction {}
+ 
 class FetchAwarenessByTopicIdAction {
     final String topicId;
   FetchAwarenessByTopicIdAction(this.topicId);
 }
- 
+ class FetchAwarenessByDateAction {
+  final DateTime date; // this is the missing field
+  FetchAwarenessByDateAction(this.date);
+}
 
 class LoadBankingAwarenessSuccessAction {
   final List<BankingAwarenessItem> items; // ✅ FIXED TYPE

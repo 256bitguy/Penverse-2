@@ -27,7 +27,7 @@ class _DailyNewsScreenState extends State<DailyNewsScreen> {
     Future.microtask(() {
       final store = StoreProvider.of<AppState>(context, listen: false);
       final vm = BankingAwarenessViewModel.fromStore(store);
-      vm.loadBankingAwareness();
+      vm.loadEditorialByDate(DateTime.now());
     });
   }
 
@@ -46,13 +46,9 @@ class _DailyNewsScreenState extends State<DailyNewsScreen> {
       converter: (Store<AppState> store) =>
           BankingAwarenessViewModel.fromStore(store),
       builder: (context, vm) {
-        print(vm.items[0].title);
+        
 
-        if (vm.items.isEmpty) {
-          return const Scaffold(
-            body: Center(child: CircularProgressIndicator()),
-          );
-        }
+       
         return Scaffold(
           appBar: AppBar(
             backgroundColor: AppColors.scaffoldBackground,
@@ -63,9 +59,35 @@ class _DailyNewsScreenState extends State<DailyNewsScreen> {
                   TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
             ),
             centerTitle: true,
+             actions: [
+              IconButton(
+                icon: const Icon(Icons.calendar_today, color: Colors.white),
+                onPressed: () async {
+                  final pickedDate = await showDatePicker(
+                    context: context,
+                    initialDate: DateTime.now(),
+                    firstDate: DateTime(2020),
+                    lastDate: DateTime.now(),
+                  );
+                  if (pickedDate != null) {
+                    final store =
+                        StoreProvider.of<AppState>(context, listen: false);
+                     BankingAwarenessViewModel.fromStore(store).loadEditorialByDate(pickedDate);
+                    print("date picked $pickedDate");
+                  }
+                },
+              ),
+            ],
           ),
           body: SafeArea(
-            child: Column(
+            child:vm.items.isEmpty
+              ? const Center(
+                  child: Text(
+                    "No Affairs found for This Date",
+                    style: TextStyle(color: Colors.white, fontSize: 16),
+                  ),
+                )
+              : Column(
               children: [
                 // Date
                 Padding(

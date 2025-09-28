@@ -21,5 +21,5 @@ VocabState _onLoadSuccess(VocabState state, LoadVocabSuccessAction action) {
 }
 
 VocabState _onLoadFailure(VocabState state, LoadVocabFailureAction action) {
-  return state.copyWith(isLoading: false, error: action.error);
+  return state.copyWith(isLoading: false, error: action.error,items: []);
 }

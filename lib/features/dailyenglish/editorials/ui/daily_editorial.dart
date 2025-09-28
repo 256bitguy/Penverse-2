@@ -58,12 +58,7 @@ class _ParagraphScreenState extends State<ParagraphScreen> {
       builder: (context, vm) {
         
 
-        // if (vm.items.isEmpty) {
-        //   return Scaffold(
-        //     key: _scaffoldKey,
-        //     body: const Center(child: Text("No editorial content found")),
-        //   );
-        // }
+        
 
         final EditorialItem item = vm.items[0];
 
