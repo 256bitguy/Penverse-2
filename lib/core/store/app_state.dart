@@ -1,4 +1,4 @@
-import 'package:Penverse/features/subjects/book/redux/book_state.dart';
+import 'package:penverse/features/subjects/book/redux/book_state.dart';
 
 import '../../features/auth/auth_state.dart';
 import '../../features/dailyenglish/vocabulary/vocab_state.dart';
@@ -107,7 +107,7 @@ class AppState extends Equatable {
         'upscAwarenessState': upscAwarenessState.toJson(),
         'subjectState': subjectState.toJson(),
         'questionsState': questionsState.toJson(),
-        'quizState':quizState.toJson(),
+        'quizState': quizState.toJson(),
       };
 
   static AppState fromJson(dynamic json) {

@@ -1,7 +1,7 @@
 // topic_list_file.dart
 
 import 'package:flutter/material.dart';
-import 'package:Penverse/features/subjects/notes/redux/notes_state.dart';
+import 'package:penverse/features/subjects/notes/redux/notes_state.dart';
 import 'subtopic_file.dart'; // jab ready ho to uncomment
 
 class TopicListScreen extends StatelessWidget {
@@ -39,7 +39,8 @@ class TopicListScreen extends StatelessWidget {
                         errorBuilder: (context, error, stackTrace) {
                           return Container(
                             color: Colors.grey[300],
-                            child: const Center(child: Icon(Icons.broken_image)),
+                            child:
+                                const Center(child: Icon(Icons.broken_image)),
                           );
                         },
                       ),
@@ -59,19 +60,21 @@ class TopicListScreen extends StatelessWidget {
                 final subtopic = subtopics[index];
 
                 return Card(
-                  margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                  margin:
+                      const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: ListTile(
                     leading: CircleAvatar(
-               
-                child: Text(
-                  "${index + 1}",
-                  style: const TextStyle(color: Color.fromARGB(255, 222, 217, 217)),
-                ),
-              ),
-                    title: Text(subtopic.name.isNotEmpty ? subtopic.name : "Subtopic"),
+                      child: Text(
+                        "${index + 1}",
+                        style: const TextStyle(
+                            color: Color.fromARGB(255, 222, 217, 217)),
+                      ),
+                    ),
+                    title: Text(
+                        subtopic.name.isNotEmpty ? subtopic.name : "Subtopic"),
                     trailing: const Icon(Icons.arrow_forward_ios, size: 16),
                     onTap: () {
                       Navigator.push(

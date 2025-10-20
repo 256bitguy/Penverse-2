@@ -1,4 +1,4 @@
-import 'package:Penverse/features/subjects/topic/ui/topics_list.dart';
+import 'package:penverse/features/subjects/topic/ui/topics_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';

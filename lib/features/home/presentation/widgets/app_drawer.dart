@@ -1,4 +1,4 @@
-// import 'package:Penverse/features/home/presentation/widgets/vocab_page.dart';
+// import 'package:penverse/features/home/presentation/widgets/vocab_page.dart';
 // import 'package:flutter/material.dart';
 // import 'package:provider/provider.dart';
 

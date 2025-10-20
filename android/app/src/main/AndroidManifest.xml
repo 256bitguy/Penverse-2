@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.penverse">
+    package="com.amiable_ventures.penverse">
 
     <!-- Internet permission must go here, not inside <application> -->
     <uses-permission android:name="android.permission.INTERNET"/>

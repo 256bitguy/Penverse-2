@@ -1,5 +1,5 @@
-import 'package:Penverse/features/subjects/book/service/book_service.dart';
-import 'package:Penverse/features/subjects/notes/service/notes_service.dart';
+import 'package:penverse/features/subjects/book/service/book_service.dart';
+import 'package:penverse/features/subjects/notes/service/notes_service.dart';
 
 import 'api_client.dart';
 import '../../features/dailyenglish/vocabulary/services/vocab_service.dart';

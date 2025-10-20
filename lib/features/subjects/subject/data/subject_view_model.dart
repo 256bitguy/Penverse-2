@@ -1,5 +1,5 @@
 // lib/features/subjects/ui/subjects_view_model.dart
-import 'package:Penverse/core/store/app_state.dart';
+import 'package:penverse/core/store/app_state.dart';
 import 'package:redux/redux.dart';
 import '../redux/subject_state.dart';
 import '../redux/subject_actions.dart';

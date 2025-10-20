@@ -1,8 +1,8 @@
-import 'package:Penverse/features/questions/question/reduxx/questions_reducer.dart';
-import 'package:Penverse/features/subjects/book/redux/book_reducer.dart';
-import 'package:Penverse/features/subjects/chapter/redux/chapter_reducer.dart';
-import 'package:Penverse/features/subjects/notes/redux/notes_reducer.dart';
-import 'package:Penverse/features/subjects/subject/redux/subject_reducer.dart';
+import 'package:penverse/features/questions/question/reduxx/questions_reducer.dart';
+import 'package:penverse/features/subjects/book/redux/book_reducer.dart';
+import 'package:penverse/features/subjects/chapter/redux/chapter_reducer.dart';
+import 'package:penverse/features/subjects/notes/redux/notes_reducer.dart';
+import 'package:penverse/features/subjects/subject/redux/subject_reducer.dart';
 
 import '../../features/auth/auth_reducers.dart';
 import '../../features/dailyenglish/vocabulary/vocab_reducer.dart';
