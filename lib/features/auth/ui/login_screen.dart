@@ -147,10 +147,14 @@ class _LoginScreenState extends State<LoginScreen> {
 
                         /// Login Button
                         CustomButton(
-                          text: vm.isLoading ? 'Logging in...' : 'Log in',
-                          onPressed: vm.isLoading
-                              ? null
-                              : () => _onLogin(context, vm.onLogin),
+                          text: 'Log in',
+                          onPressed: () {
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (_) => const EntryPointUI()),
+                            );
+                          },
                         ),
 
                         const SizedBox(height: 24),

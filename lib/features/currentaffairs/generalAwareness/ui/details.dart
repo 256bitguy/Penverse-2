@@ -166,7 +166,7 @@ class _DailyScreenState extends State<DailyScreen> {
                 ),
                 child: const Text(
                   "Attempt Quiz",
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
                     color: Colors.white,

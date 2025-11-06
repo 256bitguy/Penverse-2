@@ -23,7 +23,7 @@ class AppBottomNavigationBar extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           BottomAppBarItem(
-            name: 'Homee',
+            name: 'Home',
             iconLocation: 'assets/icons/home.svg',
             isActive: currentIndex == 0,
             onTap: () => onNavTap(0),

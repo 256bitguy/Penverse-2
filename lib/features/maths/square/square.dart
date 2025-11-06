@@ -3,6 +3,8 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 
 class SquareQuiz extends StatefulWidget {
+  const SquareQuiz({super.key});
+
   @override
   _SquareQuizState createState() => _SquareQuizState();
 }

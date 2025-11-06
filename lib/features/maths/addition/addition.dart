@@ -3,6 +3,8 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 
 class AdditionQuiz extends StatefulWidget {
+  const AdditionQuiz({super.key});
+
   @override
   _AdditionQuizState createState() => _AdditionQuizState();
 }
@@ -60,7 +62,7 @@ class _AdditionQuizState extends State<AdditionQuiz> {
 
   void startTimer() {
     timer?.cancel();
-    timer = Timer.periodic(Duration(seconds: 1), (t) {
+    timer = Timer.periodic(const Duration(seconds: 1), (t) {
       if (!timerActive) {
         t.cancel();
         return;
@@ -99,8 +101,8 @@ class _AdditionQuizState extends State<AdditionQuiz> {
     return Scaffold(
       // backgroundColor: Color(0xFF0D0D25),
       appBar: AppBar(
-        title: Text("Addition Quiz"),
-        backgroundColor: Color(0xFF0D0D25),
+        title: const Text("Addition Quiz"),
+        backgroundColor: const Color(0xFF0D0D25),
         elevation: 0,
       ),
       body: Center(
@@ -109,15 +111,15 @@ class _AdditionQuizState extends State<AdditionQuiz> {
           child: !timerActive && numbers.isEmpty
               ? ElevatedButton.icon(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xFF0D0D25),
-                    padding: EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+                    backgroundColor: const Color(0xFF0D0D25),
+                    padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),
                   ),
                   onPressed: startQuiz,
-                  icon: Icon(Icons.play_arrow),
-                  label: Text("Start Quiz", style: TextStyle(fontSize: 18)),
+                  icon: const Icon(Icons.play_arrow),
+                  label: const Text("Start Quiz", style: TextStyle(fontSize: 18)),
                 )
               : Card(
                   shape: RoundedRectangleBorder(
@@ -133,14 +135,14 @@ class _AdditionQuizState extends State<AdditionQuiz> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text("Score: $score / $attempts",
-                                style: TextStyle(
+                                style: const TextStyle(
                                     fontSize: 18, fontWeight: FontWeight.w600)),
                             Row(
                               children: [
-                                Icon(Icons.timer, color: Color(0xFF51BDA3)),
-                                SizedBox(width: 5),
+                                const Icon(Icons.timer, color: Color(0xFF51BDA3)),
+                                const SizedBox(width: 5),
                                 Text("$timeLeft s",
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                         fontSize: 18,
                                         fontWeight: FontWeight.bold,
                                         color: Color(0xFF51BDA3))),
@@ -148,19 +150,19 @@ class _AdditionQuizState extends State<AdditionQuiz> {
                             ),
                           ],
                         ),
-                        SizedBox(height: 30),
+                        const SizedBox(height: 30),
 
                         // Question
                         Text(
-                          numbers.join(" + ") + " = ?",
-                          style: TextStyle(
+                          "${numbers.join(" + ")} = ?",
+                          style: const TextStyle(
                             fontSize: 28,
                             fontWeight: FontWeight.bold,
                             color: Color(0xD9B8B3D2),
                           ),
                           textAlign: TextAlign.center,
                         ),
-                        SizedBox(height: 30),
+                        const SizedBox(height: 30),
 
                         // Answer input
                         TextField(
@@ -173,10 +175,10 @@ class _AdditionQuizState extends State<AdditionQuiz> {
                               borderRadius: BorderRadius.circular(12),
                             ),
                             
-                            fillColor: Color(0xD95B44C4),
+                            fillColor: const Color(0xD95B44C4),
                           ),
                         ),
-                        SizedBox(height: 20),
+                        const SizedBox(height: 20),
 
                         // Buttons
                         if (result.isEmpty)
@@ -184,13 +186,13 @@ class _AdditionQuizState extends State<AdditionQuiz> {
                             onPressed:
                                 userAnswer.isEmpty ? null : handleSubmit,
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: Color(0xD948A77A),
-                              padding: EdgeInsets.symmetric(
+                              backgroundColor: const Color(0xD948A77A),
+                              padding: const EdgeInsets.symmetric(
                                   horizontal: 32, vertical: 14),
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(12)),
                             ),
-                            child: Text("Submit",
+                            child: const Text("Submit",
                                 style: TextStyle(fontSize: 18)),
                           ),
                         if (result.isNotEmpty) ...[
@@ -205,18 +207,18 @@ class _AdditionQuizState extends State<AdditionQuiz> {
                             ),
                             textAlign: TextAlign.center,
                           ),
-                          SizedBox(height: 12),
+                          const SizedBox(height: 12),
                           ElevatedButton.icon(
                             onPressed: nextQuestion,
-                            icon: Icon(Icons.arrow_forward),
+                            icon: const Icon(Icons.arrow_forward),
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.blueAccent,
-                              padding: EdgeInsets.symmetric(
+                              padding: const EdgeInsets.symmetric(
                                   horizontal: 28, vertical: 14),
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(12)),
                             ),
-                            label: Text("Next Question",
+                            label: const Text("Next Question",
                                 style: TextStyle(fontSize: 18)),
                           ),
                         ]

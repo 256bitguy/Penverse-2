@@ -15,7 +15,7 @@ class AuthState {
 
   factory AuthState.initial() => AuthState(
         isLoading: false,
-      isLoggedIn: true,
+      isLoggedIn: false,
       errorMessage: null,
         userEmail: null,
       );

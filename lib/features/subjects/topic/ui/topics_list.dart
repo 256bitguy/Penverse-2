@@ -116,7 +116,7 @@ class TopicsListScreen extends StatelessWidget {
                                   style: TextStyle(color: Colors.white)),
                               onTap: () {
                                 Navigator.pop(context);
-                                if (topic.id != null && topic.id.isNotEmpty) {
+                                if (topic.id.isNotEmpty) {
                                   vm.loadQuestionsByTopic(topic
                                       .id); // Redux action to fetch phrases
                                   Navigator.push(
@@ -152,7 +152,7 @@ class TopicsListScreen extends StatelessWidget {
                                   style: TextStyle(color: Colors.white)),
                               onTap: () {
                                 Navigator.pop(context);
-                                if (topic.id != null && topic.id.isNotEmpty) {
+                                if (topic.id.isNotEmpty) {
                                   vm.loadPhrasesByTopic(topic
                                       .id); // Redux action to fetch phrases
                                   Navigator.push(
@@ -173,7 +173,7 @@ class TopicsListScreen extends StatelessWidget {
                                   style: TextStyle(color: Colors.white)),
                               onTap: () {
                                 Navigator.pop(context);
-                                if (topic.id != null && topic.id.isNotEmpty) {
+                                if (topic.id.isNotEmpty) {
                                   vm.loadVocabByTopic(topic
                                       .id); // Redux action to fetch phrases
                                   Navigator.push(
@@ -193,7 +193,7 @@ class TopicsListScreen extends StatelessWidget {
                                   style: TextStyle(color: Colors.white)),
                               onTap: () {
                                 Navigator.pop(context);
-                                if (topic.id != null && topic.id.isNotEmpty) {
+                                if (topic.id.isNotEmpty) {
                                   vm.loadIdiomsByTopic(topic
                                       .id); // Redux action to fetch phrases
                                   Navigator.push(

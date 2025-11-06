@@ -3,6 +3,8 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 
 class SubtractionQuiz extends StatefulWidget {
+  const SubtractionQuiz({super.key});
+
   @override
   _SubtractionQuizState createState() => _SubtractionQuizState();
 }
@@ -63,7 +65,7 @@ class _SubtractionQuizState extends State<SubtractionQuiz> {
 
   void startTimer() {
     timer?.cancel();
-    timer = Timer.periodic(Duration(seconds: 1), (t) {
+    timer = Timer.periodic(const Duration(seconds: 1), (t) {
       if (!timerActive) {
         t.cancel();
         return;
@@ -102,8 +104,8 @@ class _SubtractionQuizState extends State<SubtractionQuiz> {
     return Scaffold(
       
       appBar: AppBar(
-        title: Text("Subtraction Quiz"),
-        backgroundColor: Color(0xFF0D0D25),
+        title: const Text("Subtraction Quiz"),
+        backgroundColor: const Color(0xFF0D0D25),
         elevation: 0,
       ),
       body: Center(
@@ -112,15 +114,15 @@ class _SubtractionQuizState extends State<SubtractionQuiz> {
           child: !timerActive && numbers.isEmpty
               ? ElevatedButton.icon(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xFF0D0D25),
-                    padding: EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+                    backgroundColor: const Color(0xFF0D0D25),
+                    padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),
                   ),
                   onPressed: startQuiz,
-                  icon: Icon(Icons.play_arrow),
-                  label: Text("Start Quiz", style: TextStyle(fontSize: 18)),
+                  icon: const Icon(Icons.play_arrow),
+                  label: const Text("Start Quiz", style: TextStyle(fontSize: 18)),
                 )
               : Card(
                   shape: RoundedRectangleBorder(
@@ -136,14 +138,14 @@ class _SubtractionQuizState extends State<SubtractionQuiz> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text("Score: $score / $attempts",
-                                style: TextStyle(
+                                style: const TextStyle(
                                     fontSize: 18, fontWeight: FontWeight.w600)),
                             Row(
                               children: [
-                                Icon(Icons.timer, color: const Color.fromARGB(255, 105, 54, 244)),
-                                SizedBox(width: 5),
+                                const Icon(Icons.timer, color: Color.fromARGB(255, 105, 54, 244)),
+                                const SizedBox(width: 5),
                                 Text("$timeLeft s",
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                         fontSize: 18,
                                         fontWeight: FontWeight.bold,
                                         color: Colors.red)),
@@ -151,19 +153,19 @@ class _SubtractionQuizState extends State<SubtractionQuiz> {
                             ),
                           ],
                         ),
-                        SizedBox(height: 30),
+                        const SizedBox(height: 30),
 
                         // Question
                         Text(
-                          numbers.join(" - ") + " = ?",
-                          style: TextStyle(
+                          "${numbers.join(" - ")} = ?",
+                          style: const TextStyle(
                             fontSize: 28,
                             fontWeight: FontWeight.bold,
-                            color: const Color.fromARGB(255, 167, 164, 212),
+                            color: Color.fromARGB(255, 167, 164, 212),
                           ),
                           textAlign: TextAlign.center,
                         ),
-                        SizedBox(height: 30),
+                        const SizedBox(height: 30),
 
                         // Answer input
                         TextField(
@@ -179,7 +181,7 @@ class _SubtractionQuizState extends State<SubtractionQuiz> {
                             
                           ),
                         ),
-                        SizedBox(height: 20),
+                        const SizedBox(height: 20),
 
                         // Buttons
                         if (result.isEmpty)
@@ -188,12 +190,12 @@ class _SubtractionQuizState extends State<SubtractionQuiz> {
                                 userAnswer.isEmpty ? null : handleSubmit,
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.green,
-                              padding: EdgeInsets.symmetric(
+                              padding: const EdgeInsets.symmetric(
                                   horizontal: 32, vertical: 14),
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(12)),
                             ),
-                            child: Text("Submit",
+                            child: const Text("Submit",
                                 style: TextStyle(fontSize: 18)),
                           ),
                         if (result.isNotEmpty) ...[
@@ -208,18 +210,18 @@ class _SubtractionQuizState extends State<SubtractionQuiz> {
                             ),
                             textAlign: TextAlign.center,
                           ),
-                          SizedBox(height: 12),
+                          const SizedBox(height: 12),
                           ElevatedButton.icon(
                             onPressed: nextQuestion,
-                            icon: Icon(Icons.arrow_forward),
+                            icon: const Icon(Icons.arrow_forward),
                             style: ElevatedButton.styleFrom(
                               backgroundColor: const Color.fromARGB(255, 108, 103, 182),
-                              padding: EdgeInsets.symmetric(
+                              padding: const EdgeInsets.symmetric(
                                   horizontal: 28, vertical: 14),
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(12)),
                             ),
-                            label: Text("Next Question",
+                            label: const Text("Next Question",
                                 style: TextStyle(fontSize: 18)),
                           ),
                         ]

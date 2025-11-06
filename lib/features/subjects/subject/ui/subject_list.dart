@@ -182,8 +182,9 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
                             color: Colors.white54,
                           ),
                           onTap: () {
-                            if(subject.totalBooks != 0)
-                            vm.loadBooksBySubject(subject.id);
+                            if(subject.totalBooks != 0) {
+                              vm.loadBooksBySubject(subject.id);
+                            }
 
                             // Navigate to books screen
                             Navigator.pushNamed(context, '/books');

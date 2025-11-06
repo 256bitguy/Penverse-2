@@ -3,6 +3,8 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 
 class MultiplicationQuiz extends StatefulWidget {
+  const MultiplicationQuiz({super.key});
+
   @override
   _MultiplicationQuizState createState() => _MultiplicationQuizState();
 }
@@ -71,7 +73,7 @@ class _MultiplicationQuizState extends State<MultiplicationQuiz> {
 
   void startTimer() {
     timer?.cancel();
-    timer = Timer.periodic(Duration(seconds: 1), (t) {
+    timer = Timer.periodic(const Duration(seconds: 1), (t) {
       if (!timerActive) {
         t.cancel();
         return;
@@ -110,8 +112,8 @@ class _MultiplicationQuizState extends State<MultiplicationQuiz> {
     return Scaffold(
      
       appBar: AppBar(
-        title: Text("Multiplication Quiz"),
-        backgroundColor: Color(0xFF0D0D25),
+        title: const Text("Multiplication Quiz"),
+        backgroundColor: const Color(0xFF0D0D25),
         elevation: 0,
       ),
       body: Center(
@@ -121,14 +123,14 @@ class _MultiplicationQuizState extends State<MultiplicationQuiz> {
               ? ElevatedButton.icon(
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.deepPurple,
-                    padding: EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+                    padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),
                   ),
                   onPressed: startQuiz,
-                  icon: Icon(Icons.play_arrow),
-                  label: Text("Start Quiz", style: TextStyle(fontSize: 18)),
+                  icon: const Icon(Icons.play_arrow),
+                  label: const Text("Start Quiz", style: TextStyle(fontSize: 18)),
                 )
               : Card(
                   shape: RoundedRectangleBorder(
@@ -144,14 +146,14 @@ class _MultiplicationQuizState extends State<MultiplicationQuiz> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text("Score: $score / $attempts",
-                                style: TextStyle(
+                                style: const TextStyle(
                                     fontSize: 18, fontWeight: FontWeight.w600)),
                             Row(
                               children: [
-                                Icon(Icons.timer, color: Colors.red),
-                                SizedBox(width: 5),
+                                const Icon(Icons.timer, color: Colors.red),
+                                const SizedBox(width: 5),
                                 Text("$timeLeft s",
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                         fontSize: 18,
                                         fontWeight: FontWeight.bold,
                                         color: Colors.red)),
@@ -159,19 +161,19 @@ class _MultiplicationQuizState extends State<MultiplicationQuiz> {
                             ),
                           ],
                         ),
-                        SizedBox(height: 30),
+                        const SizedBox(height: 30),
 
                         // Question
                         Text(
                           "$num1 × $num2 = ?",
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 28,
                             fontWeight: FontWeight.bold,
                             color: Color(0xFF0D0D25),
                           ),
                           textAlign: TextAlign.center,
                         ),
-                        SizedBox(height: 30),
+                        const SizedBox(height: 30),
 
                         // Answer input
                         TextField(
@@ -187,7 +189,7 @@ class _MultiplicationQuizState extends State<MultiplicationQuiz> {
                             fillColor: Colors.white,
                           ),
                         ),
-                        SizedBox(height: 20),
+                        const SizedBox(height: 20),
 
                         // Buttons
                         if (result.isEmpty)
@@ -196,12 +198,12 @@ class _MultiplicationQuizState extends State<MultiplicationQuiz> {
                                 userAnswer.isEmpty ? null : handleSubmit,
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.green,
-                              padding: EdgeInsets.symmetric(
+                              padding: const EdgeInsets.symmetric(
                                   horizontal: 32, vertical: 14),
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(12)),
                             ),
-                            child: Text("Submit",
+                            child: const Text("Submit",
                                 style: TextStyle(fontSize: 18)),
                           ),
                         if (result.isNotEmpty) ...[
@@ -216,18 +218,18 @@ class _MultiplicationQuizState extends State<MultiplicationQuiz> {
                             ),
                             textAlign: TextAlign.center,
                           ),
-                          SizedBox(height: 12),
+                          const SizedBox(height: 12),
                           ElevatedButton.icon(
                             onPressed: nextQuestion,
-                            icon: Icon(Icons.arrow_forward),
+                            icon: const Icon(Icons.arrow_forward),
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.deepPurple,
-                              padding: EdgeInsets.symmetric(
+                              padding: const EdgeInsets.symmetric(
                                   horizontal: 28, vertical: 14),
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(12)),
                             ),
-                            label: Text("Next Question",
+                            label: const Text("Next Question",
                                 style: TextStyle(fontSize: 18)),
                           ),
                         ]

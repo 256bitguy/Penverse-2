@@ -72,7 +72,7 @@ class PhrasalVerbItem extends Equatable {
       version: json['__v'] is int ? json['__v'] : int.tryParse(json['__v']?.toString() ?? '0') ?? 0,
       examples: (json['examples'] is List)
           ? (json['examples'] as List)
-              .where((e) => e is Map<String, dynamic>)
+              .whereType<Map<String, dynamic>>()
               .map((e) => PhrasalVerbExample.fromJson(e as Map<String, dynamic>))
               .toList()
           : [],
@@ -149,7 +149,7 @@ class PhrasalVerbsState extends Equatable {
       return PhrasalVerbsState(
         items: (map['items'] is List)
             ? (map['items'] as List)
-                .where((e) => e is Map<String, dynamic>)
+                .whereType<Map<String, dynamic>>()
                 .map((e) =>
                     PhrasalVerbItem.fromJson(e as Map<String, dynamic>))
                 .toList()

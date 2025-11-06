@@ -4,7 +4,6 @@ import 'package:flutter_redux/flutter_redux.dart';
 import '../../../../core/store/app_state.dart';
 import '../data/quiz_view_model.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../../quiz/redux/quiz_action.dart';
 
 class QuizDetailScreen extends StatefulWidget {
   final String quizId;

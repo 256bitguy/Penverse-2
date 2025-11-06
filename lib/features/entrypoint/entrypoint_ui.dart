@@ -13,7 +13,6 @@ import '../dailyenglish/entrypoint/entrypoint_ui.dart';
 import '../dailyenglish/editorials/ui/daily_editorial.dart';
 import '../currentaffairs/entrypoint/entrypoint_ui.dart';
 import '../maths/entrypoint/entrypoint_ui.dart';
-import '../questions/question/ui/question_ui_screen.dart';
 
 /// This page will contain all the bottom navigation tabs
 class EntryPointUI extends StatefulWidget {

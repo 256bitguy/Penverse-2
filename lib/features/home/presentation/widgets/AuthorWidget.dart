@@ -1,0 +1,131 @@
+import 'package:flutter/material.dart';
+
+class AuthorSectionWidget extends StatelessWidget {
+  final String title; // Section title, e.g., "Popular Authors"
+  final List<Map<String, String>> authors; // List of authors
+  final VoidCallback? onViewMore; // Optional callback for "View More" button
+
+  const AuthorSectionWidget({
+    super.key,
+    required this.title,
+    required this.authors,
+    this.onViewMore,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final screenSize = MediaQuery.of(context).size;
+    final itemWidth = screenSize.width / 2;
+    final itemHeight = screenSize.height / 3.5;
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 18),
+      child: Card(
+        color: Colors.transparent,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        child: Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Header Row: Title + Button
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    title,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                    ),
+                  ),
+                  TextButton(
+                    onPressed: onViewMore,
+                    child: const Text(
+                      "View More",
+                      style: TextStyle(color: Colors.blueAccent),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 12),
+
+              // Horizontal Scrollable Cards
+              SizedBox(
+                height: itemHeight + 80,
+                child: ListView.separated(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: authors.length,
+                  separatorBuilder: (_, __) => const SizedBox(width: 16),
+                  itemBuilder: (_, index) {
+                    final author = authors[index];
+                    return Container(
+                      width: itemWidth,
+                      decoration: BoxDecoration(
+                        color: const Color.fromARGB(255, 62, 72, 132),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          // Author Image
+                          ClipRRect(
+                            borderRadius: const BorderRadius.only(
+                              topLeft: Radius.circular(12),
+                              topRight: Radius.circular(12),
+                            ),
+                            child: Image.network(
+                              author["image"]!,
+                              width: itemWidth,
+                              height: itemHeight,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+
+                          // Author Details
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text(
+                                  author["name"] ?? "",
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 14,
+                                  ),
+                                ),
+                                const SizedBox(height: 4),
+                                Text(
+                                  author["genre"] ?? "",
+                                  style: const TextStyle(
+                                    color: Colors.white70,
+                                    fontSize: 12,
+                                  ),
+                                ),
+                                const SizedBox(height: 4),
+                                Text(
+                                  "Books: ${author["books"] ?? "0"}",
+                                  style: const TextStyle(
+                                    color: Colors.white70,
+                                    fontSize: 12,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}

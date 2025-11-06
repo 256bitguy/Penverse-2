@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import '../../../../core/store/app_state.dart';
 import '../data/chapter_view_model.dart';
-import '../redux/chapter_state.dart';
 
 class ChapterListScreen extends StatelessWidget {
   const ChapterListScreen({super.key});

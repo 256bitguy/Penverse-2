@@ -59,7 +59,7 @@ class _QuestionsUIScreenState extends State<QuestionsUIScreen> {
           );
         }
 
-        if (vm.questions == null || vm.questions!.isEmpty) {
+        if (vm.questions.isEmpty) {
           return const Scaffold(
             body: Center(child: Text("No questions found")),
           );
@@ -77,9 +77,9 @@ class _QuestionsUIScreenState extends State<QuestionsUIScreen> {
           body: ListView.separated(
             padding: const EdgeInsets.all(16),
             separatorBuilder: (_, __) => const SizedBox(height: 16),
-            itemCount: vm.questions!.length,
+            itemCount: vm.questions.length,
             itemBuilder: (context, index) {
-              final question = vm.questions![index];
+              final question = vm.questions[index];
               return _buildQuestionCard(question);
             },
           ),

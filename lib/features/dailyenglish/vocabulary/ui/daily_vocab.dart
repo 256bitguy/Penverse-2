@@ -166,13 +166,13 @@ class _DailyVocabScreenState extends State<DailyVocabScreen> {
                                                 CrossAxisAlignment.start,
                                             children: [
                                               Text(e.meaning,
-                                                  style: TextStyle(
+                                                  style: const TextStyle(
                                                       color: Colors.white)),
                                               Text(e.englishExplanation,
-                                                  style: TextStyle(
+                                                  style: const TextStyle(
                                                       color: Colors.white70)),
                                               Text(e.hindiExplanation,
-                                                  style: TextStyle(
+                                                  style: const TextStyle(
                                                       color: Colors.white70)),
                                               const SizedBox(height: 8),
                                             ],
