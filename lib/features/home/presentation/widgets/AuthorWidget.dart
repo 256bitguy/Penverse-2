@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:penverse/core/constants/app_colors.dart';
 
 class AuthorSectionWidget extends StatelessWidget {
   final String title; // Section title, e.g., "Popular Authors"
@@ -63,7 +64,7 @@ class AuthorSectionWidget extends StatelessWidget {
                     return Container(
                       width: itemWidth,
                       decoration: BoxDecoration(
-                        color: const Color.fromARGB(255, 62, 72, 132),
+                        color: AppColors.cardBackground,
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: Column(

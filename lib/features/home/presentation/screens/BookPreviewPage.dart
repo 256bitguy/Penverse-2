@@ -25,7 +25,7 @@ class BookPreviewPage extends StatelessWidget {
     };
 
     return Scaffold(
-      backgroundColor: AppColors.primary,
+      backgroundColor: AppColors.cardBackground,
       appBar: AppBar(
         backgroundColor: AppColors.scaffoldBackground,
         elevation: 1,

@@ -7,6 +7,7 @@ class Topic {
   final String id;
   final String title;
   final String chapterId;
+  final List<String>? types; // 👈 new field from backend
   final DateTime createdAt;
   final DateTime updatedAt;
 
@@ -14,6 +15,7 @@ class Topic {
     required this.id,
     required this.title,
     required this.chapterId,
+    this.types,
     required this.createdAt,
     required this.updatedAt,
   });
@@ -24,6 +26,9 @@ class Topic {
       id: json['_id'] ?? '',
       title: json['title'] ?? '',
       chapterId: json['chapterId'] ?? '',
+      types: json['types'] != null
+          ? List<String>.from(json['types'])
+          : null, // safely handle if not provided
       createdAt: DateTime.tryParse(json['createdAt'] ?? '') ?? DateTime.now(),
       updatedAt: DateTime.tryParse(json['updatedAt'] ?? '') ?? DateTime.now(),
     );
@@ -35,6 +40,7 @@ class Topic {
       '_id': id,
       'title': title,
       'chapterId': chapterId,
+      'types': types,
       'createdAt': createdAt.toIso8601String(),
       'updatedAt': updatedAt.toIso8601String(),
     };
@@ -51,7 +57,7 @@ class TopicState {
 
   TopicState({
     this.isLoading = false,
-    this.topics = const [],
+    this.topics = const <Topic>[],
     this.error,
   });
 

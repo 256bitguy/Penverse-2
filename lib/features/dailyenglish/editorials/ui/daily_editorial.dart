@@ -56,10 +56,6 @@ class _ParagraphScreenState extends State<ParagraphScreen> {
       distinct: true,
       converter: (store) => EditorialViewModel.fromStore(store),
       builder: (context, vm) {
-        
-
-        
-
         final EditorialItem item = vm.items[0];
 
         return Scaffold(
@@ -69,7 +65,8 @@ class _ParagraphScreenState extends State<ParagraphScreen> {
               padding: EdgeInsets.zero,
               children: const [
                 DrawerHeader(
-                  decoration: BoxDecoration(color: AppColors.scaffoldBackground),
+                  decoration:
+                      BoxDecoration(color: AppColors.scaffoldBackground),
                   child: Text(
                     "Menu",
                     style: TextStyle(color: Colors.white, fontSize: 24),
@@ -89,7 +86,8 @@ class _ParagraphScreenState extends State<ParagraphScreen> {
             ),
             title: const Text(
               "Penverse",
-              style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+              style:
+                  TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
             ),
             centerTitle: true,
             actions: [
@@ -105,105 +103,112 @@ class _ParagraphScreenState extends State<ParagraphScreen> {
                   if (pickedDate != null) {
                     final store =
                         StoreProvider.of<AppState>(context, listen: false);
-                    EditorialViewModel.fromStore(store).loadEditorialByDate(pickedDate);
+                    EditorialViewModel.fromStore(store)
+                        .loadEditorialByDate(pickedDate);
                     print("date picked $pickedDate");
                   }
                 },
               ),
             ],
           ),
-         body: vm.items.isEmpty
-            ? const Center(
-                child: Text(
-                  "No Editorial found \n Try Selecting other date",
-                  style: TextStyle(color: Colors.white, fontSize: 16),
-                ),
-              )
-            : Column(
-            children: [
-              // Timer at the top
-              Container(
-                width: double.infinity,
-                padding: const EdgeInsets.all(12),
-                color: const Color(0xFF1F1F5D),
-                child: Text(
-                  "Reading Time: $_formattedTime",
-                  style: GoogleFonts.poppins(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
+          body: vm.items.isEmpty
+              ? const Center(
+                  child: Text(
+                    "No Editorial found \n Try Selecting other date",
+                    style: TextStyle(color: Colors.white, fontSize: 16),
                   ),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-
-              // Paragraphs (scrollable)
-              Expanded(
-                child: SingleChildScrollView(
-                  physics: const BouncingScrollPhysics(),
-                  padding: const EdgeInsets.all(16),
+                )
+              : Container(
+                color: AppColors.cardBackground,
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    //  backgroundColor: AppColors.scaffoldBackground,
                     children: [
-                      Text(
-                        item.title,
-                        style: GoogleFonts.poppins(
-                          fontSize: 22,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
+                      // Timer at the top
+                      Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.all(12),
+                        color: AppColors.cardBackground,
+                        child: Text(
+                          "Reading Time: $_formattedTime",
+                          style: GoogleFonts.poppins(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                          textAlign: TextAlign.center,
                         ),
                       ),
-                      const SizedBox(height: 16),
 
-                      // Render paragraphs
-                      for (final para in item.paragraph) ...[
-                        Text(
-                          para,
-                          style: GoogleFonts.merriweather(
-                            fontSize: 18,
-                            height: 1.6,
-                            color: Colors.white,
-                            fontWeight: FontWeight.w400,
-                          ),
-                          textAlign: TextAlign.justify,
-                        ),
-                        const SizedBox(height: 16),
-                      ],
-
-                      const SizedBox(height: 24),
-
-                      // Quiz button
-                      if (item.questions.isNotEmpty)
-                        Center(
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.blue,
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 24, vertical: 12),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                            ),
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (_) => QuizScreen(item: item),
+                      // Paragraphs (scrollable)
+                      Expanded(
+                        child: SingleChildScrollView(
+                          physics: const BouncingScrollPhysics(),
+                          padding: const EdgeInsets.all(16),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                item.title,
+                                style: GoogleFonts.poppins(
+                                  fontSize: 22,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
                                 ),
-                              );
-                            },
-                            child: const Text(
-                              "Start Quiz",
-                              style: TextStyle(color: Colors.white),
-                            ),
+                              ),
+                              const SizedBox(height: 16),
+
+                              // Render paragraphs
+                              for (final para in item.paragraph) ...[
+                                Text(
+                                  para,
+                                  style: GoogleFonts.merriweather(
+                                    fontSize: 18,
+                                    height: 1.6,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                  textAlign: TextAlign.justify,
+                                ),
+                                const SizedBox(height: 16),
+                              ],
+
+                              const SizedBox(height: 24),
+
+                              // Quiz button
+                              if (item.questions.isNotEmpty)
+                                Center(
+                                  // backgroundColor: AppColors.scaffoldBackground,
+                                  child: ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: AppColors.textSecondary.withOpacity(0.2),
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 24, vertical: 12),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(12),
+                                      ),
+                                    ),
+                                    onPressed: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (_) =>
+                                              QuizScreen(item: item),
+                                        ),
+                                      );
+                                    },
+                                    child: const Text(
+                                      "Start Quiz",
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                  ),
+                                ),
+                            ],
                           ),
                         ),
+                      ),
                     ],
                   ),
                 ),
-              ),
-            ],
-          ),
         );
       },
     );

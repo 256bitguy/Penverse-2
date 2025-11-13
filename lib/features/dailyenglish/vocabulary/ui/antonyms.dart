@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/constants/constants.dart';
- import '../vocab_state.dart';  // <-- import your Antonym model
+import '../vocab_state.dart'; // <-- import your Antonym model
 
 class AntonymPage extends StatelessWidget {
   final List<Antonym> antonyms;
@@ -15,6 +15,7 @@ class AntonymPage extends StatelessWidget {
   Widget build(BuildContext context) {
     if (antonyms.isEmpty) {
       return const Scaffold(
+        backgroundColor: AppColors.scaffoldBackground,
         body: Center(
           child: Text(
             "No antonyms available",
@@ -25,9 +26,10 @@ class AntonymPage extends StatelessWidget {
     }
 
     return Scaffold(
+      backgroundColor: AppColors.scaffoldBackground,
       appBar: AppBar(
         title: const Text("Antonyms"),
-        backgroundColor: AppColors.scaffoldBackground,
+        backgroundColor: Colors.black,
         centerTitle: true,
       ),
       body: ListView.builder(
@@ -40,53 +42,51 @@ class AntonymPage extends StatelessWidget {
             margin: const EdgeInsets.only(bottom: 16),
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
-              color: Colors.white10,
+              color: Colors.grey.shade900,
               borderRadius: BorderRadius.circular(16),
               border: Border.all(color: Colors.white24, width: 1),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Word and its opposite
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      antonym.word,
-                      style: GoogleFonts.poppins(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
-                    ),
-                    Text(
-                      antonym.meaning,
-                      style: GoogleFonts.poppins(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.orangeAccent,
-                      ),
-                    ),
-                  ],
+                // Antonym word and meaning
+                Text(
+                  antonym.word,
+                  style: GoogleFonts.poppins(
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
+                const SizedBox(height: 6),
+                Text(
+                  antonym.meaning,
+                  style: GoogleFonts.poppins(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.orangeAccent,
+                  ),
                 ),
                 const SizedBox(height: 10),
 
-                // Usage sentence (English)
+                // English Explanation
                 Text(
-                  "  ${antonym.englishExplanation}",
+                  antonym.englishExplanation,
                   style: GoogleFonts.merriweather(
                     fontSize: 16,
                     color: Colors.white70,
+                    height: 1.4,
                   ),
                 ),
-                const SizedBox(height: 4),
+                const SizedBox(height: 6),
 
-                // Usage sentence (Hindi)
+                // Hindi Explanation
                 Text(
-                  "  ${antonym.hindiExplanation}",
+                  antonym.hindiExplanation,
                   style: GoogleFonts.merriweather(
                     fontSize: 16,
                     color: Colors.greenAccent,
+                    height: 1.4,
                   ),
                 ),
               ],

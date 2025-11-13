@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:penverse/core/constants/app_colors.dart';
 import '../../../../core/constants/app_constants.dart';
 import 'onboarding_screen.dart';
 
@@ -29,7 +30,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 173, 97, 171),
+      backgroundColor: AppColors.scaffoldBackground,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

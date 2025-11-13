@@ -56,6 +56,7 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
+        backgroundColor: AppColors.cardBackground,
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -86,7 +87,7 @@ class _HomePageState extends State<HomePage> {
                         borderRadius: BorderRadius.circular(12),
                       ),
                       filled: true,
-                      // fillColor: const Color.fromARGB(255, 183, 197, 216),
+                      fillColor: AppColors.cardBackground,
                     ),
                   ),
                 ),

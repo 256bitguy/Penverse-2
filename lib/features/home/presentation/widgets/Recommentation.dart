@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:penverse/core/constants/app_colors.dart';
 
 class FictionRecommendationWidget extends StatelessWidget {
   final String title; // e.g., "Recommended Fiction Books"
@@ -63,12 +64,12 @@ class FictionRecommendationWidget extends StatelessWidget {
                     return Container(
                       width: itemWidth,
                       decoration: BoxDecoration(
-                        color: const Color.fromARGB(255, 62, 72, 132),
+                        color: AppColors.cardBackground,
                         borderRadius: BorderRadius.circular(12),
-                        border: Border.all(
-                          color: Colors.deepPurpleAccent.withOpacity(0.6),
-                          width: 1.5,
-                        ),
+                        // border: Border.all(
+                        //   color: Colors.white.withOpacity(0.6),
+                        //   width: 1.5,
+                        // ),
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,

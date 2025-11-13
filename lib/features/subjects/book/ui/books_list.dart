@@ -21,7 +21,10 @@ class BooksScreen extends StatelessWidget {
         if (vm.error != null) {
           return Scaffold(
             body: Center(
-              child: Text('Error: ${vm.error}', style: const TextStyle(color: Colors.red)),
+              child: Text(
+                'Error: ${vm.error}',
+                style: const TextStyle(color: Colors.red),
+              ),
             ),
           );
         }
@@ -29,16 +32,25 @@ class BooksScreen extends StatelessWidget {
         if (vm.books.isEmpty) {
           return const Scaffold(
             body: Center(
-              child: Text('No books found', style: TextStyle(color: Colors.white70)),
+              child: Text(
+                'No books in your library yet',
+                style: TextStyle(color: Colors.white70),
+              ),
             ),
           );
         }
 
         return Scaffold(
+          backgroundColor: const Color(0xFF0E0E0E),
           appBar: AppBar(
+            backgroundColor: Colors.transparent,
+            elevation: 0,
             title: const Text(
-              "Books",
-              style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+              "My Library",
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+              ),
             ),
             centerTitle: true,
           ),
@@ -47,48 +59,153 @@ class BooksScreen extends StatelessWidget {
             itemCount: vm.books.length,
             itemBuilder: (context, index) {
               final book = vm.books[index];
+
+              // You can later fetch this from backend UserLibrary schema
+              final double progress = 10; // %
+              final bool completed = progress >= 100;
+
               return Container(
-                margin: const EdgeInsets.symmetric(vertical: 8),
+                margin: const EdgeInsets.symmetric(vertical: 10),
+                padding: const EdgeInsets.all(14),
                 decoration: BoxDecoration(
                   color: Colors.white.withOpacity(0.08),
                   borderRadius: BorderRadius.circular(16),
-                  border: Border.all(color: Colors.white.withOpacity(0.3)),
+                  border: Border.all(color: Colors.white.withOpacity(0.2)),
                   boxShadow: [
-                    BoxShadow(color: Colors.black.withOpacity(0.2), blurRadius: 6, offset: const Offset(0, 3)),
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.3),
+                      blurRadius: 8,
+                      offset: const Offset(0, 3),
+                    ),
                   ],
                 ),
-                child: ListTile(
-                  contentPadding: const EdgeInsets.all(12),
-                  leading: book.coverImage.isNotEmpty
-                      ? ClipRRect(
-                          borderRadius: BorderRadius.circular(8),
-                          child: Image.network(
-                            book.coverImage,
-                            width: 50,
-                            height: 50,
-                            fit: BoxFit.cover,
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // 📘 Book Cover
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(8),
+                      child: Image.network(
+                        book.coverImage.isNotEmpty
+                            ? book.coverImage
+                            : 'https://m.media-amazon.com/images/I/81bsw6fnUiL._AC_UY327_FMwebp_QL65_.jpg',
+                        height: 160,
+                        width: 115,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    const SizedBox(width: 14),
+
+                    // 🧾 Book Info + Progress
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            book.title,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.white,
+                              height: 1.3,
+                            ),
                           ),
-                        )
-                      : CircleAvatar(
-                          radius: 28,
-                          backgroundColor: Colors.blue.shade200,
-                          child: const Icon(Icons.book, size: 32, color: Colors.white),
-                        ),
-                  title: Text(
-                    book.title,
-                    style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 16),
-                  ),
-                  subtitle: Text(
-                    'Author: ${book.author} | Chapters: ${book.totalChapters}',
-                    style: const TextStyle(color: Colors.white70),
-                  ),
-                  trailing: const Icon(Icons.arrow_forward_ios, size: 18, color: Colors.white54),
-                  onTap: () {
-                    if (book.totalChapters != 0) {
-                      vm.loadChaptersByBook(book.id);
-                      Navigator.pushNamed(context, '/chapters');
-                    }
-                  },
+                          const SizedBox(height: 4),
+                          Text(
+                            book.author,
+                            style: const TextStyle(
+                              color: Colors.grey,
+                              fontSize: 13,
+                            ),
+                          ),
+                          const SizedBox(height: 10),
+                          Text(
+                            book.description.isNotEmpty
+                                ? book.description
+                                : "No description available.",
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(
+                              fontSize: 12,
+                              color: Color.fromARGB(221, 213, 206, 206),
+                              height: 1.3,
+                            ),
+                          ),
+                          const SizedBox(height: 10),
+
+                          // 📖 Progress Bar
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              LinearProgressIndicator(
+                                value: progress / 100,
+                                minHeight: 6,
+                                borderRadius: BorderRadius.circular(10),
+                                backgroundColor: Colors.white12,
+                                color: completed
+                                    ? Colors.greenAccent
+                                    : Colors.blueAccent,
+                              ),
+                              const SizedBox(height: 6),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    completed
+                                        ? "Completed"
+                                        : "Progress: ${progress.toStringAsFixed(0)}%",
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      color: completed
+                                          ? Colors.greenAccent
+                                          : Colors.white70,
+                                    ),
+                                  ),
+                                  Text(
+                                    "${book.totalChapters} Chapters",
+                                    style: const TextStyle(
+                                      fontSize: 12,
+                                      color: Colors.white54,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 12),
+
+                          // 📘 Action Button
+                          ElevatedButton(
+                            onPressed: () {
+                              vm.loadChaptersByBook(book.id);
+                              Navigator.pushNamed(context, '/chapters');
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: completed
+                                  ? Colors.greenAccent.withOpacity(0.9)
+                                  : Colors.blueAccent,
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 16, vertical: 10),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                            ),
+                            child: Text(
+                              completed ? "Read Again" : "Continue Reading",
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 13,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
               );
             },

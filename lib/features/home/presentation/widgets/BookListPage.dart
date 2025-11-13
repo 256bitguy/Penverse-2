@@ -35,7 +35,7 @@ class BookListPage extends StatelessWidget {
     ];
 
     return Scaffold(
-      backgroundColor: AppColors.primary,
+      backgroundColor: AppColors.cardBackground,
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(60),
         child: AppBar(
@@ -97,7 +97,7 @@ class BookListPage extends StatelessWidget {
                     boxShadow: [
                       BoxShadow(
                         color: Colors.grey.withOpacity(0.2),
-                        blurRadius: 2,
+                        blurRadius: 1,
                         offset: const Offset(0, 3),
                       ),
                     ],
