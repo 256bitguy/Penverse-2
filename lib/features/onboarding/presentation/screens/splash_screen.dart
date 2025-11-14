@@ -30,28 +30,33 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.scaffoldBackground,
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.asset(
-              'assets/images/penv.png',
-              width: 120,
-              height: 120,
-            ),
-            const SizedBox(height: 24),
-            const Text(
-              AppConstants.appName,
-              style: TextStyle(
-                fontSize: 32,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-              ),
-            ),
-          ],
+  backgroundColor: AppColors.scaffoldBackground,
+  body: Center(
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        ClipRRect(
+          borderRadius: BorderRadius.circular(120 * 0.2), // 20% of width/height
+          child: Image.asset(
+            'assets/images/penv.png',
+            width: 120,
+            height: 120,
+            fit: BoxFit.cover,
+          ),
         ),
-      ),
-    );
+        const SizedBox(height: 24),
+        const Text(
+          AppConstants.appName,
+          style: TextStyle(
+            fontSize: 32,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+        ),
+      ],
+    ),
+  ),
+);
+
   }
 }

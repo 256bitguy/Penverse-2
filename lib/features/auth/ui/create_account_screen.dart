@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:penverse/core/constants/app_colors.dart';
 import '../../../../core/utils/responsive_utils.dart';
 import '../../../../core/widgets/custom_button.dart';
 import '../ui/widgets/custom_text_field.dart';
@@ -125,7 +126,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.surface,
+      backgroundColor: AppColors.scaffoldBackground,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         leading: IconButton(

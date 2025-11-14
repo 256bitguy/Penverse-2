@@ -16,6 +16,7 @@ class StoryScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text(story['title'] ?? 'Story'),
         centerTitle: true,
+        backgroundColor: AppColors.scaffoldBackground,
       ),
       body: ListView.builder(
         padding: const EdgeInsets.all(16.0),

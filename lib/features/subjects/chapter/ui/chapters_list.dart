@@ -85,7 +85,7 @@ class _ChapterListScreenState extends State<ChapterListScreen> {
                         return ListTile(
                           leading: CircleAvatar(
                             backgroundColor: isSelected
-                                ? Colors.blueAccent
+                                ? Colors.tealAccent.withOpacity(0.3)
                                 : Colors.grey.shade700,
                             child: Text(
                               "${index + 1}",
@@ -96,7 +96,7 @@ class _ChapterListScreenState extends State<ChapterListScreen> {
                             chapter.title,
                             style: TextStyle(
                               color:
-                                  isSelected ? Colors.blueAccent : Colors.white,
+                                  isSelected ? Colors.tealAccent.withOpacity(0.3) : Colors.white,
                               fontWeight: isSelected
                                   ? FontWeight.bold
                                   : FontWeight.normal,
@@ -142,7 +142,7 @@ class _ChapterListScreenState extends State<ChapterListScreen> {
                   minHeight: 4,
                   backgroundColor: Colors.white10,
                   color:
-                      progress >= 100 ? Colors.greenAccent : Colors.blueAccent,
+                      progress >= 100 ? Colors.greenAccent : Colors.tealAccent.withOpacity(0.3),
                 ),
               ),
             ),
@@ -185,7 +185,7 @@ class _ChapterListScreenState extends State<ChapterListScreen> {
                       Navigator.pushNamed(context, '/topics');
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.blueAccent,
+                      backgroundColor: Colors.tealAccent.withOpacity(0.3),
                       padding: const EdgeInsets.symmetric(
                           horizontal: 28, vertical: 14),
                       shape: RoundedRectangleBorder(

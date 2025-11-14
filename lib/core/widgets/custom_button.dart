@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
+import '../../core/constants/app_colors.dart'; // ensure this import exists
 
 class CustomButton extends StatelessWidget {
   final String text;
   final VoidCallback? onPressed;
   final bool isSecondary;
+  final Color? color;
 
   const CustomButton({
     super.key,
     required this.text,
-    this.onPressed, 
+    this.onPressed,
     this.isSecondary = false,
+    this.color,
   });
 
   @override
@@ -21,7 +24,9 @@ class CustomButton extends StatelessWidget {
               onPressed: onPressed,
               style: OutlinedButton.styleFrom(
                 side: BorderSide(
-                  color: onPressed == null ? Colors.white.withOpacity(0.3) : Colors.white,
+                  color: onPressed == null
+                      ? Colors.white.withOpacity(0.3)
+                      : Colors.white,
                   width: 1,
                 ),
                 minimumSize: const Size(double.infinity, 56),
@@ -32,7 +37,9 @@ class CustomButton extends StatelessWidget {
               child: Text(
                 text,
                 style: TextStyle(
-                  color: onPressed == null ? Colors.white.withOpacity(0.3) : Colors.white,
+                  color: onPressed == null
+                      ? Colors.white.withOpacity(0.3)
+                      : Colors.white,
                   fontSize: 16,
                   fontWeight: FontWeight.w500,
                 ),
@@ -41,11 +48,15 @@ class CustomButton extends StatelessWidget {
           : ElevatedButton(
               onPressed: onPressed,
               style: ElevatedButton.styleFrom(
+                elevation: 4,
+                backgroundColor: color ?? AppColors.cardBackground,
+                foregroundColor: Colors.white,
                 minimumSize: const Size(double.infinity, 56),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8),
                 ),
-                disabledBackgroundColor: Theme.of(context).primaryColor.withOpacity(0.3),
+                disabledBackgroundColor:
+                    (color ?? AppColors.cardBackground).withOpacity(0.3),
                 disabledForegroundColor: Colors.white.withOpacity(0.3),
               ),
               child: Text(

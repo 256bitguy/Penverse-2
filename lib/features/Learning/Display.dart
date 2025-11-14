@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'story_screen.dart';
+import '../Learning/Story_screen.dart';
 
 class StoryDemoPage extends StatelessWidget {
   const StoryDemoPage({super.key});
@@ -22,17 +22,25 @@ class StoryDemoPage extends StatelessWidget {
                 "text":
                     "Between the 6th and 4th centuries BCE, India witnessed a significant transformation in its political and social landscape. "
               },
-              {"text": "Small tribal units evolved into large territorial states", "bold": true},
+              {
+                "text":
+                    "Small tribal units evolved into large territorial states",
+                "bold": true
+              },
               {"text": " — known as the "},
               {"text": "Mahajanapadas", "italic": true, "color": "#2f4f4f"},
-              {"text": ". These states marked the early phase of urbanization and centralized governance in Indian history."}
+              {
+                "text":
+                    ". These states marked the early phase of urbanization and centralized governance in Indian history."
+              }
             ]
           }
         },
         {
           "type": "image",
           "content": {
-            "url": "https://res.cloudinary.com/dmxskf3hq/image/upload/v1761448385/uploads/huu5hznkiii4awr4moku.png",
+            "url":
+                "https://res.cloudinary.com/dmxskf3hq/image/upload/v1761448385/uploads/huu5hznkiii4awr4moku.png",
             "caption": "Map showing the 16 Mahajanapadas around 600 BCE."
           }
         },
@@ -70,7 +78,10 @@ class StoryDemoPage extends StatelessWidget {
             "children": [
               {"text": "Among these, "},
               {"text": "Magadha", "bold": true},
-              {"text": " emerged as the most powerful and prosperous kingdom, paving the way for future empires such as the Mauryas."}
+              {
+                "text":
+                    " emerged as the most powerful and prosperous kingdom, paving the way for future empires such as the Mauryas."
+              }
             ]
           }
         },
@@ -96,16 +107,23 @@ class StoryDemoPage extends StatelessWidget {
             "children": [
               {"text": "Most Mahajanapadas were monarchies, though some like "},
               {"text": "Vajji", "bold": true},
-              {"text": " had republican systems of governance. Their economy was based on "},
+              {
+                "text":
+                    " had republican systems of governance. Their economy was based on "
+              },
               {"text": "agriculture, trade, and coinage", "italic": true},
-              {"text": ", marking a shift from barter systems to metal currencies such as punch-marked coins."}
+              {
+                "text":
+                    ", marking a shift from barter systems to metal currencies such as punch-marked coins."
+              }
             ]
           }
         },
         {
           "type": "image",
           "content": {
-            "url": "https://res.cloudinary.com/dmxskf3hq/image/upload/v1761448385/uploads/huu5hznkiii4awr4moku.png",
+            "url":
+                "https://res.cloudinary.com/dmxskf3hq/image/upload/v1761448385/uploads/huu5hznkiii4awr4moku.png",
             "caption": "Punch-marked coins used during the Mahajanapada period."
           }
         },
@@ -116,7 +134,8 @@ class StoryDemoPage extends StatelessWidget {
         {
           "type": "question",
           "content": {
-            "statement": "Which of the following Mahajanapadas was known for its republican form of government?",
+            "statement":
+                "Which of the following Mahajanapadas was known for its republican form of government?",
             "options": [
               {"statement": "Magadha"},
               {"statement": "Kosala"},

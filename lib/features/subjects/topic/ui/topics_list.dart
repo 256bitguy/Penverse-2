@@ -7,7 +7,7 @@ import '../../../dailyenglish/phrasalVerbs/ui/daily_phrasal_verbs.dart';
 import '../../../dailyenglish/vocabulary/ui/daily_vocab.dart';
 import '../../../dailyenglish/idioms/ui/daily_idioms.dart';
 import '../../../questions/question/ui/question_ui_screen.dart';
-
+import '../../../Learning/Display.dart';
 class TopicsListScreen extends StatefulWidget {
   const TopicsListScreen({super.key});
 
@@ -79,7 +79,7 @@ class _TopicsListScreenState extends State<TopicsListScreen> {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12),
                   side: BorderSide(
-                    color: isSelected ? Colors.blueAccent : Colors.grey.shade800,
+                    color: isSelected ? Colors.tealAccent.withOpacity(0.3) : Colors.grey.shade800,
                     width: 1,
                   ),
                 ),
@@ -90,7 +90,7 @@ class _TopicsListScreenState extends State<TopicsListScreen> {
                       const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                   leading: CircleAvatar(
                     backgroundColor:
-                        isSelected ? Colors.blueAccent : Colors.grey.shade700,
+                        isSelected ? Colors.tealAccent.withOpacity(0.3) : Colors.grey.shade700,
                     child: Text(
                       "${index + 1}",
                       style: const TextStyle(color: Colors.white),
@@ -99,7 +99,7 @@ class _TopicsListScreenState extends State<TopicsListScreen> {
                   title: Text(
                     topic.title,
                     style: TextStyle(
-                      color: isSelected ? Colors.blueAccent : Colors.white,
+                      color: isSelected ? Colors.tealAccent.withOpacity(0.3): Colors.white,
                       fontWeight:
                           isSelected ? FontWeight.bold : FontWeight.normal,
                       fontSize: 16,
@@ -130,7 +130,7 @@ class _TopicsListScreenState extends State<TopicsListScreen> {
   // (topic.types != null && topic.types.isNotEmpty)
   //     ? topic.types
   //     :
-       ["notes", "vocab"]; // 👈 default if none
+       ["notes", "vocab","story"]; // 👈 default if none
 
 
 
@@ -180,6 +180,21 @@ class _TopicsListScreenState extends State<TopicsListScreen> {
               context,
               MaterialPageRoute(
                 builder: (context) => QuestionsUIScreen(topicId: topic.id),
+              ),
+            );
+          },
+        );
+         case 'story':
+        return _buildOption(
+          icon: Icons.book,
+          label: "Story",
+          onTap: () {
+            Navigator.pop(context);
+            // vm.loadQuestionsByTopic(topic.id);
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => StoryDemoPage(),
               ),
             );
           },
@@ -259,7 +274,7 @@ class _TopicsListScreenState extends State<TopicsListScreen> {
     required VoidCallback onTap,
   }) {
     return ListTile(
-      leading: Icon(icon, color: Colors.blueAccent),
+      leading: Icon(icon, color: Colors.tealAccent.withOpacity(0.3)),
       title: Text(label, style: const TextStyle(color: Colors.white)),
       onTap: onTap,
     );

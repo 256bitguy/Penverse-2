@@ -146,7 +146,7 @@ class BooksScreen extends StatelessWidget {
                                 backgroundColor: Colors.white12,
                                 color: completed
                                     ? Colors.greenAccent
-                                    : Colors.blueAccent,
+                                    : Colors.tealAccent.withOpacity(0.3),
                               ),
                               const SizedBox(height: 6),
                               Row(
@@ -186,7 +186,7 @@ class BooksScreen extends StatelessWidget {
                             style: ElevatedButton.styleFrom(
                               backgroundColor: completed
                                   ? Colors.greenAccent.withOpacity(0.9)
-                                  : Colors.blueAccent,
+                                  : Colors.tealAccent.withOpacity(0.3),
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 16, vertical: 10),
                               shape: RoundedRectangleBorder(

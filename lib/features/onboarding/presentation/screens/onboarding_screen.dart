@@ -1,4 +1,5 @@
  import 'package:flutter/material.dart';
+import 'package:penverse/core/constants/app_colors.dart';
 import '../../../../core/constants/app_constants.dart';
 import '../../../../core/utils/animation_utils.dart';
 import '../../../../core/utils/page_transitions.dart';
@@ -141,6 +142,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 : CustomButton(
                     text: 'Next',
                     onPressed: _onNextPage,
+                    
                   ),
           ),
         ],
@@ -153,7 +155,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     // final isDesktop = ResponsiveUtils.isDesktop(context);
 
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.surface,
+      backgroundColor: AppColors.cardBackground,
       body: SafeArea(
         child: Column(
           children: [
