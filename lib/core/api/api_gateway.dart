@@ -1,3 +1,5 @@
+import 'package:penverse/features/auth/auth_state.dart';
+import 'package:penverse/features/auth/services/auth_service.dart';
 import 'package:penverse/features/subjects/book/service/book_service.dart';
 import 'package:penverse/features/subjects/notes/service/notes_service.dart';
 
@@ -14,6 +16,7 @@ import '../../features/questions/question/service/question_service.dart';
 import '../../features/questions/quiz/service/quiz_service.dart';
 
 class ApiGateway {
+  final AuthService authService;
   final VocabService vocabService;
   final EditorialService editorialService;
   final IdiomService idiomService;
@@ -29,7 +32,8 @@ class ApiGateway {
   final QuizService quizService;
 
   ApiGateway._(
-      {required this.vocabService,
+      {required this.authService,
+        required this.vocabService,
       required this.editorialService,
       required this.idiomService,
       required this.phrasalVerbService,
@@ -45,6 +49,7 @@ class ApiGateway {
   factory ApiGateway.create() {
     final client = ApiClient(); // internally create client
     return ApiGateway._(
+      authService: AuthService( client),
         vocabService: VocabService(client),
         editorialService: EditorialService(client),
         idiomService: IdiomService(client),

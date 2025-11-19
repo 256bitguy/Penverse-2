@@ -1,15 +1,97 @@
 import 'auth_state.dart';
 import 'auth_actions.dart';
-
 AuthState authReducer(AuthState state, dynamic action) {
-  if (action is LoginAction) {
+
+  // ------------------------------
+  // REGISTER
+  // ------------------------------
+  if (action is RegisterAction) {
     return state.copyWith(isLoading: true, errorMessage: null);
-  } else if (action is LoginSuccess ) {
-    return state.copyWith(isLoading: false, isLoggedIn: true);
-  } else if (action is LoginFailure ) {
-    return state.copyWith(isLoading: false, errorMessage: action.error);
-  } else if (action is Logout) {
-    return AuthState.initial();
+  } 
+  else if (action is RegisterSuccessAction) {
+    return state.copyWith(
+      isLoading: false,
+      userId: action.response['userId'] as String?,
+    );
   }
+  else if (action is RegisterFailureAction) {
+    return state.copyWith(isLoading: false, errorMessage: action.error);
+  }
+
+  // ------------------------------
+  // SEND OTP
+  // ------------------------------
+  // else if (action is SendOtpAction) {
+  //   return state.copyWith(isLoading: true, errorMessage: null);
+  // }
+  // else if (action is SendOtpSuccess) {
+  //   return state.copyWith(isLoading: false);
+  // }
+  // else if (action is SendOtpFailure) {
+  //   return state.copyWith(isLoading: false, errorMessage: action.error);
+  // }
+
+  // ------------------------------
+  // VERIFY OTP
+  // ------------------------------
+  // else if (action is VerifyOtpAction) {
+  //   return state.copyWith(isLoading: true, errorMessage: null);
+  // }
+  // else if (action is VerifyOtpSuccess) {
+  //   return state.copyWith(
+  //     isLoading: false,
+  //     isLoggedIn: true,
+  //     userId: action.userId,
+  //     accessToken: action.accessToken,
+  //     refreshToken: action.refreshToken,
+  //   );
+  // }
+  // else if (action is VerifyOtpFailure) {
+  //   return state.copyWith(isLoading: false, errorMessage: action.error);
+  // }
+
+  // ------------------------------
+  // LOGIN
+  // ------------------------------
+  // else if (action is LoginAction) {
+  //   return state.copyWith(isLoading: true, errorMessage: null);
+  // }
+  // else if (action is LoginSuccess) {
+  //   return state.copyWith(
+  //     isLoading: false,
+  //     isLoggedIn: true,
+  //     userId: action.userId,
+  //     accessToken: action.accessToken,
+  //     refreshToken: action.refreshToken,
+  //   );
+  // }
+  // else if (action is LoginFailure) {
+  //   return state.copyWith(isLoading: false, errorMessage: action.error);
+  // }
+
+  // ------------------------------
+  // REFRESH TOKEN
+  // // ------------------------------
+  // else if (action is RefreshTokenAction) {
+  //   return state.copyWith(isLoading: true);
+  // }
+  // else if (action is RefreshTokenSuccess) {
+  //   return state.copyWith(
+  //     isLoading: false,
+  //     accessToken: action.accessToken,
+  //     refreshToken: action.refreshToken,
+  //   );
+  // }
+  // else if (action is RefreshTokenFailure) {
+  //   return state.copyWith(isLoading: false, errorMessage: action.error);
+  // }
+
+  // ------------------------------
+  // LOGOUT
+  // ------------------------------
+  // else if (action is LogoutAction) {
+  //   return AuthState.initial();
+  // }
+
   return state;
 }

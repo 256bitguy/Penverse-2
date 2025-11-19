@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:penverse/core/constants/app_colors.dart';
+import 'package:penverse/features/auth/ui/role.dart';
+import 'package:penverse/features/entrypoint/entrypoint_ui.dart';
 import '../../../../core/utils/responsive_utils.dart';
-import '../../../../core/widgets/custom_button.dart';
-import 'success_screen.dart';
+
 
 class VerificationScreen extends StatefulWidget {
   final String email;
@@ -16,57 +18,34 @@ class VerificationScreen extends StatefulWidget {
 }
 
 class _VerificationScreenState extends State<VerificationScreen> {
-  final List<TextEditingController> _controllers = List.generate(
-    6,
-    (index) => TextEditingController(),
-  );
-  final List<FocusNode> _focusNodes = List.generate(
-    6,
-    (index) => FocusNode(),
-  );
+  final List<TextEditingController> _controllers =
+      List.generate(6, (_) => TextEditingController());
+  final List<FocusNode> _focusNodes = List.generate(6, (_) => FocusNode());
 
   @override
   void dispose() {
-    for (var controller in _controllers) {
-      controller.dispose();
-    }
-    for (var node in _focusNodes) {
-      node.dispose();
-    }
+    for (var c in _controllers) c.dispose();
+    for (var n in _focusNodes) n.dispose();
     super.dispose();
-  }
-
-  void _onCodeComplete() {
-    String code = _controllers.map((c) => c.text).join();
-    if (code.length == 6) {
-      // TODO: Verify code with API
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const SuccessScreen(),
-        ),
-      );
-    }
   }
 
   void _onCodeChanged(String value, int index) {
     if (value.length == 1 && index < 5) {
       _focusNodes[index + 1].requestFocus();
-    }
-    if (value.isEmpty && index > 0) {
+    } else if (value.isEmpty && index > 0) {
       _focusNodes[index - 1].requestFocus();
-    }
-    if (index == 5 && value.isNotEmpty) {
-      _onCodeComplete();
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final cardBg =  AppColors.cardBackground;
+
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.surface,
+      backgroundColor: AppColors.scaffoldBackground,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
+        elevation: 0,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () => Navigator.pop(context),
@@ -78,73 +57,143 @@ class _VerificationScreenState extends State<VerificationScreen> {
             padding: ResponsiveUtils.getScreenPadding(context),
             child: Container(
               width: ResponsiveUtils.getFormWidth(context),
-              constraints: const BoxConstraints(maxWidth: 600),
+              constraints: const BoxConstraints(maxWidth: 550),
+              padding: const EdgeInsets.all(24),
+              decoration: BoxDecoration(
+                color: cardBg,
+                borderRadius: BorderRadius.circular(20),
+                border: Border.all(color: Colors.white.withOpacity(0.1)),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.25),
+                    blurRadius: 12,
+                    offset: const Offset(0, 8),
+                  ),
+                ],
+              ),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
-                    'Code sent to email',
-                    style: Theme.of(context).textTheme.displayLarge,
+                    "Verify your email",
+                    style: Theme.of(context).textTheme.displayLarge?.copyWith(
+                          color: Colors.white,
+                          fontSize: 28,
+                          fontWeight: FontWeight.bold,
+                        ),
                   ),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: 12),
+
                   Text(
-                    'A verification code has been sent to your email.\nPlease enter it to verify your profile.',
-                    style: Theme.of(context).textTheme.bodyLarge,
+                    "We sent a 6-digit verification code to\n${widget.email}",
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                          color: Colors.white70,
+                          height: 1.4,
+                        ),
                   ),
+
                   const SizedBox(height: 32),
+
+                  // OTP BOXES
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: List.generate(
                       6,
-                      (index) => SizedBox(
-                        width: ResponsiveUtils.isMobile(context) ? 40 : 50,
+                      (index) => Container(
+                        width:
+                            ResponsiveUtils.isMobile(context) ? 48 : 55,
+                        height:
+                            ResponsiveUtils.isMobile(context) ? 55 : 60,
+                        decoration: BoxDecoration(
+                          color: Colors.white.withOpacity(0.08),
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(
+                            color: Colors.white.withOpacity(0.15),
+                          ),
+                        ),
                         child: TextField(
                           controller: _controllers[index],
                           focusNode: _focusNodes[index],
-                          keyboardType: TextInputType.number,
                           maxLength: 1,
+                          keyboardType: TextInputType.number,
                           textAlign: TextAlign.center,
                           style: const TextStyle(
-                            fontSize: 24,
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold,
                             color: Colors.white,
                           ),
-                          decoration: InputDecoration(
-                            counterText: '',
-                            filled: true,
-                            fillColor: Colors.white.withOpacity(0.1),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8),
-                              borderSide: BorderSide.none,
-                            ),
+                          decoration: const InputDecoration(
+                            counterText: "",
+                            border: InputBorder.none,
                           ),
-                          onChanged: (value) => _onCodeChanged(value, index),
+                          onChanged: (value) =>
+                              _onCodeChanged(value, index),
                         ),
                       ),
                     ),
                   ),
-                  const SizedBox(height: 16),
-                  Center(
+
+                  const SizedBox(height: 20),
+
+                  // TIMER
+                  Text(
+                    "This OTP will expire in 00:59",
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          color: Colors.white70,
+                        ),
+                  ),
+
+                  const SizedBox(height: 32),
+
+                  // CONFIRM BUTTON
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        String code =
+                            _controllers.map((c) => c.text).join();
+                        if (code.length == 6) {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => const UserDetailsScreen(),
+                            ),
+                          );
+                        }
+                      },
+                      style: ElevatedButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(vertical: 16),
+                        backgroundColor:
+                            Colors.white.withOpacity(0.15),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(14),
+                        ),
+                        elevation: 4,
+                      ),
+                      child: const Text(
+                        "Confirm",
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+
+                  const SizedBox(height: 20),
+
+                  // RESEND CODE
+                  TextButton(
+                    onPressed: () {},
                     child: Text(
-                      'This OTP will be available during 00:59sec',
-                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            color: Colors.white70,
+                      "Resend code",
+                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
                           ),
                     ),
-                  ),
-                  const SizedBox(height: 32),
-                  CustomButton(
-                    text: 'Confirm',
-                    onPressed: _onCodeComplete,
-                  ),
-                  const SizedBox(height: 16),
-                  Center(
-                    child: TextButton(
-                      onPressed: () {
-                        // TODO: Implement resend code
-                      },
-                      child: const Text('Resend code'),
-                    ),
-                  ),
+                  )
                 ],
               ),
             ),

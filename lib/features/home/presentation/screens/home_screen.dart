@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:penverse/features/profile/ui/user_profile.dart';
 // import 'package:penverse/features/home/presentation/screens/BookPreviewPage.dart';
 import '../widgets/bannerCarousel.dart';
 import '../widgets/SectionWidget.dart';
@@ -6,6 +7,7 @@ import '../widgets/AuthorWidget.dart';
 import '../widgets/Recommentation.dart';
 import '../widgets/BookListPage.dart';
 import '../../../../core/constants/app_colors.dart';
+
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -44,19 +46,101 @@ class _HomePageState extends State<HomePage> {
     final screenSize = MediaQuery.of(context).size;
 
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: AppColors.scaffoldBackground,
-        elevation: 0,
-        title: const Text("Penverse"),
-        centerTitle: true,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.person),
-            onPressed: () {},
+       drawer: Drawer(  
+        backgroundColor: AppColors.cardBackground, // <-- sidebar / drawer
+    child: ListView(
+      padding: EdgeInsets.zero,
+      children: [
+        DrawerHeader(
+          decoration: const BoxDecoration(
+            color: AppColors.scaffoldBackground,
           ),
-        ],
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: const [
+              Icon(Icons.segment, color: Colors.white, size: 40),
+        
+              Text(
+                "Menu",
+                style: TextStyle(color: Colors.white, fontSize: 20),
+              ),
+            ],
+          ),
+        ),
+
+        ListTile(
+          leading: const Icon(Icons.settings),
+          title: const Text('Settings'),
+          onTap: () {},
+        ),
+
+        ListTile(
+          leading: const Icon(Icons.notifications),
+          title: const Text('Notifications'),
+          onTap: () {},
+        ),
+
+        ListTile(
+          leading: const Icon(Icons.logout),
+          title: const Text('Logout'),
+          onTap: () {},
+        ),
+      ],
+    ),
+  ),
+
+      appBar: AppBar(
+    backgroundColor: AppColors.scaffoldBackground,
+    elevation: 0,
+    title: const Text("Penverse"),
+    centerTitle: true,
+
+    // LEFT SIDE SETTINGS BUTTON
+    leading: Builder(
+      builder: (context) => IconButton(
+        icon: const Icon(Icons.segment),
+        onPressed: () {
+          Scaffold.of(context).openDrawer();  // opens sidebar
+        },
       ),
-        backgroundColor: AppColors.cardBackground,
+    ),
+
+    actions: [
+      // PROFILE BUTTON
+      IconButton(
+        icon: const Icon(Icons.person),
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => UserProfilePage(
+                avatarUrl:
+                    "https://m.media-amazon.com/images/I/81-QB7nDh4L._AC_UY327_FMwebp_QL65_.jpg",
+                name: "Vivek Raj",
+                role: "Author",
+                readers: 1200,
+                purchased: 0,
+                subscribers: 180,
+                description: "Author of life-changing books.",
+                tags: ["Motivation", "Self-help", "Fiction"],
+                works: [
+                  {
+                    "title": "Atomic Thoughts",
+                    "cover": "https://example.com/book1.jpg",
+                  },
+                  {
+                    "title": "Mindset Flow",
+                    "cover": "https://example.com/book2.jpg",
+                  },
+                ],
+                titles: ["All", "Articles"],
+              ),
+            ),
+          );
+        },
+      ),
+    ],
+  ),backgroundColor: AppColors.cardBackground,
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -144,48 +228,51 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
 
-          const  FictionRecommendationWidget(
-  title: "Recommended Fiction Books",
-  books: [
-    {
-      "image": "https://res.cloudinary.com/dmxskf3hq/image/upload/v1761832564/uploads/lnys2wqukbw04mrkw0kr.png",
-      "title": "The Whispering Shadows",
-      "author": "Emily Hart",
-      "readers": "8.5k",
-      "price": "299",
-    },
-    {
-      "image": "https://res.cloudinary.com/dmxskf3hq/image/upload/v1761832763/uploads/rvqbrnqcg6lbrzfpaqqz.png",
-      "title": "Dreams of Tomorrow",
-      "author": "Ravi Kumar",
-      "readers": "5.3k",
-      "price": "249",
-    },
-    {
-      "image": "https://res.cloudinary.com/dmxskf3hq/image/upload/v1761832564/uploads/lnys2wqukbw04mrkw0kr.png",
-      "title": "Beneath the Crimson Sky",
-      "author": "Lara White",
-      "readers": "10.1k",
-      "price": "399",
-    },
-    {
-      "image": "https://res.cloudinary.com/dmxskf3hq/image/upload/v1761832763/uploads/rvqbrnqcg6lbrzfpaqqz.png",
-      "title": "City of Secrets",
-      "author": "Arjun Mehta",
-      "readers": "7.2k",
-      "price": "279",
-    },
-    {
-      "image": "https://res.cloudinary.com/dmxskf3hq/image/upload/v1761832564/uploads/lnys2wqukbw04mrkw0kr.png",
-      "title": "Winds of Destiny",
-      "author": "Sophia Khan",
-      "readers": "6.8k",
-      "price": "349",
-    },
-  ],
-  
-)
-,
+            const FictionRecommendationWidget(
+              title: "Recommended Fiction Books",
+              books: [
+                {
+                  "image":
+                      "https://res.cloudinary.com/dmxskf3hq/image/upload/v1761832564/uploads/lnys2wqukbw04mrkw0kr.png",
+                  "title": "The Whispering Shadows",
+                  "author": "Emily Hart",
+                  "readers": "8.5k",
+                  "price": "299",
+                },
+                {
+                  "image":
+                      "https://res.cloudinary.com/dmxskf3hq/image/upload/v1761832763/uploads/rvqbrnqcg6lbrzfpaqqz.png",
+                  "title": "Dreams of Tomorrow",
+                  "author": "Ravi Kumar",
+                  "readers": "5.3k",
+                  "price": "249",
+                },
+                {
+                  "image":
+                      "https://res.cloudinary.com/dmxskf3hq/image/upload/v1761832564/uploads/lnys2wqukbw04mrkw0kr.png",
+                  "title": "Beneath the Crimson Sky",
+                  "author": "Lara White",
+                  "readers": "10.1k",
+                  "price": "399",
+                },
+                {
+                  "image":
+                      "https://res.cloudinary.com/dmxskf3hq/image/upload/v1761832763/uploads/rvqbrnqcg6lbrzfpaqqz.png",
+                  "title": "City of Secrets",
+                  "author": "Arjun Mehta",
+                  "readers": "7.2k",
+                  "price": "279",
+                },
+                {
+                  "image":
+                      "https://res.cloudinary.com/dmxskf3hq/image/upload/v1761832564/uploads/lnys2wqukbw04mrkw0kr.png",
+                  "title": "Winds of Destiny",
+                  "author": "Sophia Khan",
+                  "readers": "6.8k",
+                  "price": "349",
+                },
+              ],
+            ),
             AuthorSectionWidget(
               title: "Popular Authors",
               authors: List.generate(
@@ -198,7 +285,13 @@ class _HomePageState extends State<HomePage> {
                     "https://res.cloudinary.com/dmxskf3hq/image/upload/v1761832124/uploads/eh3a64otyc7cvfxtzgn7.png",
                     "https://res.cloudinary.com/dmxskf3hq/image/upload/v1761832057/uploads/gvrpygp0qvghnceuux6e.png",
                   ][index],
-                  "name": ["Dr. Tanu Jain", "Sudarshan Gujjar", "Dr. Tanu Jain", "Arvind Kumar", "Dr. Tanu Jain"][index],
+                  "name": [
+                    "Dr. Tanu Jain",
+                    "Sudarshan Gujjar",
+                    "Dr. Tanu Jain",
+                    "Arvind Kumar",
+                    "Dr. Tanu Jain"
+                  ][index],
                   "genre": [
                     "UPSC",
                     "Geography",
@@ -209,7 +302,6 @@ class _HomePageState extends State<HomePage> {
                   "books": "${(index + 1) * 3}",
                 },
               ),
-             
             ),
           ],
         ),

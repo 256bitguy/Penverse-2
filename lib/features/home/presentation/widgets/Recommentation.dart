@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:penverse/core/constants/app_colors.dart';
-
+import 'package:penverse/features/home/presentation/screens/BookPreviewPage.dart';
+ 
 class FictionRecommendationWidget extends StatelessWidget {
-  final String title; // e.g., "Recommended Fiction Books"
-  final List<Map<String, String>> books; // List of books
+  final String title;
+  final List<Map<String, String>> books;
   final VoidCallback? onViewMore;
 
   const FictionRecommendationWidget({
@@ -61,76 +62,83 @@ class FictionRecommendationWidget extends StatelessWidget {
                   separatorBuilder: (_, __) => const SizedBox(width: 16),
                   itemBuilder: (_, index) {
                     final book = books[index];
-                    return Container(
-                      width: itemWidth,
-                      decoration: BoxDecoration(
-                        color: AppColors.cardBackground,
-                        borderRadius: BorderRadius.circular(12),
-                        // border: Border.all(
-                        //   color: Colors.white.withOpacity(0.6),
-                        //   width: 1.5,
-                        // ),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          // Book Image
-                          ClipRRect(
-                            borderRadius: const BorderRadius.only(
-                              topLeft: Radius.circular(12),
-                              topRight: Radius.circular(12),
-                            ),
-                            child: Image.network(
-                              book["image"]!,
-                              width: itemWidth,
-                              height: itemHeight,
-                              fit: BoxFit.cover,
-                            ),
-                          ),
 
-                          // Book Info
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  book["title"] ?? "",
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 14,
-                                  ),
-                                ),
-                                const SizedBox(height: 4),
-                                Text(
-                                  "Author: ${book["author"] ?? ""}",
-                                  style: const TextStyle(
-                                    color: Colors.white70,
-                                    fontSize: 12,
-                                  ),
-                                ),
-                                const SizedBox(height: 4),
-                                Text(
-                                  "Readers: ${book["readers"] ?? "0k"}",
-                                  style: const TextStyle(
-                                    color: Colors.white70,
-                                    fontSize: 12,
-                                  ),
-                                ),
-                                const SizedBox(height: 4),
-                                Text(
-                                  "Price: ₹${book["price"] ?? "0"}",
-                                  style: const TextStyle(
-                                    color: Colors.greenAccent,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 13,
-                                  ),
-                                ),
-                              ],
-                            ),
+                    return GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => BookPreviewPage(),
                           ),
-                        ],
+                        );
+                      },
+                      child: Container(
+                        width: itemWidth,
+                        decoration: BoxDecoration(
+                          color: AppColors.cardBackground,
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            // Book Image
+                            ClipRRect(
+                              borderRadius: const BorderRadius.only(
+                                topLeft: Radius.circular(12),
+                                topRight: Radius.circular(12),
+                              ),
+                              child: Image.network(
+                                book["image"]!,
+                                width: itemWidth,
+                                height: itemHeight,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+
+                            // Book Info
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    book["title"] ?? "",
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 4),
+                                  Text(
+                                    "Author: ${book["author"] ?? ""}",
+                                    style: const TextStyle(
+                                      color: Colors.white70,
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 4),
+                                  Text(
+                                    "Readers: ${book["readers"] ?? "0k"}",
+                                    style: const TextStyle(
+                                      color: Colors.white70,
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 4),
+                                  Text(
+                                    "Price: ₹${book["price"] ?? "0"}",
+                                    style: const TextStyle(
+                                      color: Colors.greenAccent,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 13,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     );
                   },
@@ -143,3 +151,4 @@ class FictionRecommendationWidget extends StatelessWidget {
     );
   }
 }
+ 

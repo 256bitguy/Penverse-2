@@ -1,3 +1,4 @@
+import 'package:penverse/features/auth/auth_actions.dart';
 import 'package:redux/redux.dart';
 import '../../core/store/app_state.dart';
 import '../../core/api/api_gateway.dart';
@@ -18,6 +19,9 @@ import '../../features/questions/quiz/redux/quiz_action.dart';
 
 List<Middleware<AppState>> createAppMiddleware(ApiGateway apiGateway) {
   return [
+    TypedMiddleware<AppState, RegisterAction>(_Register(apiGateway)),
+
+
     TypedMiddleware<AppState, LoadVocabAction>(_fetchVocab(apiGateway)),
     TypedMiddleware<AppState, LoadVocabByDateAction>(_fetchVocab(apiGateway)),
     TypedMiddleware<AppState, LoadEditorialAction>(
@@ -57,6 +61,28 @@ List<Middleware<AppState>> createAppMiddleware(ApiGateway apiGateway) {
         _fetchQuizSetListByQuizId(apiGateway)),
   ];
 }
+
+
+Middleware<AppState> _Register(ApiGateway apiGateway) {
+  return (Store<AppState> store, action, NextDispatcher next) async {
+    if (action is RegisterAction) {
+      next(action);
+      try {
+        print(  "Register Middleware: RegisterAction received with email: ${action.email}");
+        final response =
+            await apiGateway.authService.register(email: action.email, password: action.password);
+        store.dispatch(RegisterSuccessAction(response));
+      } catch (e) {
+        store.dispatch(RegisterFailureAction(e.toString()));
+      }
+    }
+    // ✅ Handle fetching a single quiz by ID
+    else {
+      next(action);
+    }
+  };
+}
+
 
 Middleware<AppState> _fetchQuestionSetListByNotes(ApiGateway apiGateway) {
   return (Store<AppState> store, action, NextDispatcher next) async {

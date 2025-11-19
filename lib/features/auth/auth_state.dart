@@ -1,48 +1,69 @@
 class AuthState {
-  final bool isLoggedIn;
-  final String? userEmail;
   final bool isLoading;
-   
+  final bool isLoggedIn;
+  final bool isRegistered;
+  final String? userEmail;
+  final String? userId;
+  final String? accessToken;
+  final String? refreshToken;
+
   final String? errorMessage;
 
-  AuthState({
-   required this.isLoading,
+  const AuthState({
+    required this.isLoading,
     required this.isLoggedIn,
+    required this.isRegistered,
+    this.userEmail,
+    this.userId,
+    this.accessToken,
+    this.refreshToken,
     this.errorMessage,
-    required this.userEmail,
-     
   });
 
-  factory AuthState.initial() => AuthState(
-        isLoading: false,
-      isLoggedIn: false,
-      errorMessage: null,
-        userEmail: null,
-      );
-
   AuthState copyWith({
-    bool? isLoggedIn,
     bool? isLoading,
-    String? userEmail,
-      String? errorMessage
+    bool? isLoggedIn,
+    bool? isRegistered,
+ 
+    String? userId,
+    String? accessToken,
+    String? refreshToken,
+    String? errorMessage,
   }) {
     return AuthState(
       isLoading: isLoading ?? this.isLoading,
       isLoggedIn: isLoggedIn ?? this.isLoggedIn,
+      isRegistered: isRegistered ?? this.isRegistered,
+      userId: userId ?? this.userId,
+      accessToken: accessToken ?? this.accessToken,
+      refreshToken: refreshToken ?? this.refreshToken,
       errorMessage: errorMessage,
-      userEmail: userEmail ?? this.userEmail,
     );
   }
-
   Map<String, dynamic> toJson() => {
         'isLoggedIn': isLoggedIn,
-        'userEmail': userEmail,
+        'isRegistered': isRegistered,
+        'accessToken': accessToken,
+        'userId': userId,
       };
 
+  factory AuthState.initial() => const AuthState(
+        isLoading: false,
+        isLoggedIn: false,
+        isRegistered: false,
+        userId: null,
+        accessToken: null,
+        refreshToken: null,
+        errorMessage: null,
+      );
   static AuthState fromJson(Map<String, dynamic> json) => AuthState(
         isLoggedIn: json['isLoggedIn'] ?? false,
         userEmail: json['userEmail'],
+        userId: json['userId'],
+        accessToken: json['accessToken'],
+        isRegistered: json['isRegistered'] ?? false,
         isLoading: json['isLoading'] ?? false,
         errorMessage: json['errorMessage'],
       );
 }
+

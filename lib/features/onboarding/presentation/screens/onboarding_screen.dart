@@ -1,5 +1,6 @@
  import 'package:flutter/material.dart';
 import 'package:penverse/core/constants/app_colors.dart';
+import 'package:penverse/features/entrypoint/entrypoint_ui.dart';
 import '../../../../core/constants/app_constants.dart';
 import '../../../../core/utils/animation_utils.dart';
 import '../../../../core/utils/page_transitions.dart';
@@ -47,13 +48,15 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     }
   }
 
-  void _onSkip() {
-    _pageController.animateToPage(
-      AppConstants.onboardingItems.length - 1,
-      duration: const Duration(milliseconds: 600),
-      curve: Curves.easeOutCubic,
-    );
-  }
+ void _onSkip() {
+  Navigator.pushReplacement(
+    context,
+    MaterialPageRoute(
+      builder: (context) => const EntryPointUI(),
+    ),
+  );
+}
+
 
   void _handleDragEnd(DragEndDetails details) {
     if (details.primaryVelocity == null) return;
