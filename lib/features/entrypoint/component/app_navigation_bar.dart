@@ -18,44 +18,46 @@ class AppBottomNavigationBar extends StatelessWidget {
     return BottomAppBar(
       shape: const CircularNotchedRectangle(),
       notchMargin: AppDefaults.margin,
-      color: AppColors.scaffoldBackground,
+      color: AppColors.cardBackground,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          BottomAppBarItem(
-            name: 'Home',
-            iconLocation: 'assets/icons/home.svg',
-            isActive: currentIndex == 0,
-            onTap: () => onNavTap(0),
-          ),
-          BottomAppBarItem(
-            name: 'Subjects',
-            iconLocation: AppIcons.menu,
-            isActive: currentIndex == 1,
-            onTap: () => onNavTap(1),
-          ),
-           
-          BottomAppBarItem(
-            name: 'Wordly',
-            iconLocation: AppIcons.edit,
-            isActive: currentIndex == 2,
-            onTap: () => onNavTap(2),
-          ),
+       children: [
+  BottomAppBarItem(
+    name: 'Home',
+    icon: Icons.home,
+    isActive: currentIndex == 0,
+    onTap: () => onNavTap(0),
+  ),
 
-          BottomAppBarItem(
-            name: 'News',
-            iconLocation: AppIcons.location,
-            isActive: currentIndex == 3,
-            onTap: () => onNavTap(3),
-          ),
-          
-           BottomAppBarItem(
-            name: 'Quiz',
-            iconLocation: AppIcons.search,
-            isActive: currentIndex == 5,
-            onTap: () => onNavTap(4),
-          ),
-        ],
+  BottomAppBarItem(
+    name: 'My Library',
+    icon: Icons.menu_book,
+    isActive: currentIndex == 1,
+    onTap: () => onNavTap(1),
+  ),
+
+  BottomAppBarItem(
+    name: 'Wordly',
+    icon: Icons.edit_note,
+    isActive: currentIndex == 2,
+    onTap: () => onNavTap(2),
+  ),
+
+  BottomAppBarItem(
+    name: 'News',
+    icon: Icons.article,
+    isActive: currentIndex == 3,
+    onTap: () => onNavTap(3),
+  ),
+
+  BottomAppBarItem(
+    name: 'Quiz',
+    icon: Icons.quiz,
+    isActive: currentIndex == 4,
+    onTap: () => onNavTap(4),
+  ),
+]
+
       ),
     );
   }

@@ -20,6 +20,7 @@ import '../../features/questions/quiz/redux/quiz_action.dart';
 List<Middleware<AppState>> createAppMiddleware(ApiGateway apiGateway) {
   return [
     TypedMiddleware<AppState, RegisterAction>(_Register(apiGateway)),
+    TypedMiddleware<AppState, LoginAction>(_Login(apiGateway)),
 
 
     TypedMiddleware<AppState, LoadVocabAction>(_fetchVocab(apiGateway)),
@@ -74,6 +75,25 @@ Middleware<AppState> _Register(ApiGateway apiGateway) {
         store.dispatch(RegisterSuccessAction(response));
       } catch (e) {
         store.dispatch(RegisterFailureAction(e.toString()));
+      }
+    }
+    // ✅ Handle fetching a single quiz by ID
+    else {
+      next(action);
+    }
+  };
+}
+Middleware<AppState> _Login(ApiGateway apiGateway) {
+  return (Store<AppState> store, action, NextDispatcher next) async {
+    if (action is LoginAction) {
+      next(action);
+      try {
+        print(  "Register Middleware: RegisterAction received with email: ${action.email}");
+        final response =
+            await apiGateway.authService.login(email: action.email, password: action.password);
+        store.dispatch(LoginSuccessAction(response));
+      } catch (e) {
+        store.dispatch(LoginFailureAction(e.toString()));
       }
     }
     // ✅ Handle fetching a single quiz by ID

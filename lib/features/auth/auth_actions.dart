@@ -20,14 +20,14 @@ class LoginAction {
   LoginAction(this.email, this.password);
 }
 
-class LoginSuccess {
-  final String email;
-  LoginSuccess(this.email);
+class LoginSuccessAction {
+  final Map<String, dynamic> response;
+  LoginSuccessAction(this.response);
 }
 
-class LoginFailure {
+class LoginFailureAction {
   final String error;
-  LoginFailure(this.error);
+  LoginFailureAction(this.error);
 }
 
 class Logout {}

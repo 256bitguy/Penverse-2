@@ -53,21 +53,21 @@ AuthState authReducer(AuthState state, dynamic action) {
   // ------------------------------
   // LOGIN
   // ------------------------------
-  // else if (action is LoginAction) {
-  //   return state.copyWith(isLoading: true, errorMessage: null);
-  // }
-  // else if (action is LoginSuccess) {
-  //   return state.copyWith(
-  //     isLoading: false,
-  //     isLoggedIn: true,
-  //     userId: action.userId,
-  //     accessToken: action.accessToken,
-  //     refreshToken: action.refreshToken,
-  //   );
-  // }
-  // else if (action is LoginFailure) {
-  //   return state.copyWith(isLoading: false, errorMessage: action.error);
-  // }
+  else if (action is LoginAction) {
+    return state.copyWith(isLoading: true, errorMessage: null);
+  }
+  else if (action is LoginSuccessAction) {
+    return state.copyWith(
+      isLoading: false,
+      isLoggedIn: true,
+      userId: action.response['userId'] as String?,
+      accessToken: action.response['accessToken'] as String?,
+      refreshToken: action.response['refreshToken'] as String?,
+    );
+  }
+  else if (action is LoginFailureAction) {
+    return state.copyWith(isLoading: false, errorMessage: action.error);
+  }
 
   // ------------------------------
   // REFRESH TOKEN
