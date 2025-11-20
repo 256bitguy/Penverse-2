@@ -7,7 +7,7 @@ import '../../features/dailyenglish/phrasalVerbs/phrasal_verb_state.dart';
 import '../../features/dailyenglish/editorials/editorial_state.dart';
 import '../../features/currentaffairs/generalAwareness/banking_awareness_state.dart';
 import '../../features/currentaffairs/upscAwareness/upsc_state.dart' as upsc;
-import '../../features/subjects/subject/redux/subject_state.dart';
+import '../../features/subjects/subject/redux/section_state.dart';
 import '../../features/subjects/chapter/redux/chapter_state.dart';
 import '../../features/subjects/topic/redux/topic_state.dart';
 import '../../features/subjects/notes/redux/notes_state.dart';
@@ -23,7 +23,7 @@ class AppState extends Equatable {
   final EditorialState editorialState;
   final BankingAwarenessState bankingAwarenessState;
   final upsc.UpscAwarenessState upscAwarenessState;
-  final SubjectState subjectState;
+  final SectionState sectionState;
   final BookState bookState;
   final ChapterState chapterState;
   final TopicState topicState;
@@ -39,7 +39,7 @@ class AppState extends Equatable {
       required this.editorialState,
       required this.bankingAwarenessState,
       required this.upscAwarenessState,
-      required this.subjectState,
+      required this.sectionState,
       required this.bookState,
       required this.chapterState,
       required this.topicState,
@@ -55,7 +55,7 @@ class AppState extends Equatable {
       editorialState: EditorialState.initial(),
       bankingAwarenessState: BankingAwarenessState.initial(),
       upscAwarenessState: upsc.UpscAwarenessState.initial(),
-      subjectState: SubjectState.initial(),
+      sectionState: SectionState.initial(),
       bookState: BookState.initial(),
       chapterState: ChapterState.initial(),
       topicState: TopicState.initial(),
@@ -72,7 +72,7 @@ class AppState extends Equatable {
       BankingAwarenessState? bankingAwarenessState,
       upsc.UpscAwarenessState? upscAwarenessState,
       BookState? bookState,
-      SubjectState? subjectState,
+      SectionState? sectionState,
       NotesState? notesState,
       ChapterState? chapterState,
       TopicState? topicState,
@@ -87,7 +87,7 @@ class AppState extends Equatable {
         bankingAwarenessState:
             bankingAwarenessState ?? this.bankingAwarenessState,
         upscAwarenessState: upscAwarenessState ?? this.upscAwarenessState,
-        subjectState: subjectState ?? this.subjectState,
+        sectionState: sectionState ?? this.sectionState,
         bookState: bookState ?? this.bookState,
         chapterState: chapterState ?? this.chapterState,
         topicState: topicState ?? this.topicState,
@@ -105,7 +105,7 @@ class AppState extends Equatable {
         'bankingAwarenessState': bankingAwarenessState.toJson(),
     
         'upscAwarenessState': upscAwarenessState.toJson(),
-        'subjectState': subjectState.toJson(),
+        'sectionState': sectionState.toJson(),
         'questionsState': questionsState.toJson(),
         'quizState': quizState.toJson(),
       };
@@ -124,7 +124,7 @@ class AppState extends Equatable {
             BankingAwarenessState.fromJson(json['bankingAwarenessState']),
         upscAwarenessState:
             upsc.UpscAwarenessState.fromJson(json['upscAwarenessState']),
-        subjectState: SubjectState.fromJson(json['subjectState']),
+        sectionState: SectionState.fromJson(json['sectionState']),
         bookState: BookState.fromJson(json['bookState']),
         chapterState: ChapterState.fromJson(json['chapterState']),
         topicState: TopicState.fromJson(json['topicState']),

@@ -6,7 +6,7 @@ import '../../core/constants/app_defaults.dart';
 
 import '../home/presentation/screens/home_screen.dart';
 
-import '../subjects/subject/ui/subject_list.dart';
+import '../subjects/subject/ui/library_screen.dart';
 import './component/app_navigation_bar.dart';
 
 import '../dailyenglish/entrypoint/entrypoint_ui.dart';
@@ -61,7 +61,7 @@ class _EntryPointUIState extends State<EntryPointUI> {
 
   List<Widget> pages = [
     const HomePage(),
-    const SubjectsScreen(id: 1),
+    const LibraryScreen(),
     const ParagraphScreen(),
     const EntryPointCA(),
      

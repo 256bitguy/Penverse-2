@@ -2,7 +2,7 @@ import 'package:penverse/features/questions/question/reduxx/questions_reducer.da
 import 'package:penverse/features/subjects/book/redux/book_reducer.dart';
 import 'package:penverse/features/subjects/chapter/redux/chapter_reducer.dart';
 import 'package:penverse/features/subjects/notes/redux/notes_reducer.dart';
-import 'package:penverse/features/subjects/subject/redux/subject_reducer.dart';
+import 'package:penverse/features/subjects/subject/redux/section_reducer.dart';
 
 import '../../features/auth/auth_reducers.dart';
 import '../../features/dailyenglish/vocabulary/vocab_reducer.dart';
@@ -27,7 +27,7 @@ AppState appReducer(AppState state, dynamic action) {
           bankingAwarenessReducer(state.bankingAwarenessState, action),
       upscAwarenessState:
           upscAwarenessReducer(state.upscAwarenessState, action),
-      subjectState: subjectReducer(state.subjectState, action),
+      sectionState: sectionReducer(state.sectionState, action),
       bookState: bookReducer(state.bookState, action),
       chapterState: chapterReducer(state.chapterState, action),
       topicState: topicReducer(state.topicState, action),

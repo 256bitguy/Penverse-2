@@ -9,7 +9,7 @@ import '../../features/dailyenglish/editorials/services/editorials_services.dart
 import '../../features/dailyenglish/phrasalVerbs/services/phrases_services.dart';
 import '../../features/dailyenglish/idioms/services/idioms_services.dart';
 import '../../features/currentaffairs/generalAwareness/services/bankingAwarenessService.dart';
-import '../../features/subjects/subject/service/subject_service.dart';
+import '../../features/subjects/subject/service/section_service.dart';
 import '../../features/subjects/topic/service/topic_service.dart';
 import '../../features/subjects/chapter/service/chapter_service.dart';
 import '../../features/questions/question/service/question_service.dart';

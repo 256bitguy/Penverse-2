@@ -9,7 +9,7 @@ import '../../features/dailyenglish/editorials/editorial_actions.dart';
 import '../../features/dailyenglish/idioms/idioms_actions.dart';
 import '../../features/dailyenglish/phrasalVerbs/phrasal_verbs_actions.dart';
 import '../../features/currentaffairs/generalAwareness/banking_awareness_actions.dart';
-import '../../features/subjects/subject/redux/subject_actions.dart';
+import '../../features/subjects/subject/redux/section_actions.dart';
 import '../../features/subjects/book/redux/book_actions.dart';
 import '../../features/subjects/chapter/redux/chapter_actions.dart';
 import '../../features/subjects/topic/redux/topic_action.dart';
@@ -34,7 +34,7 @@ List<Middleware<AppState>> createAppMiddleware(ApiGateway apiGateway) {
         _fetchPhrasalVerbs(apiGateway)),
     TypedMiddleware<AppState, FetchAwarenessByDateAction>(
         _fetchBankingAwareness(apiGateway)),
-    TypedMiddleware<AppState, LoadSubjectsAction>(_loadSubjects(apiGateway)),
+    TypedMiddleware<AppState, LoadSectionsAction>(_loadSections(apiGateway)),
     TypedMiddleware<AppState, LoadBooksBySubjectAction>(
         _loadBooksBySubject(apiGateway)),
     TypedMiddleware<AppState, LoadChaptersByBookAction>(
@@ -248,15 +248,15 @@ Middleware<AppState> _fetchPhrasesByTopic(ApiGateway apiGateway) {
 
 // ---------------- Existing middlewares ----------------
 
-Middleware<AppState> _loadSubjects(ApiGateway apiGateway) {
+Middleware<AppState> _loadSections(ApiGateway apiGateway) {
   return (Store<AppState> store, action, NextDispatcher next) async {
-    if (action is LoadSubjectsAction) {
+    if (action is LoadSectionsAction) {
       next(action);
       try {
         final response = await apiGateway.subjectService.fetchSubjects();
-        store.dispatch(LoadSubjectsSuccessAction(response));
+        store.dispatch(LoadSectionsSuccessAction(response));
       } catch (e) {
-        store.dispatch(LoadSubjectsFailureAction(e.toString()));
+        store.dispatch(LoadSectionsFailureAction(e.toString()));
       }
     } else {
       next(action);
