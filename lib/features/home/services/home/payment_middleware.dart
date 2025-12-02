@@ -23,7 +23,7 @@ Middleware<AppState> _payment(PaymentService service) {
       } catch (e) {
         print("Middleware: Payment failed: $e");
         store.dispatch(PaymentFailedAction(e.toString()));
-      }
+      }  
     } else {
       next(action);
     }

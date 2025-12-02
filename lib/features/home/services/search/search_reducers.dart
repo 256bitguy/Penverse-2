@@ -1,7 +1,7 @@
 import 'package:redux/redux.dart';
 import 'search_state.dart';
 import 'search_actions.dart';
-import '../../../subjects/book/redux/book_state.dart';
+ 
 
 final searchReducer = combineReducers<SearchState>([
   TypedReducer<SearchState, SearchBooksAction>(_onSearching),

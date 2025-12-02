@@ -20,6 +20,7 @@ class Book {
   final String? institutionId;
   final List<String> courseIds;
   final List<String> genreIds;
+  final String? purchasedAt;
 
   Book({
     required this.id,
@@ -43,6 +44,7 @@ class Book {
     required this.institutionId,
     required this.courseIds,
     required this.genreIds,
+     this.purchasedAt,
   });
 
   factory Book.fromJson(Map<String, dynamic> json) {
@@ -68,6 +70,7 @@ class Book {
       institutionId: json['institutionId'],
       courseIds: List<String>.from(json['courseIds'] ?? []),
       genreIds: List<String>.from(json['genreIds'] ?? []),
+      purchasedAt: json['purchasedAt'] ?? "",
     );
   }
 
@@ -94,6 +97,7 @@ class Book {
       "institutionId": institutionId,
       "courseIds": courseIds,
       "genreIds": genreIds,
+      "purchasedAt": purchasedAt,
     };
   }
 }

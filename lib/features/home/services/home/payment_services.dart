@@ -1,5 +1,3 @@
-import 'package:penverse/core/models/book_model.dart';
-
 import '../../../../core/api/api_client.dart';
 import '../../../../core/api/api_endpoints.dart';
 
@@ -11,8 +9,6 @@ class PaymentService {
   Future<Map<String, dynamic>> processPayment({
     required String bookId,
   }) async {
-    print("Processing payment for bookId: $bookId");
-
     final response = await client.post(
       ApiEndpoints.purchaseBook(
         bookId,
@@ -20,7 +16,6 @@ class PaymentService {
     );
 
     final body = response.data;
-    print("Payment API Response: $body");
 
     if (body) {
       return {

@@ -5,7 +5,7 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 import '../../../questions/quiz/redux/quiz_action.dart';
 import '../../../questions/quiz/ui/quiz_list_screen.dart';
 import '../redux/notes_state.dart';
-import '../data/notes_view_model.dart';
+import '../redux/notes_view_model.dart';
 import '../../../../core/store/app_state.dart';
 import 'topic_list_file.dart';
 

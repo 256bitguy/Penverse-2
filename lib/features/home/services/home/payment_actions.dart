@@ -1,5 +1,3 @@
-import 'package:penverse/core/models/book_model.dart';
-
 class InitializeAuth {}
 
 class PaymentAction {

@@ -11,7 +11,6 @@ class ApiEndpoints {
   static const sendResetPasswordOtp = "$baseUrl/auth/send-reset-otp";
   static const resetPassword = "$baseUrl/auth/reset-password";
 
-
   // ===== Search =====
   static const String searchBook = "$baseUrl/books/search";
   static String searchBooks(String query, int page, int limit) =>
@@ -21,14 +20,19 @@ class ApiEndpoints {
     return "$baseUrl/books/searchByGenre?genreId=$genreId&page=$page&limit=$limit";
   }
 
+  static String purchasedBooks( ) {
+    return "$baseUrl/purchase";
+  }
+
   static String searchBooksByCourse(String courseId, int page, int limit) {
     return "$baseUrl/books/searchByCourse?courseId=$courseId&page=$page&limit=$limit";
   }
 
   // ===== Purchased =====
-static String purchaseBook(String bookId) {
+  static String purchaseBook(String bookId) {
     return "$baseUrl/purchase/book/$bookId";
   }
+
   // ===== SUBJECTS, BOOKS, CHAPTERS, TOPICS =====
   static const String subjects = "$baseUrl/subjects";
   static String subject() => subjects;
@@ -45,16 +49,12 @@ static String purchaseBook(String bookId) {
   static const String notes = "$baseUrl/notes/topic";
   static String note(String id) => "$notes/$id";
 
-
-
   // ===== QUESTIONS =====
   static const String questionsall = "$baseUrl/questions/topic";
   static String questionsAll(String id) => "$questionsall/$id";
 
   static const String question = "$baseUrl/questions/topic";
   static String questionById(String id) => "$question/$id";
-
-
 
   // ===== QUiz =====
   static const String quizzesAlls = "$baseUrl/questionset/topic";
@@ -63,15 +63,11 @@ static String purchaseBook(String bookId) {
   static const String quizByIdPre = "$baseUrl/questionset";
   static String quizById(String quizId) => "$quizByIdPre/$quizId";
 
-
-
   // ===== AWARENESS =====
   static const String awareness = "$baseUrl/awareness";
   static String awarenessById(String id) => "$awareness/$id";
   static String awarenessSearchByTitle(String title) =>
       "$awareness/search/title?title=$title";
-
-
 
   // ===== DAILY AWARENESS =====
   static const String dailybankingawareness = "$baseUrl/dailybankingawareness";
@@ -83,13 +79,9 @@ static String purchaseBook(String bookId) {
   static String awarenessByTopic(String id) =>
       "$dailybankingawarenesstopic/$id";
 
-
-
   // ===== DAILY EDITORIAL =====
   static const String dailyEditorial = "$baseUrl/dailyeditorial";
   static String dailyEditorialByDate(String date) => "$dailyEditorial/$date";
-
-
 
   // ===== DAILY IDIOMS =====
   static const String dailyIdioms = "$baseUrl/dailyidioms";
@@ -97,9 +89,6 @@ static String purchaseBook(String bookId) {
 
   static const String topicIdioms = "$baseUrl/dailyidioms/topic";
   static String idiomsByTopic(String topicid) => "$topicIdioms/$topicid";
-
-
-
 
   // ===== DAILY PHRASAL VERBS =====
   static const String dailyPhrasalVerbs = "$baseUrl/dailyphrasal";
@@ -109,9 +98,6 @@ static String purchaseBook(String bookId) {
   static const String topicPhrasalVerbs = "$baseUrl/phrasalverb/topic";
   static String phrasalVerbsByTopic(String topicid) =>
       "$topicPhrasalVerbs/$topicid";
-
-
-
 
   // ===== DAILY VOCAB =====
   static const String dailyVocab = "$baseUrl/dailyvocab";

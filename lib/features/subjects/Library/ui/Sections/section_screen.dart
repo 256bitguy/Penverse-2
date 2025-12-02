@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../../../core/store/app_state.dart';
-import '../../book/data/book_view_model.dart';
+import '../../../../../core/store/app_state.dart';
+import '../../../book/data/book_view_model.dart';
 
 class SectionScreen extends StatefulWidget {
   final String sectionName;

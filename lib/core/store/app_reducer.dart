@@ -2,10 +2,11 @@
 import 'package:penverse/features/home/services/home/payment_reducer.dart';
 import 'package:penverse/features/home/services/search/search_reducers.dart';
 import 'package:penverse/features/questions/question/reduxx/questions_reducer.dart';
+import 'package:penverse/features/subjects/Library/redux/purchased/purchased_reducers.dart';
 import 'package:penverse/features/subjects/book/redux/book_reducer.dart';
 import 'package:penverse/features/subjects/chapter/redux/chapter_reducer.dart';
 import 'package:penverse/features/subjects/notes/redux/notes_reducer.dart';
-import 'package:penverse/features/subjects/Library/redux/section_reducer.dart';
+import 'package:penverse/features/subjects/Library/redux/sections/section_reducer.dart';
  
 import '../../features/auth/services/auth_reducers.dart';
 import '../../features/dailyenglish/vocabulary/vocab_reducer.dart';
@@ -38,6 +39,7 @@ AppState appReducer(AppState state, dynamic action) {
       notesState: notesReducer(state.notesState, action),
       questionsState: questionsReducer(state.questionsState, action),
       quizState: quizReducer(state.quizState, action),  
-      paymentState: paymentReducer(state.paymentState, action),
+      paymentState: paymentReducer(state.paymentState, action), 
+      purchasedBookState: purchasedBookReducer(state.purchasedBookState, action),
      );
 }

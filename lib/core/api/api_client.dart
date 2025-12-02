@@ -32,17 +32,17 @@ class ApiClient {
           if (_token != null) {
             options.headers['Authorization'] = 'Bearer $_token';
           }
-          // print('➡️ Request: ${options.method} ${options.uri}');
-          // print('Headers: ${options.headers}');
-          // print('Data: ${options.data}');
+          print('➡️ Request: ${options.method} ${options.uri}');
+          print('Headers: ${options.headers}');
+          print('Data: ${options.data}');
           return handler.next(options);
         },
         onResponse: (response, handler) {
-          // print('✅ Response: ${response.statusCode} ${response.data}');
+          print('✅ Response: ${response.statusCode} ${response.data}');
           return handler.next(response);
         },
         onError: (DioException e, handler) {
-          // print('❌ Error: ${e.response?.statusCode} ${e.message}');
+          print('❌ Error: ${e.response?.statusCode} ${e.message}');
           return handler.next(e);
         },
       ),

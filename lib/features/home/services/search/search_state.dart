@@ -1,7 +1,6 @@
 import 'package:penverse/core/models/book_model.dart';
 
-import '../../../subjects/book/redux/book_state.dart';
-
+ 
 class SearchState {
   final bool isLoading;
   final List<Book> results;

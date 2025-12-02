@@ -1,6 +1,6 @@
 // lib/features/notes/data/notes_service.dart
 
-import '../redux/notes_state.dart';
+import 'notes_state.dart';
 import '../../../../core/api/api_client.dart';
 import '../../../../core/api/api_endpoints.dart';
 

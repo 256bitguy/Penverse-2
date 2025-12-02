@@ -2,9 +2,9 @@
 
 import 'package:penverse/core/store/app_state.dart';
 import 'package:redux/redux.dart';
-import '../redux/section_state.dart';
-import '../redux/section_actions.dart';
-import '../../book/redux/book_actions.dart';
+import 'section_state.dart';
+import 'section_actions.dart';
+import '../../../book/redux/book_actions.dart';
 
 class SectionViewModel {
   final bool isLoading;

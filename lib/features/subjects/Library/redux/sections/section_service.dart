@@ -1,9 +1,9 @@
 // lib/features/subjects/data/subject_service.dart
  
 
-import '../redux/section_state.dart';
-import '../../../../core/api/api_client.dart';
-import '../../../../core/api/api_endpoints.dart';
+import 'section_state.dart';
+import '../../../../../core/api/api_client.dart';
+import '../../../../../core/api/api_endpoints.dart';
 
 class SubjectService {
   final ApiClient client;

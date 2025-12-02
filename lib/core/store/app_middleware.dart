@@ -9,7 +9,7 @@ import '../../features/dailyenglish/editorials/editorial_actions.dart';
 import '../../features/dailyenglish/idioms/idioms_actions.dart';
 import '../../features/dailyenglish/phrasalVerbs/phrasal_verbs_actions.dart';
 import '../../features/currentaffairs/generalAwareness/banking_awareness_actions.dart';
-import '../../features/subjects/Library/redux/section_actions.dart';
+import '../../features/subjects/Library/redux/sections/section_actions.dart';
 import '../../features/subjects/book/redux/book_actions.dart';
 import '../../features/subjects/chapter/redux/chapter_actions.dart';
 import '../../features/subjects/topic/redux/topic_action.dart';
@@ -21,7 +21,6 @@ List<Middleware<AppState>> createAppMiddleware(ApiGateway apiGateway) {
   return [
     TypedMiddleware<AppState, RegisterAction>(_Register(apiGateway)),
     TypedMiddleware<AppState, LoginAction>(_Login(apiGateway)),
-
 
     TypedMiddleware<AppState, LoadVocabAction>(_fetchVocab(apiGateway)),
     TypedMiddleware<AppState, LoadVocabByDateAction>(_fetchVocab(apiGateway)),
@@ -63,15 +62,15 @@ List<Middleware<AppState>> createAppMiddleware(ApiGateway apiGateway) {
   ];
 }
 
-
 Middleware<AppState> _Register(ApiGateway apiGateway) {
   return (Store<AppState> store, action, NextDispatcher next) async {
     if (action is RegisterAction) {
       next(action);
       try {
-        print(  "Register Middleware: RegisterAction received with email: ${action.email}");
-        final response =
-            await apiGateway.authService.register(email: action.email, password: action.password);
+        print(
+            "Register Middleware: RegisterAction received with email: ${action.email}");
+        final response = await apiGateway.authService
+            .register(email: action.email, password: action.password);
         store.dispatch(RegisterSuccessAction(response));
       } catch (e) {
         store.dispatch(RegisterFailureAction(e.toString()));
@@ -83,6 +82,7 @@ Middleware<AppState> _Register(ApiGateway apiGateway) {
     }
   };
 }
+
 Middleware<AppState> _Login(ApiGateway apiGateway) {
   return (Store<AppState> store, action, NextDispatcher next) async {
     if (action is LoginAction) {
@@ -94,7 +94,8 @@ Middleware<AppState> _Login(ApiGateway apiGateway) {
           email: action.email,
           password: action.password,
         );
-print(  "Login Middleware: Received backend response: $backendResponse  ");
+        print(
+            "Login Middleware: Received backend response: $backendResponse  ");
         // final response = {
         //   // "userId": backendResponse["data"]["user"]["_id"],
         //   "accessToken": backendResponse["data"]["accessToken"],
@@ -110,8 +111,6 @@ print(  "Login Middleware: Received backend response: $backendResponse  ");
     }
   };
 }
-
-
 
 Middleware<AppState> _fetchQuestionSetListByNotes(ApiGateway apiGateway) {
   return (Store<AppState> store, action, NextDispatcher next) async {
@@ -238,7 +237,6 @@ Middleware<AppState> _fetchPhrasesByTopic(ApiGateway apiGateway) {
   };
 }
 
- 
 Middleware<AppState> _loadSections(ApiGateway apiGateway) {
   return (Store<AppState> store, action, NextDispatcher next) async {
     if (action is LoadSectionsAction) {

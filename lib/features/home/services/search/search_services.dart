@@ -2,7 +2,7 @@ import 'package:penverse/core/models/book_model.dart';
 
 import '../../../../core/api/api_client.dart';
 import '../../../../core/api/api_endpoints.dart';
-import '../../../subjects/book/redux/book_state.dart';
+ 
 
 class SearchService {
   final ApiClient client;

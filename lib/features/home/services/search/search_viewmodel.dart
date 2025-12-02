@@ -1,10 +1,8 @@
-import 'package:flutter/material.dart';
 import 'package:penverse/core/models/book_model.dart';
 import 'package:redux/redux.dart';
-import 'search_state.dart';
+
 import 'search_actions.dart';
 import '../../../../core/store/app_state.dart';
-import '../../../subjects/book/redux/book_state.dart';
 
 class SearchViewModel {
   final bool isLoading;
@@ -30,7 +28,9 @@ class SearchViewModel {
       results: state.results,
       totalResults: state.totalResults,
       error: state.error,
-      search: (query) { print(query); store.dispatch(SearchBooksAction(query)); },
+      search: (query) {
+        store.dispatch(SearchBooksAction(query));
+      },
     );
   }
 }

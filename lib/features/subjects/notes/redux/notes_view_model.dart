@@ -1,7 +1,7 @@
 import 'package:redux/redux.dart';
 
-import '../redux/notes_state.dart';
-import '../redux/notes_action.dart';
+import 'notes_state.dart';
+import 'notes_action.dart';
 import '../../../../core/store/app_state.dart';
 
 class NotesViewModel {

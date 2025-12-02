@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../../../../core/constants/app_colors.dart';
+import 'package:penverse/features/subjects/Library/redux/purchased/purchased_actions.dart';
 
-// IMPORT BOTH WIDGETS
-import 'section_list.dart';
-import 'purchased.dart';
+import '../../../../../core/constants/app_colors.dart';
+import '../../../../../core/store/app_state.dart';
+
+import '../Sections/section_list.dart';
+import '../Purchased/purchased.dart';
+ 
 
 class LibraryScreen extends StatefulWidget {
-  final String title; // Comes from backend
+  final String title;
   const LibraryScreen({super.key, this.title = "My Library"});
 
   @override
@@ -15,7 +19,8 @@ class LibraryScreen extends StatefulWidget {
 }
 
 class _LibraryScreenState extends State<LibraryScreen> {
-  int selectedTab = 0; // 0 = Sections, 1 = Purchased
+  int selectedTab = 0;
+  bool hasLoadedPurchased = false;
 
   late String libraryName;
   final TextEditingController _nameController = TextEditingController();
@@ -24,6 +29,14 @@ class _LibraryScreenState extends State<LibraryScreen> {
   void initState() {
     super.initState();
     libraryName = widget.title;
+  }
+
+  void _handleTabChange(int index) {
+    setState(() => selectedTab = index);
+
+     
+     
+    
   }
 
   void _openEditLibraryNameModal() {
@@ -38,6 +51,7 @@ class _LibraryScreenState extends State<LibraryScreen> {
       builder: (_) {
         return Padding(
           padding: const EdgeInsets.all(20),
+     
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -49,9 +63,7 @@ class _LibraryScreenState extends State<LibraryScreen> {
                   fontWeight: FontWeight.w600,
                 ),
               ),
-
               const SizedBox(height: 20),
-
               TextField(
                 controller: _nameController,
                 style: GoogleFonts.poppins(color: Colors.white),
@@ -65,9 +77,7 @@ class _LibraryScreenState extends State<LibraryScreen> {
                   ),
                 ),
               ),
-
               const SizedBox(height: 20),
-
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.tealAccent,
@@ -105,7 +115,6 @@ class _LibraryScreenState extends State<LibraryScreen> {
 
     return Scaffold(
       backgroundColor: AppColors.scaffoldBackground,
-
       appBar: AppBar(
         elevation: 4,
         backgroundColor: AppColors.cardBackground,
@@ -119,7 +128,6 @@ class _LibraryScreenState extends State<LibraryScreen> {
           ),
         ),
         centerTitle: true,
-
         actions: [
           IconButton(
             onPressed: _openEditLibraryNameModal,
@@ -127,58 +135,43 @@ class _LibraryScreenState extends State<LibraryScreen> {
           ),
         ],
       ),
-
       body: Column(
         children: [
           const SizedBox(height: 14),
-
-          // ===========================
-          //        TAB BAR
-          // ===========================
           Row(
             children: [
               _buildTabButton("Sections", 0, width / 2),
               _buildTabButton("Purchased", 1, width / 2),
             ],
           ),
-
           const SizedBox(height: 16),
-
-          // ===========================
-          //     CURRENT TAB VIEW
-          // ===========================
           Expanded(
-            child: AnimatedSwitcher(
-              duration: const Duration(milliseconds: 300),
-              child: selectedTab == 0
-                  ? const SectionsWidget()
-                  : const PurchasedWidget(),
+            child: IndexedStack(
+              index: selectedTab,
+              children: const [
+                SectionsWidget(),
+                PurchasedPage(),
+              ],
             ),
-          ),
+          )
         ],
       ),
     );
   }
 
-  // =======================================================
-  //                TAB BUTTON WIDGET
-  // =======================================================
   Widget _buildTabButton(String label, int index, double width) {
     final bool isActive = selectedTab == index;
 
     return GestureDetector(
-      onTap: () => setState(() => selectedTab = index),
+      onTap: () => _handleTabChange(index),
       child: Container(
         width: width,
         padding: const EdgeInsets.symmetric(vertical: 12),
         decoration: BoxDecoration(
           color: isActive ? AppColors.cardBackground : Colors.transparent,
           border: isActive
-              ? Border(
-                  bottom: BorderSide(
-                    color: Colors.tealAccent,
-                    width: 2,
-                  ),
+              ? const Border(
+                  bottom: BorderSide(color: Colors.tealAccent, width: 2),
                 )
               : null,
         ),
