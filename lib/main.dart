@@ -2,6 +2,8 @@ import 'package:penverse/features/subjects/topic/ui/topics_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 import './core/api/api_client.dart';
 import './core/api/api_gateway.dart';
 import 'core/theme/app_theme.dart';
@@ -17,16 +19,19 @@ import './features/subjects/chapter/ui/chapters_list.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  ApiClient().init(
-      baseUrl: 'https://penverse-app-backend-2.onrender.com/api/v1',
-      authToken: '1234');
 
-  final apiGateway = ApiGateway.create();
+  final prefs = await SharedPreferences.getInstance();
+  final token = prefs.getString('token');
 
+  // IMPORTANT: Use 10.0.2.2 instead of localhost for Android emulator
+  ApiClient().init(baseUrl: 'http://10.0.2.2:5000/api/v1', token: token);
+
+  final apiGateway = ApiGateway.create(); // your existing gateway
   final store = await createStore(apiGateway);
 
   runApp(MyApp(store: store, apiGateway: apiGateway));
 }
+
 
 class MyApp extends StatelessWidget {
   final Store<AppState> store;

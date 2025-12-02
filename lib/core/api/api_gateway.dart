@@ -1,5 +1,7 @@
-import 'package:penverse/features/auth/auth_state.dart';
+import 'package:penverse/features/auth/services/auth_state.dart';
 import 'package:penverse/features/auth/services/auth_service.dart';
+import 'package:penverse/features/home/services/home/payment_services.dart';
+ 
 import 'package:penverse/features/subjects/book/service/book_service.dart';
 import 'package:penverse/features/subjects/notes/service/notes_service.dart';
 
@@ -9,11 +11,12 @@ import '../../features/dailyenglish/editorials/services/editorials_services.dart
 import '../../features/dailyenglish/phrasalVerbs/services/phrases_services.dart';
 import '../../features/dailyenglish/idioms/services/idioms_services.dart';
 import '../../features/currentaffairs/generalAwareness/services/bankingAwarenessService.dart';
-import '../../features/subjects/subject/service/section_service.dart';
+import '../../features/subjects/Library/service/section_service.dart';
 import '../../features/subjects/topic/service/topic_service.dart';
 import '../../features/subjects/chapter/service/chapter_service.dart';
 import '../../features/questions/question/service/question_service.dart';
 import '../../features/questions/quiz/service/quiz_service.dart';
+import '../../features/home/services/search/search_services.dart';
 
 class ApiGateway {
   final AuthService authService;
@@ -30,6 +33,8 @@ class ApiGateway {
   final NotesService notesService;
   final QuestionsService questionService;
   final QuizService quizService;
+  final SearchService searchService;
+  final PaymentService paymentService;
 
   ApiGateway._(
       {required this.authService,
@@ -44,7 +49,10 @@ class ApiGateway {
       required this.topicService,
       required this.notesService,
       required this.questionService,
-      required this.quizService});
+      required this.quizService,
+      required this.searchService,  
+      required this.paymentService,
+      });
 
   factory ApiGateway.create() {
     final client = ApiClient(); // internally create client
@@ -61,6 +69,9 @@ class ApiGateway {
         topicService: TopicService(client),
         notesService: NotesService(client),
         questionService: QuestionsService(client),
-        quizService: QuizService(client));
+        quizService: QuizService(client),
+        searchService: SearchService(client),
+        paymentService: PaymentService(client),
+    );
   }
 }

@@ -1,5 +1,7 @@
 // lib/features/books/redux/book_state.dart
 
+import 'package:penverse/core/models/book_model.dart';
+
 /// ===============================
 /// NESTED SUBJECT MODEL (for Book)
 /// ===============================
@@ -27,69 +29,8 @@ class BookSubject {
   }
 }
 
-/// ===============================
-/// BOOK DATA MODEL
-/// ===============================
-class Book {
-  final String id;
-  final BookSubject subject; // <-- Nested subject object
-  final String title;
-  final String description;
-  final String coverImage;
-  final int totalChapters;
-  final String author;
-  final int publishedYear;
-  final DateTime createdAt;
-  final DateTime updatedAt;
-
-  Book({
-    required this.id,
-    required this.subject,
-    required this.title,
-    this.description = "",
-    this.coverImage = "",
-    this.totalChapters = 0,
-    this.author = "Unknown",
-    required this.publishedYear,
-    required this.createdAt,
-    required this.updatedAt,
-  });
-
-  /// Create Book from JSON
-  factory Book.fromJson(Map<String, dynamic> json) {
-    return Book(
-      id: json['_id'] ?? '',
-      subject: json['subjectId'] != null
-          ? BookSubject.fromJson(Map<String, dynamic>.from(json['subjectId']))
-          : BookSubject(id: '', name: ''),
-      title: json['title'] ?? '',
-      description: json['description'] ?? '',
-      coverImage: json['coverImage'] ?? '',
-      totalChapters: json['totalChapters'] ?? 0,
-      author: json['author'] ?? 'Unknown',
-      publishedYear: json['publishedYear'] ?? DateTime.now().year,
-      createdAt: DateTime.tryParse(json['createdAt'] ?? '') ?? DateTime.now(),
-      updatedAt: DateTime.tryParse(json['updatedAt'] ?? '') ?? DateTime.now(),
-    );
-  }
-
-  /// Convert Book to JSON
-  Map<String, dynamic> toJson() {
-    return {
-      '_id': id,
-      'subjectId': subject.toJson(), // <-- Nested object serialized
-      'title': title,
-      'description': description,
-      'coverImage': coverImage,
-      'totalChapters': totalChapters,
-      'author': author,
-      'publishedYear': publishedYear,
-      'createdAt': createdAt.toIso8601String(),
-      'updatedAt': updatedAt.toIso8601String(),
-    };
-  }
-}
-
+ 
+ 
 /// ===============================
 /// BOOK REDUX STATE
 /// ===============================

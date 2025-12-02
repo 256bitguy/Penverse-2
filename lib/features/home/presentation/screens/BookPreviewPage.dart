@@ -1,36 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:penverse/features/home/services/home/payment_viewmodel.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../widgets/Payment_page.dart';
+import '../../../../core/models/book_model.dart';
+
 class BookPreviewPage extends StatelessWidget {
-  const BookPreviewPage({super.key});
+  final Book book;
+
+  const BookPreviewPage({super.key, required this.book});
 
   @override
   Widget build(BuildContext context) {
-    const book = {
-      "book_id": 1, // added sample book_id
-      "title": "Atomic Habits",
-      "author": "James Clear",
-      "images": [
-        "https://m.media-amazon.com/images/I/81-QB7nDh4L._SY466_.jpg",
-        "https://m.media-amazon.com/images/I/71aFt4+OTOL._SY466_.jpg",
-        "https://m.media-amazon.com/images/I/81bsw6fnUiL._SY466_.jpg",
-      ],
-      "rating": 4.8,
-      "reviews": "1,20,000+ ratings",
-      "price": "₹449",
-      "overview":
-          "Tiny Changes, Remarkable Results. Atomic Habits offers a proven framework for improving yourself every day. Learn how to make time for new habits, overcome a lack of motivation, and design your environment to make success easier.",
-      "aboutAuthor":
-          "James Clear is a writer and speaker focused on habits, decision-making, and continuous improvement. He is the author of the #1 New York Times bestseller *Atomic Habits*, which has sold more than 10 million copies worldwide.",
-    };
-
     return Scaffold(
       backgroundColor: AppColors.cardBackground,
       appBar: AppBar(
         backgroundColor: AppColors.scaffoldBackground,
         elevation: 1,
         title: Text(
-          "${book["title"]}",
+          book.title ?? '',
           style: const TextStyle(
               color: Color.fromARGB(255, 218, 217, 217),
               fontWeight: FontWeight.w600),
@@ -39,8 +26,6 @@ class BookPreviewPage extends StatelessWidget {
         iconTheme:
             const IconThemeData(color: Color.fromARGB(255, 240, 235, 235)),
       ),
-
-      // ===================== BODY =====================
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -49,33 +34,22 @@ class BookPreviewPage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(12.0),
               child: Text(
-                "${book["title"]}",
-                style: const TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.bold,
-                ),
+                book.title ?? '',
+                style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
               ),
             ),
-
-            // Image Carousel
-            SizedBox(
-              height: 250,
-              child: PageView.builder(
-                itemCount: (book["images"] as List).length,
-                controller: PageController(viewportFraction: 0.9),
-                itemBuilder: (context, index) {
-                  final imageUrl = (book["images"] as List)[index];
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 5),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(12),
-                      child: Image.network(
-                        imageUrl,
-                        fit: BoxFit.contain,
-                      ),
-                    ),
-                  );
-                },
+            
+            // Book Cover Image
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(12),
+                child: Image.network(
+                  book.coverImage ?? '',
+                  height: 250,
+                  width: double.infinity,
+                  fit: BoxFit.contain,
+                ),
               ),
             ),
 
@@ -90,119 +64,56 @@ class BookPreviewPage extends StatelessWidget {
                       Icon(Icons.star, color: Colors.orange[700], size: 18),
                       const SizedBox(width: 4),
                       Text(
-                        "${book["rating"]} (${book["reviews"]})",
+                        '${book.rating} (${book.totalReaders} readers)',
                         style: const TextStyle(fontSize: 14),
                       ),
                     ],
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    "Price: ${book["price"]}",
-                    style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    'Price: ₹${book.discountPrice ?? book.price}',
+                    style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                 ],
               ),
             ),
 
-            // Readers and Author
-            Container(
-              margin: const EdgeInsets.all(12.0),
-              child: const Row(
+            const Divider(thickness: 1),
+
+            // Book Description
+            Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text('Book Description', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                  const SizedBox(height: 6),
+                  Text(
+                    book.description ?? '',
+                    style: const TextStyle(fontSize: 14, height: 1.4),
+                  ),
+                ],
+              ),
+            ),
+
+            const Divider(thickness: 1),
+
+            // Book Metadata
+            Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('Readers: 1.2k'),
-                  Text('Author: Vivek Kumar'),
+                  Text('Author: ${book.author ?? ''}'),
+                  Text('Year: ${book.publishedYear ?? ''}'),
                 ],
               ),
             ),
 
-            const Divider(thickness: 1),
-
-            // Book Overview
-            Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    "Book Overview",
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(height: 6),
-                  Text(
-                    "${book["overview"]}",
-                    maxLines: 2,
-                    style: const TextStyle(fontSize: 13, height: 1.4),
-                  ),
-                ],
-              ),
-            ),
-
-            const Divider(thickness: 1),
-
-            // About Author
-            Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    "About the Author",
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(height: 6),
-                  Text(
-                    "${book["aboutAuthor"]}",
-                    style: const TextStyle(fontSize: 15, height: 1.4),
-                  ),
-                ],
-              ),
-            ),
-
-            const Divider(thickness: 1),
-
-            // Ratings Section
-            const Padding(
-              padding: EdgeInsets.all(12.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Ratings & Reviews",
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(height: 8),
-                  Row(
-                    children: [
-                      Text(
-                        "4.8",
-                        style: TextStyle(
-                            fontSize: 40, fontWeight: FontWeight.bold),
-                      ),
-                      SizedBox(width: 10),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Icon(Icons.star, color: Colors.orange, size: 18),
-                          Icon(Icons.star_half, color: Colors.orange, size: 18),
-                        ],
-                      ),
-                      SizedBox(width: 8),
-                      Text("based on 1,20,000+ reviews"),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 80), // extra space above buttons
+            const SizedBox(height: 80),
           ],
         ),
       ),
-
-      // ===================== BOTTOM BUTTONS =====================
       bottomNavigationBar: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
         color: AppColors.scaffoldBackground,
@@ -220,14 +131,10 @@ class BookPreviewPage extends StatelessWidget {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(
-                        builder: (context) => const PaymentPage()),
+                    MaterialPageRoute(builder: (context) =>   PaymentPage(bookId: book.id )),
                   );
                 },
-                child: const Text(
-                  "Buy Now",
-                  style: TextStyle(fontSize: 16, color: Colors.white),
-                ),
+                child: const Text('Buy Now', style: TextStyle(fontSize: 16, color: Colors.white)),
               ),
             ),
             const SizedBox(width: 12),
@@ -240,16 +147,10 @@ class BookPreviewPage extends StatelessWidget {
                       borderRadius: BorderRadius.circular(8)),
                 ),
                 onPressed: () {
-                  // TODO: Navigate to Sample page with book_id
-                  // Example: Navigator.pushNamed(context, '/sample', arguments: book["book_id"]);
+                  // Navigate to sample page using book._id
+                  // Navigator.pushNamed(context, '/sample', arguments: book.id);
                 },
-                child: Text(
-                  "Sample",
-                  style: TextStyle(
-                      fontSize: 16,
-                      color: AppColors.primary,
-                      fontWeight: FontWeight.w600),
-                ),
+                child: Text('Sample', style: TextStyle(fontSize: 16, color: AppColors.primary, fontWeight: FontWeight.w600)),
               ),
             ),
           ],

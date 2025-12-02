@@ -1,8 +1,8 @@
  
  import 'package:redux/redux.dart';
 import 'package:flutter/material.dart';
-import '../../auth_actions.dart';
-import '../../auth_selectors.dart';
+import '../../services/auth_actions.dart';
+import '../../services/auth_selectors.dart';
 import '../../../../core/store/app_state.dart';
 class LoginViewModel {
   final bool isLoading;

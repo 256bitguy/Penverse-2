@@ -1,10 +1,13 @@
+ 
+import 'package:penverse/features/home/services/home/payment_reducer.dart';
+import 'package:penverse/features/home/services/search/search_reducers.dart';
 import 'package:penverse/features/questions/question/reduxx/questions_reducer.dart';
 import 'package:penverse/features/subjects/book/redux/book_reducer.dart';
 import 'package:penverse/features/subjects/chapter/redux/chapter_reducer.dart';
 import 'package:penverse/features/subjects/notes/redux/notes_reducer.dart';
-import 'package:penverse/features/subjects/subject/redux/section_reducer.dart';
-
-import '../../features/auth/auth_reducers.dart';
+import 'package:penverse/features/subjects/Library/redux/section_reducer.dart';
+ 
+import '../../features/auth/services/auth_reducers.dart';
 import '../../features/dailyenglish/vocabulary/vocab_reducer.dart';
 import '../../features/dailyenglish/idioms/idioms_reducer.dart';
 import '../../features/dailyenglish/phrasalVerbs/phrasal_verb_reducer.dart';
@@ -29,9 +32,12 @@ AppState appReducer(AppState state, dynamic action) {
           upscAwarenessReducer(state.upscAwarenessState, action),
       sectionState: sectionReducer(state.sectionState, action),
       bookState: bookReducer(state.bookState, action),
+      searchState: searchReducer(state.searchState, action),
       chapterState: chapterReducer(state.chapterState, action),
       topicState: topicReducer(state.topicState, action),
       notesState: notesReducer(state.notesState, action),
       questionsState: questionsReducer(state.questionsState, action),
-      quizState: quizReducer(state.quizState, action));
+      quizState: quizReducer(state.quizState, action),  
+      paymentState: paymentReducer(state.paymentState, action),
+     );
 }

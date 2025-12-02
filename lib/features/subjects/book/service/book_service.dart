@@ -1,6 +1,7 @@
 // lib/features/books/data/book_service.dart
 
-import '../redux/book_state.dart';
+import 'package:penverse/core/models/book_model.dart';
+
 import '../../../../core/api/api_client.dart';
 import '../../../../core/api/api_endpoints.dart';
 
@@ -9,7 +10,6 @@ class BookService {
 
   BookService(this.client);
 
- 
   Future<List<Book>> fetchBooksBySubject(String subjectId) async {
     print("Fetching books for subjectId: $subjectId");
 

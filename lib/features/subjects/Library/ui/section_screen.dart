@@ -330,11 +330,12 @@ class _SectionScreenState extends State<SectionScreen> {
         }
 
         // Filter backend books based on search
-        final backendBooks = vm.books.where((book) {
-          final q = searchQuery.toLowerCase();
-          return book.title.toLowerCase().contains(q) ||
-              book.author.toLowerCase().contains(q);
-        }).toList();
+        // final backendBooks = vm.books.where((book) {
+        //   final q = searchQuery.toLowerCase();
+        //   return   
+        //       book.title.toLowerCase().contains(q) ||
+        //       book.author.toLowerCase().contains(q)   ;
+        // }).toList();
 
         // Filter locally added books
         final filteredAddedBooks = addedBooks.where((b) {
@@ -468,137 +469,137 @@ class _SectionScreenState extends State<SectionScreen> {
               ],
 
               // Main backend book list
-              Expanded(
-                child: backendBooks.isEmpty
-                    ? Center(
-                        child: Text(
-                          'No books in this section',
-                          style: GoogleFonts.poppins(color: Colors.white54, fontSize: 16),
-                        ),
-                      )
-                    : ListView.builder(
-                        padding: const EdgeInsets.all(16),
-                        itemCount: backendBooks.length,
-                        itemBuilder: (context, index) {
-                          final book = backendBooks[index];
-                          final double progress = 10; // mock
-                          final bool completed = progress >= 100;
+              // Expanded(
+              //   child: backendBooks.isEmpty
+              //       ? Center(
+              //           child: Text(
+              //             'No books in this section',
+              //             style: GoogleFonts.poppins(color: Colors.white54, fontSize: 16),
+              //           ),
+              //         )
+              //       : ListView.builder(
+              //           padding: const EdgeInsets.all(16),
+              //           itemCount: backendBooks.length,
+              //           itemBuilder: (context, index) {
+              //             final book = backendBooks[index];
+              //             final double progress = 10; // mock
+              //             final bool completed = progress >= 100;
 
-                          return Container(
-                            margin: const EdgeInsets.symmetric(vertical: 10),
-                            padding: const EdgeInsets.all(14),
-                            decoration: BoxDecoration(
-                              color: Colors.white.withOpacity(0.08),
-                              borderRadius: BorderRadius.circular(16),
-                              border: Border.all(color: Colors.white.withOpacity(0.2)),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black.withOpacity(0.3),
-                                  blurRadius: 8,
-                                  offset: const Offset(0, 3),
-                                ),
-                              ],
-                            ),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(8),
-                                  child: Image.network(
-                                    book.coverImage.isNotEmpty
-                                        ? book.coverImage
-                                        : 'https://m.media-amazon.com/images/I/81bsw6fnUiL._AC_UY327_FMwebp_QL65_.jpg',
-                                    height: 160,
-                                    width: 115,
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                                const SizedBox(width: 14),
-                                Expanded(
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        book.title,
-                                        maxLines: 2,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: const TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.w600,
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                      const SizedBox(height: 4),
-                                      Text(
-                                        book.author,
-                                        style: const TextStyle(
-                                          color: Colors.grey,
-                                          fontSize: 13,
-                                        ),
-                                      ),
-                                      const SizedBox(height: 10),
-                                      Text(
-                                        book.description.isNotEmpty ? book.description : "No description available.",
-                                        maxLines: 2,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: const TextStyle(
-                                          fontSize: 12,
-                                          color: Color.fromARGB(221, 213, 206, 206),
-                                        ),
-                                      ),
-                                      const SizedBox(height: 10),
+              //             return Container(
+              //               margin: const EdgeInsets.symmetric(vertical: 10),
+              //               padding: const EdgeInsets.all(14),
+              //               decoration: BoxDecoration(
+              //                 color: Colors.white.withOpacity(0.08),
+              //                 borderRadius: BorderRadius.circular(16),
+              //                 border: Border.all(color: Colors.white.withOpacity(0.2)),
+              //                 boxShadow: [
+              //                   BoxShadow(
+              //                     color: Colors.black.withOpacity(0.3),
+              //                     blurRadius: 8,
+              //                     offset: const Offset(0, 3),
+              //                   ),
+              //                 ],
+              //               ),
+              //               child: Row(
+              //                 crossAxisAlignment: CrossAxisAlignment.start,
+              //                 children: [
+              //                   ClipRRect(
+              //                     borderRadius: BorderRadius.circular(8),
+              //                     child: Image.network(
+              //                       book.coverImage.isNotEmpty
+              //                           ? book.coverImage
+              //                           : 'https://m.media-amazon.com/images/I/81bsw6fnUiL._AC_UY327_FMwebp_QL65_.jpg',
+              //                       height: 160,
+              //                       width: 115,
+              //                       fit: BoxFit.cover,
+              //                     ),
+              //                   ),
+              //                   const SizedBox(width: 14),
+              //                   Expanded(
+              //                     child: Column(
+              //                       crossAxisAlignment: CrossAxisAlignment.start,
+              //                       children: [
+              //                         Text(
+              //                           book.title,
+              //                           maxLines: 2,
+              //                           overflow: TextOverflow.ellipsis,
+              //                           style: const TextStyle(
+              //                             fontSize: 20,
+              //                             fontWeight: FontWeight.w600,
+              //                             color: Colors.white,
+              //                           ),
+              //                         ),
+              //                         const SizedBox(height: 4),
+              //                         Text(
+              //                           book.author,
+              //                           style: const TextStyle(
+              //                             color: Colors.grey,
+              //                             fontSize: 13,
+              //                           ),
+              //                         ),
+              //                         const SizedBox(height: 10),
+              //                         Text(
+              //                           book.description.isNotEmpty ? book.description : "No description available.",
+              //                           maxLines: 2,
+              //                           overflow: TextOverflow.ellipsis,
+              //                           style: const TextStyle(
+              //                             fontSize: 12,
+              //                             color: Color.fromARGB(221, 213, 206, 206),
+              //                           ),
+              //                         ),
+              //                         const SizedBox(height: 10),
 
-                                      LinearProgressIndicator(
-                                        value: progress / 100,
-                                        minHeight: 6,
-                                        borderRadius: BorderRadius.circular(10),
-                                        backgroundColor: Colors.white12,
-                                        color: completed ? Colors.greenAccent : Colors.tealAccent.withOpacity(0.3),
-                                      ),
-                                      const SizedBox(height: 6),
+              //                         LinearProgressIndicator(
+              //                           value: progress / 100,
+              //                           minHeight: 6,
+              //                           borderRadius: BorderRadius.circular(10),
+              //                           backgroundColor: Colors.white12,
+              //                           color: completed ? Colors.greenAccent : Colors.tealAccent.withOpacity(0.3),
+              //                         ),
+              //                         const SizedBox(height: 6),
 
-                                      Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            completed ? "Completed" : "Progress: ${progress.toStringAsFixed(0)}%",
-                                            style: TextStyle(
-                                              fontSize: 12,
-                                              color: completed ? Colors.greenAccent : Colors.white70,
-                                            ),
-                                          ),
-                                          Text(
-                                            "${book.totalChapters} Chapters",
-                                            style: const TextStyle(fontSize: 12, color: Colors.white54),
-                                          ),
-                                        ],
-                                      ),
+              //                         Row(
+              //                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //                           children: [
+              //                             Text(
+              //                               completed ? "Completed" : "Progress: ${progress.toStringAsFixed(0)}%",
+              //                               style: TextStyle(
+              //                                 fontSize: 12,
+              //                                 color: completed ? Colors.greenAccent : Colors.white70,
+              //                               ),
+              //                             ),
+              //                             Text(
+              //                               "${book.totalChapters} Chapters",
+              //                               style: const TextStyle(fontSize: 12, color: Colors.white54),
+              //                             ),
+              //                           ],
+              //                         ),
 
-                                      const SizedBox(height: 12),
+              //                         const SizedBox(height: 12),
 
-                                      ElevatedButton(
-                                        onPressed: () {
-                                          vm.loadChaptersByBook(book.id);
-                                          Navigator.pushNamed(context, '/chapters');
-                                        },
-                                        style: ElevatedButton.styleFrom(
-                                          backgroundColor: completed ? Colors.greenAccent.withOpacity(0.9) : Colors.tealAccent.withOpacity(0.3),
-                                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                                        ),
-                                        child: Text(
-                                          completed ? "Read Again" : "Continue Reading",
-                                          style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          );
-                        },
-                      ),
-              ),
+              //                         ElevatedButton(
+              //                           onPressed: () {
+              //                             vm.loadChaptersByBook(book.id);
+              //                             Navigator.pushNamed(context, '/chapters');
+              //                           },
+              //                           style: ElevatedButton.styleFrom(
+              //                             backgroundColor: completed ? Colors.greenAccent.withOpacity(0.9) : Colors.tealAccent.withOpacity(0.3),
+              //                             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+              //                           ),
+              //                           child: Text(
+              //                             completed ? "Read Again" : "Continue Reading",
+              //                             style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+              //                           ),
+              //                         ),
+              //                       ],
+              //                     ),
+              //                   ),
+              //                 ],
+              //               ),
+              //             );
+              //           },
+              //         ),
+              // ),
 
               // Full-width Add Book button at bottom
               Container(

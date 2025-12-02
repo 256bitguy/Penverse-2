@@ -1,24 +1,25 @@
 import 'package:dio/dio.dart';
- 
+
 class ApiClient {
   late Dio _dio;
+  String? _token;
 
+  // Singleton
   ApiClient._internal();
-
   static final ApiClient _instance = ApiClient._internal();
-
   factory ApiClient() => _instance;
 
-  /// Initialize Dio with base URL, interceptors, etc.
-  void init({required String baseUrl, String? authToken}) {
+  /// Initialize Dio
+  void init({required String baseUrl, String? token}) {
+    _token = token;
     _dio = Dio(
       BaseOptions(
         baseUrl: baseUrl,
-        connectTimeout: const Duration(seconds: 59),
-        receiveTimeout: const Duration(seconds: 59),
+        connectTimeout: const Duration(seconds: 60),
+        receiveTimeout: const Duration(seconds: 60),
         headers: {
           'Content-Type': 'application/json',
-          if (authToken != null) 'Authorization': 'Bearer $authToken',
+          if (_token != null) 'Authorization': 'Bearer $_token',
         },
       ),
     );
@@ -27,27 +28,31 @@ class ApiClient {
     _dio.interceptors.add(
       InterceptorsWrapper(
         onRequest: (options, handler) {
-          print('➡️ Request: r ${options.method} ${options.path}');
-          // print('Headers:r ${options.headers}');
-          // print('Data: r${options.data}');
+          // Update Authorization header dynamically
+          if (_token != null) {
+            options.headers['Authorization'] = 'Bearer $_token';
+          }
+          // print('➡️ Request: ${options.method} ${options.uri}');
+          // print('Headers: ${options.headers}');
+          // print('Data: ${options.data}');
           return handler.next(options);
         },
         onResponse: (response, handler) {
-          // print('✅ Response:r ${response.statusCode} in client file ${response.data}');
+          // print('✅ Response: ${response.statusCode} ${response.data}');
           return handler.next(response);
         },
-        onError: (DioException error, handler) {
-          print('❌ Error:r ${error.message}');
-          return handler.next(error);
+        onError: (DioException e, handler) {
+          // print('❌ Error: ${e.response?.statusCode} ${e.message}');
+          return handler.next(e);
         },
       ),
     );
   }
 
-  // GET request
-  Future<Response> get(String path, {Map<String, dynamic>? queryParams}) async {
-    
-    return await _dio.get(path, queryParameters: queryParams);
+  /// Update token dynamically
+  void updateToken(String token) {
+    _token = token;
+    _dio.options.headers['Authorization'] = 'Bearer $_token';
   }
 
   // POST request
@@ -55,13 +60,8 @@ class ApiClient {
     return await _dio.post(path, data: data);
   }
 
-  // PUT request
-  Future<Response> put(String path, {dynamic data}) async {
-    return await _dio.put(path, data: data);
-  }
-
-  // DELETE request
-  Future<Response> delete(String path, {dynamic data}) async {
-    return await _dio.delete(path, data: data);
+  // GET request
+  Future<Response> get(String path, {Map<String, dynamic>? queryParams}) async {
+    return await _dio.get(path, queryParameters: queryParams);
   }
 }

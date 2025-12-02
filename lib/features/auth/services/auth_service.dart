@@ -1,3 +1,5 @@
+import 'package:shared_preferences/shared_preferences.dart';
+
 import '../../../../core/api/api_client.dart';
 import '../../../../core/api/api_endpoints.dart';
 
@@ -25,7 +27,7 @@ class AuthService {
 
     if (body is Map<String, dynamic>) {
       print("Register response body: $body");
-      return body;  
+      return body;
       // Expected: { success, message, userId }
     }
 
@@ -35,32 +37,51 @@ class AuthService {
   // ---------------------------------------------------------
   // LOGIN USER
   // ---------------------------------------------------------
-  Future<Map<String, dynamic>> login({
-    required String email,
-    required String password,
-  }) async {
-    final response = await client.post(
-      ApiEndpoints.loginUser,
-      data: {
-        "email": email,
-        "password": password,
-      },
-    );
+Future<Map<String, dynamic>> login({
+  required String email,
+  required String password,
+}) async {
+  final response = await client.post(
+    ApiEndpoints.loginUser,
+    data: {
+      "email": email,
+      "password": password,
+    },
+  );
 
-    final body = response.data;
+  final body = response.data;
 
-    if (body is Map<String, dynamic>) {
-      print(  "Login response body: $body");
-      return body;
-      // Expected: { success, token, userId }
-    }
-
-    throw Exception("Unexpected login response: $body");
+  // Validate backend structure
+  if (body == null ||
+      body["data"] == null ||
+      body["data"]["accessToken"] == null ||
+      body["data"]["refreshToken"] == null ||
+      body["data"]["user"] == null) {
+    throw Exception("Invalid login response format");
   }
 
-  // ---------------------------------------------------------
-  // VERIFY OTP (otp + userId)
-  // ---------------------------------------------------------
+  // Extract data
+  final token = body["data"]["accessToken"];
+  final refreshToken = body["data"]["refreshToken"];
+  final user = body["data"]["user"]; // FULL user object
+
+  // Save tokens locally
+  final prefs = await SharedPreferences.getInstance();
+  await prefs.setString('token', token);
+  await prefs.setString('refreshToken', refreshToken);
+
+  // Update ApiClient authorization header
+  ApiClient().updateToken(token);
+
+  return {
+    "success": body["success"],
+    "message": body["message"],
+    "user": user, // return user if needed
+  };
+}
+
+
+ 
   Future<Map<String, dynamic>> verifyOtp({
     required String userId,
     required String otp,
@@ -76,7 +97,7 @@ class AuthService {
     final body = response.data;
 
     if (body is Map<String, dynamic>) {
-      return body; 
+      return body;
       // Expected: { success: true, verified: true }
     }
 
@@ -124,7 +145,7 @@ class AuthService {
     final body = response.data;
 
     if (body is Map<String, dynamic>) {
-      return body;  
+      return body;
       // Expected: { success, message }
     }
 

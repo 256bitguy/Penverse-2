@@ -5,7 +5,7 @@ import '../widgets/bannerCarousel.dart';
 import '../widgets/SectionWidget.dart';
 import '../widgets/AuthorWidget.dart';
 import '../widgets/Recommentation.dart';
-import '../widgets/BookListPage.dart';
+import 'search/BookListPage.dart';
 import '../../../../core/constants/app_colors.dart';
 
 class HomePage extends StatefulWidget {
@@ -46,101 +46,97 @@ class _HomePageState extends State<HomePage> {
     final screenSize = MediaQuery.of(context).size;
 
     return Scaffold(
-       drawer: Drawer(  
+      drawer: Drawer(
         backgroundColor: AppColors.cardBackground, // <-- sidebar / drawer
-    child: ListView(
-      padding: EdgeInsets.zero,
-      children: [
-        DrawerHeader(
-          decoration: const BoxDecoration(
-            color: AppColors.scaffoldBackground,
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: const [
-              Icon(Icons.segment, color: Colors.white, size: 40),
-        
-              Text(
-                "Menu",
-                style: TextStyle(color: Colors.white, fontSize: 20),
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            DrawerHeader(
+              decoration: const BoxDecoration(
+                color: AppColors.scaffoldBackground,
               ),
-            ],
-          ),
-        ),
-
-        ListTile(
-          leading: const Icon(Icons.settings),
-          title: const Text('Settings'),
-          onTap: () {},
-        ),
-
-        ListTile(
-          leading: const Icon(Icons.notifications),
-          title: const Text('Notifications'),
-          onTap: () {},
-        ),
-
-        ListTile(
-          leading: const Icon(Icons.logout),
-          title: const Text('Logout'),
-          onTap: () {},
-        ),
-      ],
-    ),
-  ),
-
-      appBar: AppBar(
-    backgroundColor: AppColors.scaffoldBackground,
-    elevation: 0,
-    title: const Text("Penverse"),
-    centerTitle: true,
-
-    // LEFT SIDE SETTINGS BUTTON
-    leading: Builder(
-      builder: (context) => IconButton(
-        icon: const Icon(Icons.segment),
-        onPressed: () {
-          Scaffold.of(context).openDrawer();  // opens sidebar
-        },
-      ),
-    ),
-
-    actions: [
-      // PROFILE BUTTON
-      IconButton(
-        icon: const Icon(Icons.person),
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => UserProfilePage(
-                avatarUrl:
-                    "https://m.media-amazon.com/images/I/81-QB7nDh4L._AC_UY327_FMwebp_QL65_.jpg",
-                name: "Vivek Raj",
-                role: "Author",
-                readers: 1200,
-                purchased: 0,
-                subscribers: 180,
-                description: "Author of life-changing books.",
-                tags: ["Motivation", "Self-help", "Fiction"],
-                works: [
-                  {
-                    "title": "Atomic Thoughts",
-                    "cover": "https://example.com/book1.jpg",
-                  },
-                  {
-                    "title": "Mindset Flow",
-                    "cover": "https://example.com/book2.jpg",
-                  },
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: const [
+                  Icon(Icons.segment, color: Colors.white, size: 40),
+                  Text(
+                    "Menu",
+                    style: TextStyle(color: Colors.white, fontSize: 20),
+                  ),
                 ],
-                titles: ["All", "Articles"],
               ),
             ),
-          );
-        },
+            ListTile(
+              leading: const Icon(Icons.settings),
+              title: const Text('Settings'),
+              onTap: () {},
+            ),
+            ListTile(
+              leading: const Icon(Icons.notifications),
+              title: const Text('Notifications'),
+              onTap: () {},
+            ),
+            ListTile(
+              leading: const Icon(Icons.logout),
+              title: const Text('Logout'),
+              onTap: () {},
+            ),
+          ],
+        ),
       ),
-    ],
-  ),backgroundColor: AppColors.cardBackground,
+      appBar: AppBar(
+        backgroundColor: AppColors.scaffoldBackground,
+        elevation: 0,
+        title: const Text("Penverse"),
+        centerTitle: true,
+
+        // LEFT SIDE SETTINGS BUTTON
+        leading: Builder(
+          builder: (context) => IconButton(
+            icon: const Icon(Icons.segment),
+            onPressed: () {
+              Scaffold.of(context).openDrawer(); // opens sidebar
+            },
+          ),
+        ),
+
+        actions: [
+          // PROFILE BUTTON
+          IconButton(
+            icon: const Icon(Icons.person),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => UserProfilePage(
+                    avatarUrl:
+                        "https://m.media-amazon.com/images/I/81-QB7nDh4L._AC_UY327_FMwebp_QL65_.jpg",
+                    name: "Vivek Raj",
+                    role: "Author",
+                    readers: 1200,
+                    purchased: 0,
+                    subscribers: 180,
+                    description: "Author of life-changing books.",
+                    tags: ["Motivation", "Self-help", "Fiction"],
+                    works: [
+                      {
+                        "title": "Atomic Thoughts",
+                        "cover": "https://example.com/book1.jpg",
+                      },
+                      {
+                        "title": "Mindset Flow",
+                        "cover": "https://example.com/book2.jpg",
+                      },
+                    ],
+                    titles: ["All", "Articles"],
+                  ),
+                ),
+              );
+            },
+          ),
+        ],
+      ),
+      backgroundColor: AppColors.cardBackground,
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -154,7 +150,7 @@ class _HomePageState extends State<HomePage> {
                     MaterialPageRoute(
                       builder: (context) =>
                           // const BookPreviewPage(),// Navigate to new page
-                          BookListPage(),
+                          BookSearchPage(),
                     ),
                   );
                 },

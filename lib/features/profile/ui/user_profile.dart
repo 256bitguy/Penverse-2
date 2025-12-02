@@ -43,6 +43,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
         backgroundColor: AppColors.cardBackground,
         elevation: 0,
         foregroundColor: Colors.white70,
+        
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),

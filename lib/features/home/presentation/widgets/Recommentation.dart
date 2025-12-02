@@ -64,14 +64,14 @@ class FictionRecommendationWidget extends StatelessWidget {
                     final book = books[index];
 
                     return GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) => BookPreviewPage(),
-                          ),
-                        );
-                      },
+                      // onTap: () {
+                      //   Navigator.push(
+                      //     context,
+                      //     MaterialPageRoute(
+                      //       builder: (_) => BookPreviewPage(),
+                      //     ),
+                      //   );
+                      // },
                       child: Container(
                         width: itemWidth,
                         decoration: BoxDecoration(

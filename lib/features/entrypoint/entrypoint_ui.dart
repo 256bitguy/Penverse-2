@@ -6,7 +6,7 @@ import '../../core/constants/app_defaults.dart';
 
 import '../home/presentation/screens/home_screen.dart';
 
-import '../subjects/subject/ui/library_screen.dart';
+import '../subjects/Library/ui/library_screen.dart';
 import './component/app_navigation_bar.dart';
 
 import '../dailyenglish/entrypoint/entrypoint_ui.dart';

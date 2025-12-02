@@ -1,4 +1,4 @@
-import 'package:penverse/features/auth/auth_actions.dart';
+import 'package:penverse/features/auth/services/auth_actions.dart';
 import 'package:redux/redux.dart';
 import '../../core/store/app_state.dart';
 import '../../core/api/api_gateway.dart';
@@ -9,7 +9,7 @@ import '../../features/dailyenglish/editorials/editorial_actions.dart';
 import '../../features/dailyenglish/idioms/idioms_actions.dart';
 import '../../features/dailyenglish/phrasalVerbs/phrasal_verbs_actions.dart';
 import '../../features/currentaffairs/generalAwareness/banking_awareness_actions.dart';
-import '../../features/subjects/subject/redux/section_actions.dart';
+import '../../features/subjects/Library/redux/section_actions.dart';
 import '../../features/subjects/book/redux/book_actions.dart';
 import '../../features/subjects/chapter/redux/chapter_actions.dart';
 import '../../features/subjects/topic/redux/topic_action.dart';
@@ -86,22 +86,31 @@ Middleware<AppState> _Register(ApiGateway apiGateway) {
 Middleware<AppState> _Login(ApiGateway apiGateway) {
   return (Store<AppState> store, action, NextDispatcher next) async {
     if (action is LoginAction) {
-      next(action);
+      next(action); // sets isLoading = true in reducer
       try {
-        print(  "Register Middleware: RegisterAction received with email: ${action.email}");
-        final response =
-            await apiGateway.authService.login(email: action.email, password: action.password);
-        store.dispatch(LoginSuccessAction(response));
+        // print("Login Middleware: LoginAction received with email: ${action.email}");
+
+        final backendResponse = await apiGateway.authService.login(
+          email: action.email,
+          password: action.password,
+        );
+print(  "Login Middleware: Received backend response: $backendResponse  ");
+        // final response = {
+        //   // "userId": backendResponse["data"]["user"]["_id"],
+        //   "accessToken": backendResponse["data"]["accessToken"],
+        //   "refreshToken": backendResponse["data"]["refreshToken"],
+        // };
+
+        store.dispatch(LoginSuccessAction(backendResponse));
       } catch (e) {
         store.dispatch(LoginFailureAction(e.toString()));
       }
-    }
-    // ✅ Handle fetching a single quiz by ID
-    else {
+    } else {
       next(action);
     }
   };
 }
+
 
 
 Middleware<AppState> _fetchQuestionSetListByNotes(ApiGateway apiGateway) {
@@ -229,25 +238,7 @@ Middleware<AppState> _fetchPhrasesByTopic(ApiGateway apiGateway) {
   };
 }
 
-// Middleware<AppState> _fetchAwarenessByTopic(ApiGateway apiGateway) {
-//   return (Store<AppState> store, action, NextDispatcher next) async {
-//     if (action is FetchAwarenessByTopicIdAction) {
-//       next(action);
-//       try {
-//         final response = await apiGateway.bankingAwarenessService
-//             .AwarenessByTopic(action.topicId);
-//         store.dispatch(LoadBankingAwarenessSuccessAction(response));
-//       } catch (e) {
-//         store.dispatch(LoadBankingAwarenessFailureAction(e.toString()));
-//       }
-//     } else {
-//       next(action);
-//     }
-//   };
-// }
-
-// ---------------- Existing middlewares ----------------
-
+ 
 Middleware<AppState> _loadSections(ApiGateway apiGateway) {
   return (Store<AppState> store, action, NextDispatcher next) async {
     if (action is LoadSectionsAction) {

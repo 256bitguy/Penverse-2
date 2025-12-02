@@ -1,8 +1,8 @@
 // features/auth/presentation/viewmodels/register_viewmodel.dart
  import 'package:redux/redux.dart';
  
-import '../../auth_actions.dart';
-import '../../auth_selectors.dart';
+import '../../services/auth_actions.dart';
+import '../../services/auth_selectors.dart';
 import '../../../../core/store/app_state.dart';
 
 class RegisterViewModel {

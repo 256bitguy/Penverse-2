@@ -1,4 +1,5 @@
 // lib/features/books/ui/book_view_model.dart
+import 'package:penverse/core/models/book_model.dart';
 import 'package:penverse/core/store/app_state.dart';
 import 'package:redux/redux.dart';
 import '../redux/book_state.dart';
