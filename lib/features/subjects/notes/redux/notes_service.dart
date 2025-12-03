@@ -11,12 +11,12 @@ class NotesService {
 
   /// Fetch a single note by its ID
   Future<NoteModel> fetchNoteById(String noteId) async {
-    print("Fetching note with ID: $noteId");
+
 
     final response = await client.get(ApiEndpoints.note(noteId));
     final body = response.data;
 
-    print("Single Note API Response: $body");
+   
 
     // Validate structure
     if (body is Map<String, dynamic> && body['data'] is List) {

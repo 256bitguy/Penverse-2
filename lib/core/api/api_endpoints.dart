@@ -1,9 +1,16 @@
+import 'package:penverse/core/api/domain_wise/api_endpoints_section.dart';
+
 class ApiEndpoints {
   // Base URL
   // static const String baseUrl = "https://penverse-app-backend-2.onrender.com/api/v1";
   static const String baseUrl = "http://localhost:5000/api/v1";
-
+  // static SectionEndpoints get section => SectionEndpoints();
   // ===== AUTH =====
+    static String createSection() => "$baseUrl/sections/create";
+     static String getLibrarySections(String libraryId) => "$baseUrl/sections/library/$libraryId";
+  static String addBookToSection(String sectionId) => "$baseUrl/sections/$sectionId/add-book";
+  static String getSectionBooks(String sectionId) => "$baseUrl/sections/$sectionId/books";
+
   static const String registerUser = "$baseUrl/auth/register";
   static const String loginUser = "$baseUrl/auth/login";
 
@@ -32,7 +39,13 @@ class ApiEndpoints {
   static String purchaseBook(String bookId) {
     return "$baseUrl/purchase/book/$bookId";
   }
-
+///////////--------------Library-----------------///////
+   static String getLibrary( ) {
+    return "$baseUrl/library";
+  }
+    static String editLibrary(String libraryId ) {
+    return "$baseUrl/library/$libraryId/update-name";
+  }
   // ===== SUBJECTS, BOOKS, CHAPTERS, TOPICS =====
   static const String subjects = "$baseUrl/subjects";
   static String subject() => subjects;

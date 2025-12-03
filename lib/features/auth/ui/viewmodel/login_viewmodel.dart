@@ -23,7 +23,7 @@ class LoginViewModel {
       isLoggedIn: isLoggedInSelector(store.state),
       errorMessage: authErrorSelector(store.state),
       onLogin: (email, password) {
-        print(  "LoginViewModel: onLogin called with email: $email");
+       
         store.dispatch(LoginAction(email, password));
       },
     );

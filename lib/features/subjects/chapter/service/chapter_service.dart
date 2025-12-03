@@ -11,12 +11,12 @@ class ChapterService {
 
   /// Fetch chapters for a specific book
   Future<List<Chapter>> fetchChaptersByBook(String bookId) async {
-    print("Fetching chapters for bookId: $bookId");
+
 
     final response = await client.get(ApiEndpoints.chapter(bookId));
     final body = response.data;
 
-    print("Chapters By Book API Response: $body");
+
 
     if (body is Map<String, dynamic> && body['data'] is List) {
       final list = body['data'] as List<dynamic>;

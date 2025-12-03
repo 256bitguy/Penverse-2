@@ -1,6 +1,10 @@
 import 'package:penverse/features/home/services/home/payment_state.dart';
 import 'package:penverse/features/home/services/search/search_state.dart';
+import 'package:penverse/features/subjects/Library/redux/library/library_state.dart';
 import 'package:penverse/features/subjects/Library/redux/purchased/purchased_books_state.dart';
+import 'package:penverse/features/subjects/Library/redux/sectionBooks/section_books_state.dart';
+import 'package:penverse/features/subjects/Library/redux/sections/section_model.dart';
+import 'package:penverse/features/subjects/Library/redux/sections/section_state.dart';
 import 'package:penverse/features/subjects/book/redux/book_state.dart';
 
 import '../../features/auth/services/auth_state.dart';
@@ -10,7 +14,7 @@ import '../../features/dailyenglish/phrasalVerbs/phrasal_verb_state.dart';
 import '../../features/dailyenglish/editorials/editorial_state.dart';
 import '../../features/currentaffairs/generalAwareness/banking_awareness_state.dart';
 import '../../features/currentaffairs/upscAwareness/upsc_state.dart' as upsc;
-import '../../features/subjects/Library/redux/sections/section_state.dart';
+
 import '../../features/subjects/chapter/redux/chapter_state.dart';
 import '../../features/subjects/topic/redux/topic_state.dart';
 import '../../features/subjects/notes/redux/notes_state.dart';
@@ -26,7 +30,7 @@ class AppState extends Equatable {
   final EditorialState editorialState;
   final BankingAwarenessState bankingAwarenessState;
   final upsc.UpscAwarenessState upscAwarenessState;
-  final SectionState sectionState;
+
   final BookState bookState;
   final SearchState searchState;
   final ChapterState chapterState;
@@ -34,8 +38,11 @@ class AppState extends Equatable {
   final NotesState notesState;
   final QuestionsState questionsState;
   final QuizState quizState;
-  final PaymentState paymentState;  
+  final PaymentState paymentState;
   final PurchasedBooksState purchasedBookState;
+  final LibraryState libraryState;
+  final SectionState sectionState;
+  final SectionBooksState sectionBooksState;
 
   const AppState(
       {required this.authState,
@@ -45,7 +52,6 @@ class AppState extends Equatable {
       required this.editorialState,
       required this.bankingAwarenessState,
       required this.upscAwarenessState,
-      required this.sectionState,
       required this.bookState,
       required this.searchState,
       required this.chapterState,
@@ -53,8 +59,11 @@ class AppState extends Equatable {
       required this.notesState,
       required this.questionsState,
       required this.quizState,
-      required this.paymentState  ,
-      required this.purchasedBookState});
+      required this.paymentState,
+      required this.purchasedBookState,
+      required this.libraryState,
+      required this.sectionState,
+      required this.sectionBooksState});
 
   factory AppState.initial() => AppState(
       authState: AuthState.initial(),
@@ -64,7 +73,6 @@ class AppState extends Equatable {
       editorialState: EditorialState.initial(),
       bankingAwarenessState: BankingAwarenessState.initial(),
       upscAwarenessState: upsc.UpscAwarenessState.initial(),
-      sectionState: SectionState.initial(),
       bookState: BookState.initial(),
       searchState: SearchState.initial(),
       chapterState: ChapterState.initial(),
@@ -73,25 +81,31 @@ class AppState extends Equatable {
       questionsState: QuestionsState.initial(),
       quizState: QuizState.initial(),
       paymentState: PaymentState.initial(),
-      purchasedBookState: PurchasedBooksState.initial());
+      purchasedBookState: PurchasedBooksState.initial(),
+      libraryState: LibraryState.initial(),
+      sectionState: SectionState.initial(),
+      sectionBooksState: SectionBooksState.initial());
 
-  AppState copyWith(
-      {AuthState? authState,
-      VocabState? vocabState,
-      IdiomsState? idiomsState,
-      PhrasalVerbsState? phrasalVerbsState,
-      EditorialState? editorialState,
-      BankingAwarenessState? bankingAwarenessState,
-      upsc.UpscAwarenessState? upscAwarenessState,
-      BookState? bookState,
-      SearchState?searchState,
-      SectionState? sectionState,
-      NotesState? notesState,
-      ChapterState? chapterState,
-      TopicState? topicState,
-      QuestionsState? questionsState,
-      QuizState? quizState,
-      PaymentState? paymentState}) {
+  AppState copyWith({
+    AuthState? authState,
+    VocabState? vocabState,
+    IdiomsState? idiomsState,
+    PhrasalVerbsState? phrasalVerbsState,
+    EditorialState? editorialState,
+    BankingAwarenessState? bankingAwarenessState,
+    upsc.UpscAwarenessState? upscAwarenessState,
+    BookState? bookState,
+    SearchState? searchState,
+    NotesState? notesState,
+    ChapterState? chapterState,
+    TopicState? topicState,
+    QuestionsState? questionsState,
+    QuizState? quizState,
+    PaymentState? paymentState,
+    LibraryState? libraryState,
+    SectionState? sectionState,
+    SectionBooksState? sectionBooksState
+  }) {
     return AppState(
         authState: authState ?? this.authState,
         vocabState: vocabState ?? this.vocabState,
@@ -101,16 +115,18 @@ class AppState extends Equatable {
         bankingAwarenessState:
             bankingAwarenessState ?? this.bankingAwarenessState,
         upscAwarenessState: upscAwarenessState ?? this.upscAwarenessState,
-        sectionState: sectionState ?? this.sectionState,
         bookState: bookState ?? this.bookState,
-        searchState: searchState?? this.searchState,
+        searchState: searchState ?? this.searchState,
         chapterState: chapterState ?? this.chapterState,
         topicState: topicState ?? this.topicState,
         notesState: notesState ?? this.notesState,
         questionsState: questionsState ?? this.questionsState,
         quizState: quizState ?? this.quizState,
         paymentState: paymentState ?? this.paymentState,
-        purchasedBookState: purchasedBookState ?? this.purchasedBookState);
+        purchasedBookState: purchasedBookState,
+        libraryState: libraryState ?? this.libraryState,
+        sectionState: sectionState ?? this.sectionState,
+        sectionBooksState: sectionBooksState ?? this.sectionBooksState);
   }
 
   Map<String, dynamic> toJson() => {
@@ -121,7 +137,6 @@ class AppState extends Equatable {
         'editorialState': editorialState.toJson(),
         'bankingAwarenessState': bankingAwarenessState.toJson(),
         'upscAwarenessState': upscAwarenessState.toJson(),
-        'sectionState': sectionState.toJson(),
         'questionsState': questionsState.toJson(),
         'quizState': quizState.toJson(),
       };
@@ -140,16 +155,19 @@ class AppState extends Equatable {
             BankingAwarenessState.fromJson(json['bankingAwarenessState']),
         upscAwarenessState:
             upsc.UpscAwarenessState.fromJson(json['upscAwarenessState']),
-        sectionState: SectionState.fromJson(json['sectionState']),
         bookState: BookState.fromJson(json['bookState']),
-        searchState:  SearchState.fromJson(json['searchState']),
+        searchState: SearchState.fromJson(json['searchState']),
         chapterState: ChapterState.fromJson(json['chapterState']),
         topicState: TopicState.fromJson(json['topicState']),
         notesState: NotesState.fromJson(json['notesState']),
         questionsState: QuestionsState.fromJson(json['questionsState']),
         quizState: QuizState.fromJson(json['quizState']),
-        paymentState: PaymentState.fromJson(json['paymentState']),  
-        purchasedBookState: PurchasedBooksState.fromJson(json['purchasedState']));
+        paymentState: PaymentState.fromJson(json['paymentState']),
+        purchasedBookState:
+            PurchasedBooksState.fromJson(json['purchasedState']),
+        libraryState: LibraryState.fromJson(json['libraryState']),
+        sectionState: SectionState.fromJson(json['sectionState']),
+        sectionBooksState: SectionBooksState.fromJson(json["sectionBooksState"]));
   }
 
   @override
@@ -167,5 +185,6 @@ class AppState extends Equatable {
         quizState,
         paymentState,
         purchasedBookState,
+        sectionState
       ];
 }

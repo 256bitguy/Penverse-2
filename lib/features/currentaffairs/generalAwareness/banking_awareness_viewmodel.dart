@@ -25,7 +25,7 @@ class BankingAwarenessViewModel {
       error: store.state.bankingAwarenessState.error,
       
        loadEditorialByDate: (DateTime date) {
-         print("Loading awareness for date: $date");
+       
         store.dispatch(FetchAwarenessByDateAction(date));
       },
     );

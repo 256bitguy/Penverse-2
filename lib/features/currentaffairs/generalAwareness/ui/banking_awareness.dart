@@ -73,7 +73,7 @@ class _DailyNewsScreenState extends State<DailyNewsScreen> {
                     final store =
                         StoreProvider.of<AppState>(context, listen: false);
                      BankingAwarenessViewModel.fromStore(store).loadEditorialByDate(pickedDate);
-                    print("date picked $pickedDate");
+                  
                   }
                 },
               ),

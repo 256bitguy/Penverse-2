@@ -15,13 +15,12 @@ Middleware<AppState> _purchasedBooks(PurchasedService service) {
   return (Store<AppState> store, action, NextDispatcher next) async {
     if (action is PurchasedBooksAction) {
       try {
-      print(
-          "Middleware: Initiating search for purchased books for userId: ");
+    
       final response = await service.purchasedBooks(
         
       );
 
-      print("Middleware: Search successful, dispatching success action.");
+
       store.dispatch(PurchasedBooksSuccessAction(
         results: response['books'],
         totalResults: response['totalResults'],

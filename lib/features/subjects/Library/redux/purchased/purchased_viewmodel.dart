@@ -26,7 +26,7 @@ class PurchasedViewmodel {
       results: state.results,
       totalResults: state.totalResults,
       error: state.error,
-      fetchPurchasedBooks: () {print( "Fetching Purchased Books...");
+      fetchPurchasedBooks: () {
         // store.dispatch(PurchasedBooksAction());
       },
     );

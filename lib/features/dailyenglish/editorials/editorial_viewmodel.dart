@@ -26,7 +26,7 @@ class EditorialViewModel {
         store.dispatch(LoadEditorialAction());
       },
       loadEditorialByDate: (DateTime date) {
-        print("done");
+      
         store.dispatch(LoadEditorialByDateAction(date));
       },
     );

@@ -25,7 +25,7 @@ class RegisterViewModel {
     // isRegistered: isRegisteredSelector(store.state),
     errorMessage: authErrorSelector(store.state),
     onRegister: (email, password) {
-      print(  "RegisterViewModel: onRegister called with email: $email");
+    
       store.dispatch(RegisterAction(email, password));
     },
   );

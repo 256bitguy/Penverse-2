@@ -1,94 +1,119 @@
-// lib/features/sections/data/section_state.dart
-
-/// ===============================
-/// SECTION DATA MODEL
-/// ===============================
-class Section {
+import 'package:penverse/core/models/book_model.dart';
+import 'package:penverse/features/subjects/Library/redux/sections/section_model.dart';
+class BookRef {
   final String id;
-  final String libraryId;
-  final String sectionName;
-  final List<String> books; // List of book IDs
 
-  Section({
-    required this.id,
-    required this.libraryId,
-    required this.sectionName,
-    this.books = const [],
-  });
+  BookRef({required this.id});
 
-  /// Create Section from JSON (API → Flutter)
-  factory Section.fromJson(Map<String, dynamic> json) {
-    return Section(
-      id: json['_id'] ?? '',
-      libraryId: json['libraryId'] ?? '',
-      sectionName: json['sectionName'] ?? '',
-      books: (json['books'] as List<dynamic>? ?? [])
-          .map((b) => b.toString())
-          .toList(),
+  factory BookRef.fromJson(Map<String, dynamic> json) {
+    return BookRef(
+      id: json["id"] ?? json["_id"] ?? "", // support both formats
     );
   }
 
-  /// Convert Section to JSON (Flutter → API)
   Map<String, dynamic> toJson() {
     return {
-      '_id': id,
-      'libraryId': libraryId,
-      'sectionName': sectionName,
-      'books': books,
+      "id": id,
     };
   }
 }
-
-/// ===============================
-/// SECTION REDUX STATE
-/// ===============================
 class SectionState {
-  final bool isLoading;
+  
   final List<Section> sections;
+
+  
+  final Map<String, List<BookRef>> booksBySection;
+
+ 
+  final bool isLoadingSections;
+
+  
+  final String? loadingBooksForSectionId;
+
+  /// Error
   final String? error;
 
   SectionState({
-    this.isLoading = false,
-    this.sections = const [],
-    this.error,
+    required this.sections,
+    required this.booksBySection,
+    required this.isLoadingSections,
+    required this.loadingBooksForSectionId,
+    required this.error,
   });
 
-  /// CopyWith for state updates
+  /// Initial state
+  factory SectionState.initial() {
+    return SectionState(
+      sections: [],
+      booksBySection: {},
+      isLoadingSections: false,
+      loadingBooksForSectionId: null,
+      error: null,
+    );
+  }
+
+  /// COPY WITH
   SectionState copyWith({
-    bool? isLoading,
     List<Section>? sections,
+    Map<String, List<BookRef>>? booksBySection,
+    bool? isLoadingSections,
+    String? loadingBooksForSectionId,
     String? error,
   }) {
     return SectionState(
-      isLoading: isLoading ?? this.isLoading,
       sections: sections ?? this.sections,
-      error: error ?? this.error,
+      booksBySection: booksBySection ?? this.booksBySection,
+      isLoadingSections: isLoadingSections ?? this.isLoadingSections,
+      loadingBooksForSectionId:
+          loadingBooksForSectionId ?? this.loadingBooksForSectionId,
+      error: error,
     );
   }
 
-  /// Initial empty state
-  factory SectionState.initial() => SectionState();
+  /// -------------------------
+  ///     ✅  TO JSON
+  /// -------------------------
+  // Map<String, dynamic> toJson() {
+  //   return {
+  //     "sections": sections.map((s) => s.toJson()).toList(),
+  //     "booksBySection": booksBySection.map(
+  //       (key, value) => MapEntry(
+  //         key,
+  //         value.map((b) => b.toJson()).toList(),
+  //       ),
+  //     ),
+  //     "isLoadingSections": isLoadingSections,
+  //     "loadingBooksForSectionId": loadingBooksForSectionId,
+  //     "error": error,
+  //   };
+  // }
 
-  /// ===============================
-  /// JSON Serialization for persistence
-  /// ===============================
-  factory SectionState.fromJson(Map<String, dynamic>? json) {
-    if (json == null) return SectionState.initial();
-
+  /// -------------------------
+  ///     🔄  FROM JSON
+  /// -------------------------
+  factory SectionState.fromJson(Map<String, dynamic> json) {
     return SectionState(
-      isLoading: json['isLoading'] ?? false,
-      error: json['error'],
-      sections: (json['sections'] as List<dynamic>? ?? [])
-          .map((item) => Section.fromJson(item))
+      sections: (json["sections"] as List<dynamic>? ?? [])
+          .map((e) => Section.fromJson(e))
           .toList(),
+
+      booksBySection:
+          (json["booksBySection"] as Map<String, dynamic>? ?? {})
+              .map((key, value) {
+        final list = (value as List<dynamic>)
+            .map((e) => BookRef.fromJson(e))
+            .toList();
+        return MapEntry(key, list);
+      }),
+
+      isLoadingSections: json["isLoadingSections"] ?? false,
+      loadingBooksForSectionId: json["loadingBooksForSectionId"],
+      error: json["error"],
     );
   }
 
-  Map<String, dynamic> toJson() {
-    return {
-      'isLoading': isLoading,
-      'error': error,
-      'sections': sections.map((s) => s.toJson()).toList(),
-    };
+  @override
+  String toString() {
+    return "SectionState(sections=${sections.length}, booksLoaded=${booksBySection.length})";
   }
 }

@@ -9,7 +9,7 @@ import '../../features/dailyenglish/editorials/editorial_actions.dart';
 import '../../features/dailyenglish/idioms/idioms_actions.dart';
 import '../../features/dailyenglish/phrasalVerbs/phrasal_verbs_actions.dart';
 import '../../features/currentaffairs/generalAwareness/banking_awareness_actions.dart';
-import '../../features/subjects/Library/redux/sections/section_actions.dart';
+ 
 import '../../features/subjects/book/redux/book_actions.dart';
 import '../../features/subjects/chapter/redux/chapter_actions.dart';
 import '../../features/subjects/topic/redux/topic_action.dart';
@@ -33,7 +33,7 @@ List<Middleware<AppState>> createAppMiddleware(ApiGateway apiGateway) {
         _fetchPhrasalVerbs(apiGateway)),
     TypedMiddleware<AppState, FetchAwarenessByDateAction>(
         _fetchBankingAwareness(apiGateway)),
-    TypedMiddleware<AppState, LoadSectionsAction>(_loadSections(apiGateway)),
+   
     TypedMiddleware<AppState, LoadBooksBySubjectAction>(
         _loadBooksBySubject(apiGateway)),
     TypedMiddleware<AppState, LoadChaptersByBookAction>(
@@ -67,8 +67,7 @@ Middleware<AppState> _Register(ApiGateway apiGateway) {
     if (action is RegisterAction) {
       next(action);
       try {
-        print(
-            "Register Middleware: RegisterAction received with email: ${action.email}");
+
         final response = await apiGateway.authService
             .register(email: action.email, password: action.password);
         store.dispatch(RegisterSuccessAction(response));
@@ -88,14 +87,13 @@ Middleware<AppState> _Login(ApiGateway apiGateway) {
     if (action is LoginAction) {
       next(action); // sets isLoading = true in reducer
       try {
-        // print("Login Middleware: LoginAction received with email: ${action.email}");
+    
 
         final backendResponse = await apiGateway.authService.login(
           email: action.email,
           password: action.password,
         );
-        print(
-            "Login Middleware: Received backend response: $backendResponse  ");
+       
         // final response = {
         //   // "userId": backendResponse["data"]["user"]["_id"],
         //   "accessToken": backendResponse["data"]["accessToken"],
@@ -136,7 +134,7 @@ Middleware<AppState> _fetchQuizSetListByQuizId(ApiGateway apiGateway) {
     if (action is FetchQuizByIdAction) {
       next(action);
       try {
-        print(action.quizId);
+      
         final response =
             await apiGateway.quizService.fetchQuizById(action.quizId);
         store.dispatch(FetchQuizByIdSuccessAction(response));
@@ -237,21 +235,7 @@ Middleware<AppState> _fetchPhrasesByTopic(ApiGateway apiGateway) {
   };
 }
 
-Middleware<AppState> _loadSections(ApiGateway apiGateway) {
-  return (Store<AppState> store, action, NextDispatcher next) async {
-    if (action is LoadSectionsAction) {
-      next(action);
-      try {
-        final response = await apiGateway.subjectService.fetchSubjects();
-        store.dispatch(LoadSectionsSuccessAction(response));
-      } catch (e) {
-        store.dispatch(LoadSectionsFailureAction(e.toString()));
-      }
-    } else {
-      next(action);
-    }
-  };
-}
+ 
 
 Middleware<AppState> _loadBooksBySubject(ApiGateway apiGateway) {
   return (Store<AppState> store, action, NextDispatcher next) async {

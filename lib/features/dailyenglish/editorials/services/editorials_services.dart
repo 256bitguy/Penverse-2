@@ -37,7 +37,7 @@ class EditorialService {
   Future<List<EditorialItem>> getEditorialByDate(DateTime date) async {
     // Format the passed date as YYYY-MM-DD
     final formattedDate = DateFormat('yyyy-MM-dd').format(date);
-    print("Fetching editorial for date: $formattedDate");
+   
 
     // API Call
     final response = await client.get(

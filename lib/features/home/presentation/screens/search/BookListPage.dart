@@ -83,7 +83,7 @@ class _BookSearchPageState extends State<BookSearchPage> {
   }
 
   Widget _buildBody(SearchViewModel vm) {
-    print(vm.results.length ?? "no results");
+   
     if (vm.isLoading) {
       return const Center(child: CircularProgressIndicator());
     }

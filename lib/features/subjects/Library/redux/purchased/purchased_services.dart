@@ -11,7 +11,7 @@ class PurchasedService {
     int page = 1,
     int limit = 10,
   }) async {
-    print("Fetching purchased books | Page: $page");
+    
 
     final response = await client.get(
       ApiEndpoints.purchasedBooks(),
@@ -19,7 +19,7 @@ class PurchasedService {
     );
 
     final body = response.data;
-    print("Purchased Books API Response: $body");
+
 
     if (body is! Map<String, dynamic>) {
       throw Exception("Unexpected API format");

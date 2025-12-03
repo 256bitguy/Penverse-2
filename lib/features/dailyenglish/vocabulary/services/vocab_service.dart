@@ -46,8 +46,7 @@ class VocabService {
   Future<List<VocabItem>> getVocabByDate(DateTime date) async {
     // Format the passed date as YYYY-MM-DD
     final formattedDate = DateFormat('yyyy-MM-dd').format(date);
-    print("Fetching vocab for date: $formattedDate");
-
+  
     // API Call
     final response = await client.get(
       ApiEndpoints.dailyVocabByDate(formattedDate),

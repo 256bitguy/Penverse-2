@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:penverse/features/subjects/Library/redux/purchased/purchased_actions.dart';
+import 'package:penverse/core/store/app_state.dart';
+import 'package:penverse/features/subjects/Library/redux/library/library_actions.dart';
+import 'package:penverse/features/subjects/Library/redux/library/library_viewmodel.dart';
 
 import '../../../../../core/constants/app_colors.dart';
-import '../../../../../core/store/app_state.dart';
 
 import '../Sections/section_list.dart';
 import '../Purchased/purchased.dart';
- 
 
 class LibraryScreen extends StatefulWidget {
-  final String title;
-  const LibraryScreen({super.key, this.title = "My Library"});
+  const LibraryScreen({super.key});
 
   @override
   State<LibraryScreen> createState() => _LibraryScreenState();
@@ -20,27 +19,24 @@ class LibraryScreen extends StatefulWidget {
 
 class _LibraryScreenState extends State<LibraryScreen> {
   int selectedTab = 0;
-  bool hasLoadedPurchased = false;
-
-  late String libraryName;
   final TextEditingController _nameController = TextEditingController();
-
   @override
   void initState() {
     super.initState();
-    libraryName = widget.title;
+
+    // 👉 Auto-fetch as soon as Purchased Page appears
+    Future.microtask(() {
+      final store = StoreProvider.of<AppState>(context);
+      store.dispatch(GetLibraryAction());
+    });
   }
 
   void _handleTabChange(int index) {
     setState(() => selectedTab = index);
-
-     
-     
-    
   }
 
-  void _openEditLibraryNameModal() {
-    _nameController.text = libraryName;
+  void _openEditLibraryNameModal(LibraryViewModel vm) {
+    _nameController.text = vm.libraryName ?? "";
 
     showModalBottomSheet(
       context: context,
@@ -51,7 +47,6 @@ class _LibraryScreenState extends State<LibraryScreen> {
       builder: (_) {
         return Padding(
           padding: const EdgeInsets.all(20),
-     
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -88,9 +83,7 @@ class _LibraryScreenState extends State<LibraryScreen> {
                 ),
                 onPressed: () {
                   if (_nameController.text.trim().isNotEmpty) {
-                    setState(() {
-                      libraryName = _nameController.text.trim();
-                    });
+                    vm.editLibrary(_nameController.text.trim(), vm.libraryId);
                   }
                   Navigator.pop(context);
                 },
@@ -113,49 +106,54 @@ class _LibraryScreenState extends State<LibraryScreen> {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
 
-    return Scaffold(
-      backgroundColor: AppColors.scaffoldBackground,
-      appBar: AppBar(
-        elevation: 4,
-        backgroundColor: AppColors.cardBackground,
-        shadowColor: AppColors.cardBackground.withOpacity(0.4),
-        title: Text(
-          libraryName,
-          style: GoogleFonts.poppins(
-            color: Colors.white,
-            fontWeight: FontWeight.w600,
-            fontSize: 20,
-          ),
-        ),
-        centerTitle: true,
-        actions: [
-          IconButton(
-            onPressed: _openEditLibraryNameModal,
-            icon: const Icon(Icons.edit, color: Colors.white),
-          ),
-        ],
-      ),
-      body: Column(
-        children: [
-          const SizedBox(height: 14),
-          Row(
-            children: [
-              _buildTabButton("Sections", 0, width / 2),
-              _buildTabButton("Purchased", 1, width / 2),
+    return StoreConnector<AppState, LibraryViewModel>(
+      onInit: (store) => store.dispatch(GetLibraryAction()),
+      converter: (store) => LibraryViewModel.fromStore(store),
+      builder: (context, vm) {
+        return Scaffold(
+          backgroundColor: AppColors.scaffoldBackground,
+          appBar: AppBar(
+            elevation: 2,
+            backgroundColor: AppColors.cardBackground,
+            shadowColor: AppColors.cardBackground.withOpacity(0.4),
+            title: Text(
+              vm.libraryName ?? "My Library",
+              style: GoogleFonts.poppins(
+                color: Colors.white,
+                fontWeight: FontWeight.w600,
+                fontSize: 20,
+              ),
+            ),
+            centerTitle: true,
+            actions: [
+              IconButton(
+                onPressed: () => _openEditLibraryNameModal(vm),
+                icon: const Icon(Icons.edit, color: Colors.white),
+              ),
             ],
           ),
-          const SizedBox(height: 16),
-          Expanded(
-            child: IndexedStack(
-              index: selectedTab,
-              children: const [
-                SectionsWidget(),
-                PurchasedPage(),
-              ],
-            ),
-          )
-        ],
-      ),
+          body: Column(
+            children: [
+              Row(
+                children: [
+                  _buildTabButton("Sections", 0, width / 2),
+                  _buildTabButton("Purchased", 1, width / 2),
+                ],
+              ),
+              const SizedBox(height: 16),
+              Expanded(
+                child: IndexedStack(
+                  index: selectedTab,
+                  children: const [
+                    SectionsWidget(),
+                    PurchasedPage(),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 

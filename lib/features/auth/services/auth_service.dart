@@ -26,7 +26,7 @@ class AuthService {
     final body = response.data;
 
     if (body is Map<String, dynamic>) {
-      print("Register response body: $body");
+    
       return body;
       // Expected: { success, message, userId }
     }

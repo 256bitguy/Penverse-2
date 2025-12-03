@@ -23,7 +23,7 @@ class PaymentViewModel {
       isProcessing: state.isProcessing,
       error: state.error,
       payment: (bookId) {
-        print(bookId);
+    
         store.dispatch(PaymentAction(bookId));
       },
     );

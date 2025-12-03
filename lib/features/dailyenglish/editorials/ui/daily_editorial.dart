@@ -105,7 +105,7 @@ class _ParagraphScreenState extends State<ParagraphScreen> {
                         StoreProvider.of<AppState>(context, listen: false);
                     EditorialViewModel.fromStore(store)
                         .loadEditorialByDate(pickedDate);
-                    print("date picked $pickedDate");
+                
                   }
                 },
               ),

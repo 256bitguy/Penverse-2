@@ -22,10 +22,10 @@ class _PurchasedPageState extends State<PurchasedPage> {
 
     // 👉 Auto-fetch as soon as Purchased Page appears
     Future.microtask(() {
-      print("PurchasedPage initState: Dispatching PurchasedBooksAction");
+     
       final store = StoreProvider.of<AppState>(context);
       store.dispatch(PurchasedBooksAction());
-      print("PurchasedPage initState: Dispatched PurchasedBooksAction");
+ 
     });
 
     // 👉 Pagination logic
@@ -50,54 +50,55 @@ class _PurchasedPageState extends State<PurchasedPage> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return StoreConnector<AppState, PurchasedViewmodel>(
-      converter: (store) => PurchasedViewmodel.fromStore(store),
-      builder: (context, vm) {
-        print(
-            "PurchasedPage build -> isLoading=${vm.isLoading}, results=${vm.results.length}, total=${vm.totalResults}");
+ @override
+Widget build(BuildContext context) {
+  return StoreConnector<AppState, PurchasedViewmodel>(
+    converter: (store) => PurchasedViewmodel.fromStore(store),
+    builder: (context, vm) {
+      final bg = Theme.of(context).scaffoldBackgroundColor;
 
-        // 👉 Show loader only when loading FIRST page
-        if (vm.isLoading && vm.results.isEmpty) {
-          return const Center(child: CircularProgressIndicator());
-        }
+      // FIRST LOAD SHIMMER / LOADER
+      if (vm.isLoading && vm.results.isEmpty) {
+        return const Center(child: CircularProgressIndicator());
+      }
 
-        // 👉 No data
-        if (vm.results.isEmpty) {
-          return const Center(
-            child: Text(
-              "No.",
-              style: TextStyle(color: Colors.white70, fontSize: 16),
-            ),
-          );
-        }
-
-        // 👉 Book list
-        return ListView.builder(
-          controller: _scrollController,
-          padding: const EdgeInsets.all(2),
-          itemCount: vm.results.length + (vm.isLoading ? 1 : 0),
-          itemBuilder: (context, index) {
-            // 👉 Show bottom loader when loading next page
-            if (index >= vm.results.length) {
-              return const Padding(
-                padding: EdgeInsets.all(16),
-                child: Center(child: CircularProgressIndicator()),
-              );
-            }
-
-            final book = vm.results[index];
-            return PurchasedBookCard(
-              book: book,
-              
-              // onRead: () {
-              //   // Navigate to reader page (you will implement this)
-              //   print("Open book: ${book["book"]["_id"]}");
-              // },
-            ) ;
-          },
+      // EMPTY STATE
+      if (vm.results.isEmpty) {
+        return const Center(
+          child: Text(
+            "No purchased books.",
+            style: TextStyle(color: Colors.white70, fontSize: 16),
+          ),
         );
-      },
-    );
-  }
+      }
+
+      // LIST
+      return ListView.separated(
+        controller: _scrollController,
+        padding: EdgeInsets.zero, // 💥 no padding like WhatsApp
+        itemCount: vm.results.length + (vm.isLoading ? 1 : 0),
+        separatorBuilder: (_, __) => const Divider(
+          color: Colors.white12,
+          height: 1,
+        ),
+        itemBuilder: (context, index) {
+          // bottom loader during pagination
+          if (index >= vm.results.length) {
+            return const Padding(
+              padding: EdgeInsets.all(16),
+              child: Center(child: CircularProgressIndicator()),
+            );
+          }
+
+          final book = vm.results[index];
+
+          return PurchasedBookCard(book:book);
+        },
+      );
+    },
+  );
+}
+
+
+
 }

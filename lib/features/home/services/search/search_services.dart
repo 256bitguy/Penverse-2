@@ -15,7 +15,7 @@ class SearchService {
     int page = 1,
     int limit = 10,
   }) async {
-    print("Searching books for query: $query | Page: $page");
+   
 
     final response = await client.get(
       ApiEndpoints.searchBooks(
@@ -26,7 +26,7 @@ class SearchService {
     );
 
     final body = response.data;
-    print("Search API Response: $body");
+   
 
     if (body is Map<String, dynamic>) {
       final booksList = (body['books'] as List<dynamic>? ?? [])
@@ -49,7 +49,7 @@ class SearchService {
     int page = 1,
     int limit = 10,
   }) async {
-    print("Searching books for genre: $genreId | Page: $page");
+   
 
     final response = await client.get(
       ApiEndpoints.searchBooksByGenre(
@@ -60,7 +60,7 @@ class SearchService {
     );
 
     final body = response.data;
-    print("Genre Search API Response: $body");
+    
 
     if (body is Map<String, dynamic>) {
       final booksList = (body['books'] as List<dynamic>? ?? [])
@@ -83,7 +83,7 @@ class SearchService {
     int page = 1,
     int limit = 10,
   }) async {
-    print("Searching books for course: $courseId | Page: $page");
+   
 
     final response = await client.get(
       ApiEndpoints.searchBooksByCourse(
@@ -94,7 +94,7 @@ class SearchService {
     );
 
     final body = response.data;
-    print("Course Search API Response: $body");
+   
 
     if (body is Map<String, dynamic>) {
       final booksList = (body['books'] as List<dynamic>? ?? [])

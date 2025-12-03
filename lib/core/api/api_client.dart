@@ -32,17 +32,17 @@ class ApiClient {
           if (_token != null) {
             options.headers['Authorization'] = 'Bearer $_token';
           }
-          print('➡️ Request: ${options.method} ${options.uri}');
-          print('Headers: ${options.headers}');
-          print('Data: ${options.data}');
+          // print('➡️ Request: ${options.method} ${options.uri}');
+          // print('Headers: ${options.headers}');
+          // print('Data: ${options.data}');
           return handler.next(options);
         },
         onResponse: (response, handler) {
-          print('✅ Response: ${response.statusCode} ${response.data}');
+          // print('✅ Response: ${response.statusCode} ${response.data}');
           return handler.next(response);
         },
         onError: (DioException e, handler) {
-          print('❌ Error: ${e.response?.statusCode} ${e.message}');
+          // print('❌ Error: ${e.response?.statusCode} ${e.message}');
           return handler.next(e);
         },
       ),
@@ -64,4 +64,17 @@ class ApiClient {
   Future<Response> get(String path, {Map<String, dynamic>? queryParams}) async {
     return await _dio.get(path, queryParameters: queryParams);
   }
+
+  // PUT request
+Future<Response> put(String path, {dynamic data}) async {
+  return await _dio.put(path, data: data);
+}
+Future<Response> patch(String path, {dynamic data}) async {
+  return await _dio.patch(path, data: data);
+}
+// DELETE request
+Future<Response> delete(String path, {Map<String, dynamic>? queryParams}) async {
+  return await _dio.delete(path, queryParameters: queryParams);
+}
+
 }

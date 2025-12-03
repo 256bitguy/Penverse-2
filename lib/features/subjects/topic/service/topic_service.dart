@@ -11,12 +11,12 @@ class TopicService {
 
   /// Fetch topics by chapterId
   Future<List<Topic>> fetchTopicsByChapter(String chapterId) async {
-    print("Fetching topics for chapterId: $chapterId");
+
 
     final response = await client.get(ApiEndpoints.topic(chapterId));
     final body = response.data;
 
-    print("Topics API Response: $body");
+
 
     if (body is Map<String, dynamic> && body['data'] is List) {
       final list = body['data'] as List<dynamic>;

@@ -1,7 +1,10 @@
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:penverse/features/home/services/home/payment_middleware.dart';
 import 'package:penverse/features/home/services/search/search_middleware.dart';
+import 'package:penverse/features/subjects/Library/redux/library/library_middleware.dart';
 import 'package:penverse/features/subjects/Library/redux/purchased/purchased_middleware.dart';
+import 'package:penverse/features/subjects/Library/redux/sectionBooks/section_books_middleware.dart';
+import 'package:penverse/features/subjects/Library/redux/sections/section_middleware.dart';
 import 'package:redux_persist/redux_persist.dart';
 import 'package:redux_persist_flutter/redux_persist_flutter.dart';
 import 'package:redux/redux.dart';
@@ -37,6 +40,9 @@ Future<Store<AppState>> createStore(ApiGateway apiGateway) async {
       ...createSearchMiddleware(apiGateway.searchService),
       ...createPaymentMiddleware(apiGateway.paymentService),
       ...createPurchasedMiddleware(apiGateway.purchasedService),
+      ...createLibraryMiddleware(apiGateway.libraryServices),
+      ...createSectionMiddleware(apiGateway.sectionService),
+      ...createSectionBooksMiddleware(apiGateway.sectionBooksService)
     ],
   );
 

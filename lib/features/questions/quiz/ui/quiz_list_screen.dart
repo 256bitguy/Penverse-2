@@ -41,7 +41,7 @@ class QuizListScreen extends StatelessWidget {
     title: Text(quiz.title),
     onTap: () async {
       // 1️⃣ Force print the quiz ID
-      // print('Selected quiz ID: ${}'); // ✅ will show actual ID
+     
 
       // 2️⃣ Dispatch action to fetch full quiz
       StoreProvider.of<AppState>(context)

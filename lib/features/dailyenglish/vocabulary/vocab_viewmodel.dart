@@ -27,7 +27,6 @@ class VocabViewModel {
         store.dispatch(LoadVocabAction());
       },
       loadVocabByDate: (DateTime date) {
-        print("done");
         store.dispatch(LoadVocabByDateAction(date));
       },
     );

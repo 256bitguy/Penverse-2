@@ -21,7 +21,7 @@ Middleware<AppState> _payment(PaymentService service) {
 
         store.dispatch(PaymentSuccessAction(isPaid: response['isPaid']));
       } catch (e) {
-        print("Middleware: Payment failed: $e");
+      
         store.dispatch(PaymentFailedAction(e.toString()));
       }  
     } else {
