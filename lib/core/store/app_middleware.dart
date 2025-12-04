@@ -34,8 +34,7 @@ List<Middleware<AppState>> createAppMiddleware(ApiGateway apiGateway) {
     TypedMiddleware<AppState, FetchAwarenessByDateAction>(
         _fetchBankingAwareness(apiGateway)),
    
-    TypedMiddleware<AppState, LoadBooksBySubjectAction>(
-        _loadBooksBySubject(apiGateway)),
+     
     TypedMiddleware<AppState, LoadChaptersByBookAction>(
         _loadChaptersByBooks(apiGateway)),
     TypedMiddleware<AppState, LoadTopicsByChapterAction>(
@@ -237,23 +236,7 @@ Middleware<AppState> _fetchPhrasesByTopic(ApiGateway apiGateway) {
 
  
 
-Middleware<AppState> _loadBooksBySubject(ApiGateway apiGateway) {
-  return (Store<AppState> store, action, NextDispatcher next) async {
-    if (action is LoadBooksBySubjectAction) {
-      next(action);
-      try {
-        final response =
-            await apiGateway.bookService.fetchBooksBySubject(action.subjectId);
-        store.dispatch(LoadBooksSuccessAction(response));
-      } catch (e) {
-        store.dispatch(LoadBooksFailureAction(e.toString()));
-      }
-    } else {
-      next(action);
-    }
-  };
-}
-
+ 
 Middleware<AppState> _loadChaptersByBooks(ApiGateway apiGateway) {
   return (Store<AppState> store, action, NextDispatcher next) async {
     if (action is LoadChaptersByBookAction) {

@@ -4,6 +4,8 @@ import '../../../../core/store/app_state.dart';
 import '../data/chapter_view_model.dart';
 
 class ChapterListScreen extends StatefulWidget {
+ 
+
   const ChapterListScreen({super.key});
 
   @override
@@ -13,6 +15,7 @@ class ChapterListScreen extends StatefulWidget {
 class _ChapterListScreenState extends State<ChapterListScreen> {
   int _selectedChapterIndex = 0;
 
+ 
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, ChaptersViewModel>(
@@ -36,8 +39,12 @@ class _ChapterListScreenState extends State<ChapterListScreen> {
         }
 
         if (vm.chapters.isEmpty) {
-          return const Scaffold(
-            body: Center(
+          return Scaffold(
+            appBar: AppBar(
+              
+              backgroundColor: Colors.black,
+            ),
+            body: const Center(
               child: Text(
                 "No chapters found",
                 style: TextStyle(color: Colors.white70),
@@ -46,8 +53,12 @@ class _ChapterListScreenState extends State<ChapterListScreen> {
           );
         }
 
-        final selectedChapter = vm.chapters[_selectedChapterIndex];
-        final progress = 20;
+        // 🔹 Sort chapters by ranking
+        final sortedChapters = [...vm.chapters]..sort((a, b) => a.ranking.compareTo(b.ranking));
+
+        final selectedChapter = sortedChapters[_selectedChapterIndex];
+
+        final progress = 20; // Example static progress
 
         return Scaffold(
           backgroundColor: const Color(0xFF0E0E0E),
@@ -64,8 +75,8 @@ class _ChapterListScreenState extends State<ChapterListScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Padding(
-                    padding: EdgeInsets.all(16.0),
-                    child: Text(
+                    padding:   EdgeInsets.all(16.0),
+                    child:   Text(
                       "📚 Chapters",
                       style: TextStyle(
                         color: Colors.white,
@@ -77,9 +88,9 @@ class _ChapterListScreenState extends State<ChapterListScreen> {
                   const Divider(color: Colors.white24),
                   Expanded(
                     child: ListView.builder(
-                      itemCount: vm.chapters.length,
+                      itemCount: sortedChapters.length,
                       itemBuilder: (context, index) {
-                        final chapter = vm.chapters[index];
+                        final chapter = sortedChapters[index];
                         final isSelected = index == _selectedChapterIndex;
 
                         return ListTile(
@@ -88,18 +99,15 @@ class _ChapterListScreenState extends State<ChapterListScreen> {
                                 ? Colors.tealAccent.withOpacity(0.3)
                                 : Colors.grey.shade700,
                             child: Text(
-                              "${index + 1}",
+                              "${chapter.ranking}", // 🔹 show ranking
                               style: const TextStyle(color: Colors.white),
                             ),
                           ),
                           title: Text(
                             chapter.title,
                             style: TextStyle(
-                              color:
-                                  isSelected ? Colors.tealAccent.withOpacity(0.3) : Colors.white,
-                              fontWeight: isSelected
-                                  ? FontWeight.bold
-                                  : FontWeight.normal,
+                              color: isSelected ? Colors.tealAccent.withOpacity(0.3) : Colors.white,
+                              fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
                             ),
                           ),
                           onTap: () {
@@ -141,8 +149,9 @@ class _ChapterListScreenState extends State<ChapterListScreen> {
                   value: progress / 100,
                   minHeight: 4,
                   backgroundColor: Colors.white10,
-                  color:
-                      progress >= 100 ? Colors.greenAccent : Colors.tealAccent.withOpacity(0.3),
+                  color: progress >= 100
+                      ? Colors.greenAccent
+                      : Colors.tealAccent.withOpacity(0.3),
                 ),
               ),
             ),
@@ -153,7 +162,7 @@ class _ChapterListScreenState extends State<ChapterListScreen> {
               child: Column(
                 children: [
                   Text(
-                    selectedChapter.description ?? "",
+                    selectedChapter.description,
                     textAlign: TextAlign.center,
                     style: const TextStyle(
                       color: Colors.white70,
@@ -161,24 +170,23 @@ class _ChapterListScreenState extends State<ChapterListScreen> {
                       height: 3,
                     ),
                   ),
-                  // 🖼️ Chapter Image
+                  const SizedBox(height: 16),
+
+                  // Chapter Image
                   ClipRRect(
                     borderRadius: BorderRadius.circular(16),
                     child: Image.network(
-                      // selectedChapter.imageUrl?.isNotEmpty == true
-                      //     ? selectedChapter.imageUrl
-                      //     :
-                      'https://m.media-amazon.com/images/I/81bsw6fnUiL._AC_UY327_FMwebp_QL65_.jpg',
-                      height: MediaQuery.of(context).size.height *
-                          0.7, // 👈 80% of screen height
+                      selectedChapter.imageUrl?.isNotEmpty == true
+                          ? selectedChapter.imageUrl!
+                          : 'https://m.media-amazon.com/images/I/81bsw6fnUiL._AC_UY327_FMwebp_QL65_.jpg',
+                      height: MediaQuery.of(context).size.height * 0.7,
                       width: double.infinity,
                       fit: BoxFit.cover,
                     ),
                   ),
-
                   const SizedBox(height: 24),
 
-                  // 📘 Button to view topics
+                  // View Topics Button
                   ElevatedButton.icon(
                     onPressed: () {
                       vm.loadTopicsByChapter(selectedChapter.id);
@@ -203,8 +211,6 @@ class _ChapterListScreenState extends State<ChapterListScreen> {
                     ),
                   ),
                   const SizedBox(height: 20),
-
-                  // 📝 Optional Chapter Description
                 ],
               ),
             ),

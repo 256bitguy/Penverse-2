@@ -1,6 +1,6 @@
- import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:penverse/core/constants/app_colors.dart';
-import 'package:penverse/features/entrypoint/entrypoint_ui.dart';
 import '../../../../core/constants/app_constants.dart';
 import '../../../../core/utils/animation_utils.dart';
 import '../../../../core/utils/page_transitions.dart';
@@ -48,18 +48,16 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     }
   }
 
- void _onSkip() {
-  Navigator.pushReplacement(
-    context,
-    MaterialPageRoute(
-      builder: (context) => const EntryPointUI(),
-    ),
-  );
-}
+  Future<void> _onSkip() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool("onboarding_done", true);
 
+    Navigator.pushReplacementNamed(context, '/login');
+  }
 
   void _handleDragEnd(DragEndDetails details) {
     if (details.primaryVelocity == null) return;
+
     if (details.primaryVelocity! > 0) {
       _onPreviousPage();
     } else if (details.primaryVelocity! < 0) {
@@ -76,16 +74,11 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         padding: EdgeInsets.all(isDesktop ? 32 : 16),
         child: TextButton(
           onPressed: _onSkip,
-          style: TextButton.styleFrom(
-            padding: EdgeInsets.symmetric(
-              horizontal: isDesktop ? 24 : 16,
-              vertical: isDesktop ? 16 : 12,
-            ),
-          ),
           child: Text(
-            'skip',
+            'Skip',
             style: TextStyle(
               fontSize: isDesktop ? 18 : 16,
+              color: Colors.white70,
             ),
           ),
         ),
@@ -95,7 +88,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   Widget _buildBottomSection() {
     final isDesktop = ResponsiveUtils.isDesktop(context);
-    // final isTablet = ResponsiveUtils.isTablet(context);
 
     return Container(
       padding: EdgeInsets.all(isDesktop ? 48 : 24),
@@ -115,7 +107,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 ? Column(
                     children: [
                       CustomButton(
-                        text: 'Create an account',
+                        text: 'Create an Account',
                         onPressed: () {
                           Navigator.push(
                             context,
@@ -128,7 +120,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       ),
                       SizedBox(height: isDesktop ? 24 : 16),
                       CustomButton(
-                        text: 'Log in',
+                        text: 'Log In',
                         isSecondary: true,
                         onPressed: () {
                           Navigator.push(
@@ -145,7 +137,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 : CustomButton(
                     text: 'Next',
                     onPressed: _onNextPage,
-                    
                   ),
           ),
         ],
@@ -155,8 +146,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // final isDesktop = ResponsiveUtils.isDesktop(context);
-
     return Scaffold(
       backgroundColor: AppColors.cardBackground,
       body: SafeArea(

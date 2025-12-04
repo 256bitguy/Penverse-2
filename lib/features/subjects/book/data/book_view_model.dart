@@ -13,14 +13,14 @@ class BookViewModel {
 
   // Actions
   final Function() loadBooks;
-  final Function(String bookId) loadChaptersByBook;
+
 
   BookViewModel(
       {required this.isLoading,
       required this.books,
       this.error,
       required this.loadBooks,
-      required this.loadChaptersByBook});
+    });
 
   /// Connects Redux store state to ViewModel
   static BookViewModel fromStore(Store<AppState> store) {
@@ -31,8 +31,6 @@ class BookViewModel {
         loadBooks: () {
           store.dispatch(LoadBooksAction());
         },
-        loadChaptersByBook: (bookId) {
-          store.dispatch(LoadChaptersByBookAction(bookId));
-        });
+       );
   }
 }

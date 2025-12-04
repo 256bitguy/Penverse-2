@@ -51,7 +51,7 @@ Future<Map<String, dynamic>> login({
 
   final body = response.data;
 
-  // Validate backend structure
+ 
   if (body == null ||
       body["data"] == null ||
       body["data"]["accessToken"] == null ||
@@ -60,17 +60,17 @@ Future<Map<String, dynamic>> login({
     throw Exception("Invalid login response format");
   }
 
-  // Extract data
+  
   final token = body["data"]["accessToken"];
   final refreshToken = body["data"]["refreshToken"];
   final user = body["data"]["user"]; // FULL user object
 
-  // Save tokens locally
+ 
   final prefs = await SharedPreferences.getInstance();
   await prefs.setString('token', token);
   await prefs.setString('refreshToken', refreshToken);
 
-  // Update ApiClient authorization header
+ 
   ApiClient().updateToken(token);
 
   return {

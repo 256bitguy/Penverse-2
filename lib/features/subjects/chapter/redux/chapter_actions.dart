@@ -1,4 +1,6 @@
 // lib/features/chapter/redux/chapter_actions.dart
+import 'package:penverse/features/subjects/chapter/redux/chapter_model.dart';
+
 import './chapter_state.dart';
 
 class LoadChaptersAction {}

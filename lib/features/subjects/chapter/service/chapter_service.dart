@@ -1,5 +1,7 @@
 // lib/features/chapter/data/chapter_service.dart
 
+import 'package:penverse/features/subjects/chapter/redux/chapter_model.dart';
+
 import '../redux/chapter_state.dart';
 import '../../../../core/api/api_client.dart';
 import '../../../../core/api/api_endpoints.dart';

@@ -180,7 +180,7 @@ class BooksScreen extends StatelessWidget {
                           // 📘 Action Button
                           ElevatedButton(
                             onPressed: () {
-                              vm.loadChaptersByBook(book.id);
+                              // vm.loadChaptersByBook(book.id);
                               Navigator.pushNamed(context, '/chapters');
                             },
                             style: ElevatedButton.styleFrom(

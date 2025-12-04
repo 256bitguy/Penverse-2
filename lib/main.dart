@@ -32,7 +32,6 @@ void main() async {
   runApp(MyApp(store: store, apiGateway: apiGateway));
 }
 
-
 class MyApp extends StatelessWidget {
   final Store<AppState> store;
   final ApiGateway apiGateway;
@@ -71,15 +70,6 @@ class AuthWrapper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, bool>(
-      distinct: true,
-      converter: (store) => store.state.authState.isLoggedIn,
-      builder: (context, isLoggedIn) {
-        if (isLoggedIn) {
-          return const EntryPointUI();
-        }
-        return const SplashScreen();
-      },
-    );
+    return const SplashScreen();
   }
 }

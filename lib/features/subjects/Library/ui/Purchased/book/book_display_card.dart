@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:penverse/core/models/book_model.dart';
+import 'package:penverse/core/store/app_state.dart';
+import 'package:penverse/features/subjects/chapter/data/chapter_view_model.dart';
+import 'package:penverse/features/subjects/chapter/ui/chapters_list.dart';
 
 class PurchasedBookCard extends StatelessWidget {
   final Book book;
 
-  final VoidCallback? onRead;
-
   const PurchasedBookCard({
     super.key,
     required this.book,
-    this.onRead,
   });
 
   String _formattedDate(String date) {
@@ -31,7 +32,7 @@ class PurchasedBookCard extends StatelessWidget {
     final cover = book.coverImage;
     final title = book.title;
     final author = book.author;
-    final chapters = book.totalChapters;
+    final int chapters = book.totalChapters ?? 0;
     final language = book.language;
 
     // You may calculate progress from backend; for now static = 0%
@@ -136,16 +137,45 @@ class PurchasedBookCard extends StatelessWidget {
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
-                    onPressed: onRead,
+                    onPressed: chapters == 0
+                        ? null
+                        : () {
+                            // 1️⃣ Access the Redux store
+                            final store = StoreProvider.of<AppState>(context);
+
+                            // 2️⃣ Create ViewModel
+                            final chaptersVM =
+                                ChaptersViewModel.fromStore(store);
+
+                            // 3️⃣ Call the method before navigation
+                            chaptersVM.loadChaptersByBook(book.id);
+
+                            // 4️⃣ Navigate to ChapterListScreen
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) =>
+                                    const ChapterListScreen(), // pass bookId if needed
+                              ),
+                            );
+                          },
+
+// 🔥 disable if 0 chapters
+
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.tealAccent,
+                      backgroundColor: chapters == 0
+                          ? Colors.grey // disabled color
+                          : Colors.tealAccent,
                       foregroundColor: Colors.black,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
                       ),
                     ),
+
                     child: Text(
-                      _readingButtonLabel(progress),
+                      chapters == 0
+                          ? "No Chapters Available"
+                          : _readingButtonLabel(progress),
                       style: GoogleFonts.poppins(
                         fontWeight: FontWeight.w600,
                       ),
